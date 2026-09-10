@@ -1,0 +1,21 @@
+# Node / Frontend dependencies
+node_modules/
+dist/
+dist-ssr/
+*.local
+
+# Python / Backend
+__pycache__/
+*.py[cod]
+*$py.class
+.pytest_cache/
+.env
+venv/
+env/
+ENV/
+
+# OS / IDE
+.DS_Store
+Thumbs.db
+.vscode/
+.idea/

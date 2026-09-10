@@ -1,0 +1,129 @@
+import React from 'react';
+import { Sparkles, BookOpen, Layers, Award, ArrowRight, Plus, Clock } from 'lucide-react';
+import Card from '../../components/common/Card';
+import Button from '../../components/common/Button';
+
+export const Home = () => {
+  return (
+    <div className="space-y-8">
+      {/* Hero Welcome Banner */}
+      <div className="relative overflow-hidden rounded-2xl bg-gradient-to-r from-indigo-900/60 via-purple-900/40 to-slate-900 border border-indigo-500/20 p-8 shadow-2xl">
+        <div className="relative z-10 max-w-2xl">
+          <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-indigo-500/10 border border-indigo-500/20 text-indigo-300 text-xs font-semibold mb-4">
+            <Sparkles className="w-3.5 h-3.5" />
+            AI-Powered Mastery Engine Active
+          </div>
+          <h1 className="text-3xl sm:text-4xl font-extrabold text-white tracking-tight">
+            Accelerate your study workflow with Gemini AI
+          </h1>
+          <p className="text-slate-300 mt-3 text-base leading-relaxed">
+            Create study spaces, upload material, test your knowledge with auto-generated quizzes, and consult your personal AI Tutor.
+          </p>
+          <div className="mt-6 flex flex-wrap items-center gap-4">
+            <Button variant="primary" className="flex items-center gap-2">
+              <Plus className="w-4 h-4" />
+              New Study Space
+            </Button>
+            <Button variant="outline">Explore Demo Materials</Button>
+          </div>
+        </div>
+      </div>
+
+      {/* Overview Quick Stats */}
+      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-5">
+        <Card className="hover:border-indigo-500/50">
+          <div className="flex items-center justify-between">
+            <div>
+              <p className="text-xs font-semibold text-slate-400 uppercase tracking-wider">Active Spaces</p>
+              <h3 className="text-2xl font-bold text-slate-100 mt-1">4</h3>
+            </div>
+            <div className="p-3 rounded-xl bg-indigo-500/10 text-indigo-400">
+              <BookOpen className="w-6 h-6" />
+            </div>
+          </div>
+        </Card>
+
+        <Card className="hover:border-purple-500/50">
+          <div className="flex items-center justify-between">
+            <div>
+              <p className="text-xs font-semibold text-slate-400 uppercase tracking-wider">Projects</p>
+              <h3 className="text-2xl font-bold text-slate-100 mt-1">12</h3>
+            </div>
+            <div className="p-3 rounded-xl bg-purple-500/10 text-purple-400">
+              <Layers className="w-6 h-6" />
+            </div>
+          </div>
+        </Card>
+
+        <Card className="hover:border-cyan-500/50">
+          <div className="flex items-center justify-between">
+            <div>
+              <p className="text-xs font-semibold text-slate-400 uppercase tracking-wider">Overall Mastery</p>
+              <h3 className="text-2xl font-bold text-cyan-400 mt-1">84%</h3>
+            </div>
+            <div className="p-3 rounded-xl bg-cyan-500/10 text-cyan-400">
+              <Award className="w-6 h-6" />
+            </div>
+          </div>
+        </Card>
+
+        <Card className="hover:border-amber-500/50">
+          <div className="flex items-center justify-between">
+            <div>
+              <p className="text-xs font-semibold text-slate-400 uppercase tracking-wider">Study Streak</p>
+              <h3 className="text-2xl font-bold text-amber-400 mt-1">7 Days 🔥</h3>
+            </div>
+            <div className="p-3 rounded-xl bg-amber-500/10 text-amber-400">
+              <Clock className="w-6 h-6" />
+            </div>
+          </div>
+        </Card>
+      </div>
+
+      {/* Dashboard Feature Preview */}
+      <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
+        <Card title="Recent Activity" subtitle="Your learning timeline">
+          <div className="space-y-4">
+            {[
+              { title: 'Completed Machine Learning Quiz #2', time: '2 hours ago', score: '90%' },
+              { title: 'Uploaded CS101_Lecture_04.pdf', time: 'Yesterday', score: 'Processed' },
+              { title: 'AI Tutor Chat Session - Operating Systems', time: '2 days ago', score: '15 mins' },
+            ].map((item, idx) => (
+              <div key={idx} className="flex items-center justify-between p-3 rounded-lg bg-slate-900/60 border border-slate-800">
+                <div>
+                  <p className="text-sm font-medium text-slate-200">{item.title}</p>
+                  <p className="text-xs text-slate-500 mt-0.5">{item.time}</p>
+                </div>
+                <span className="text-xs font-semibold text-indigo-400 px-2.5 py-1 rounded-full bg-indigo-500/10 border border-indigo-500/20">
+                  {item.score}
+                </span>
+              </div>
+            ))}
+          </div>
+        </Card>
+
+        <Card title="Recommended Focus Areas" subtitle="Generated by Gemini AI analysis">
+          <div className="space-y-4">
+            {[
+              { topic: 'Neural Networks & Backpropagation', space: 'Machine Learning', priority: 'High' },
+              { topic: 'Process Deadlocks & Mutexes', space: 'Computer Systems', priority: 'Medium' },
+              { topic: 'Relational Algebra & Normalization', space: 'Database Systems', priority: 'Medium' },
+            ].map((item, idx) => (
+              <div key={idx} className="flex items-center justify-between p-3 rounded-lg bg-slate-900/60 border border-slate-800">
+                <div>
+                  <p className="text-sm font-medium text-slate-200">{item.topic}</p>
+                  <p className="text-xs text-slate-500 mt-0.5">{item.space}</p>
+                </div>
+                <Button size="sm" variant="outline" className="flex items-center gap-1">
+                  Study <ArrowRight className="w-3 h-3" />
+                </Button>
+              </div>
+            ))}
+          </div>
+        </Card>
+      </div>
+    </div>
+  );
+};
+
+export default Home;
