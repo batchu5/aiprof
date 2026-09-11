@@ -14,6 +14,8 @@ import SpaceDetail from './pages/spaces/SpaceDetail';
 import ProjectDashboard from './pages/projects/ProjectDashboard';
 import TutorChat from './pages/tutor/TutorChat';
 import QuizView from './pages/quiz/QuizView';
+import Growth from './pages/projects/Growth';
+import ProjectAnalytics from './pages/projects/ProjectAnalytics';
 import Analytics from './pages/analytics/Analytics';
 import AdminDashboard from './pages/admin/AdminDashboard';
 
@@ -42,6 +44,8 @@ export const App = () => {
               <Route path="projects/:id" element={<ProjectDashboard />} />
               <Route path="projects/:id/tutor" element={<TutorChat />} />
               <Route path="projects/:id/quiz" element={<QuizView />} />
+              <Route path="projects/:id/growth" element={<Growth />} />
+              <Route path="projects/:id/analytics" element={<ProjectAnalytics />} />
               <Route path="analytics" element={<Analytics />} />
               <Route
                 path="admin"

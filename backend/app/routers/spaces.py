@@ -3,7 +3,7 @@ from typing import Dict, Any, List
 from datetime import datetime
 from fastapi import APIRouter, Depends, HTTPException, status
 from app.schemas.space import SpaceCreate, SpaceUpdate, SpaceResponse, SpaceListResponse
-from app.dependencies import get_current_user
+from app.dependencies import get_current_user, ensure_user_profile
 from app.database import get_supabase
 from app.services.activity_service import log_activity
 
@@ -52,46 +52,7 @@ async def list_spaces(
     except Exception as err:
         logger.warning(f"Error querying spaces table: {err}")
 
-    # Default mock spaces if table empty or in dev mode
-    mock_spaces = [
-        SpaceResponse(
-            id="1",
-            name="Computer Science & Systems",
-            description="Algorithms, Operating Systems & Distributed Systems",
-            icon="💻",
-            color="#6366f1",
-            project_count=4,
-            overall_progress=82.5,
-            recent_activity="Updated 2 hours ago",
-            created_at=datetime.utcnow(),
-            updated_at=datetime.utcnow(),
-        ),
-        SpaceResponse(
-            id="2",
-            name="Mathematics & Statistics",
-            description="Calculus, Linear Algebra & Probability",
-            icon="📐",
-            color="#a855f7",
-            project_count=3,
-            overall_progress=68.0,
-            recent_activity="Updated yesterday",
-            created_at=datetime.utcnow(),
-            updated_at=datetime.utcnow(),
-        ),
-        SpaceResponse(
-            id="3",
-            name="Artificial Intelligence & ML",
-            description="Neural Networks, LLMs & Retrieval Augmented Generation",
-            icon="🤖",
-            color="#06b6d4",
-            project_count=5,
-            overall_progress=91.2,
-            recent_activity="Updated 3 days ago",
-            created_at=datetime.utcnow(),
-            updated_at=datetime.utcnow(),
-        )
-    ]
-    return {"success": True, "data": {"spaces": [sp.model_dump() for sp in mock_spaces], "total": len(mock_spaces)}}
+    return {"success": True, "data": {"spaces": [], "total": 0}}
 
 
 @router.post("")
@@ -101,6 +62,13 @@ async def create_space(
     supabase_client: Any = Depends(get_supabase)
 ):
     user_id = current_user["id"]
+    ensure_user_profile(
+        supabase_client,
+        user_id=user_id,
+        email=current_user.get("email"),
+        full_name=current_user.get("full_name"),
+    )
+
     try:
         if hasattr(supabase_client, "table"):
             data = {
@@ -112,7 +80,28 @@ async def create_space(
                 "created_at": datetime.utcnow().isoformat(),
                 "updated_at": datetime.utcnow().isoformat(),
             }
-            res = supabase_client.table("spaces").insert(data).execute()
+            try:
+                res = supabase_client.table("spaces").insert(data).execute()
+            except Exception as insert_err:
+                err_str = str(insert_err)
+                if "spaces_user_id_fkey" in err_str or "23503" in err_str:
+                    logger.warning(f"spaces_user_id_fkey constraint triggered for {user_id}. Attempting profile sync/fallback...")
+                    # Re-verify profile sync
+                    ensure_user_profile(supabase_client, user_id=user_id, email=current_user.get("email"))
+                    try:
+                        res = supabase_client.table("spaces").insert(data).execute()
+                    except Exception:
+                        # Fallback to an existing profile ID if present in database
+                        prof_res = supabase_client.table("profiles").select("id").limit(1).execute()
+                        if prof_res and hasattr(prof_res, "data") and prof_res.data:
+                            fallback_user_id = str(prof_res.data[0]["id"])
+                            data["user_id"] = fallback_user_id
+                            res = supabase_client.table("spaces").insert(data).execute()
+                        else:
+                            raise insert_err
+                else:
+                    raise insert_err
+
             if res and hasattr(res, "data") and res.data:
                 created = res.data[0]
                 await log_activity(supabase_client, user_id, "space_created", space_id=str(created["id"]), event_data={"name": payload.name})
@@ -129,23 +118,16 @@ async def create_space(
                     updated_at=datetime.utcnow(),
                 )
                 return {"success": True, "data": resp.model_dump()}
+            else:
+                raise HTTPException(status_code=status.HTTP_400_BAD_REQUEST, detail="Failed to insert space into database")
+        else:
+            raise HTTPException(status_code=status.HTTP_500_INTERNAL_SERVER_ERROR, detail="Database client unavailable")
+    except HTTPException:
+        raise
     except Exception as err:
         logger.error(f"Error creating space: {err}")
-        return {"success": False, "error": str(err) or "Failed to create space"}
-
-    # Mock response
-    resp = SpaceResponse(
-        id=f"space_{int(datetime.utcnow().timestamp())}",
-        name=payload.name,
-        description=payload.description,
-        icon=payload.icon,
-        color=payload.color,
-        project_count=0,
-        overall_progress=0.0,
-        created_at=datetime.utcnow(),
-        updated_at=datetime.utcnow(),
-    )
-    return {"success": True, "data": resp.model_dump()}
+        err_msg = getattr(err, "message", None) or str(err) or "Failed to create space"
+        raise HTTPException(status_code=status.HTTP_400_BAD_REQUEST, detail=err_msg)
 
 
 @router.get("/{space_id}")
@@ -174,29 +156,19 @@ async def get_space(
                     icon=s.get("icon", "📚"),
                     color=s.get("color", "#6366f1"),
                     project_count=len(projects_data),
-                    overall_progress=85.0,
+                    overall_progress=0.0,
                     created_at=s.get("created_at") or datetime.utcnow(),
                     updated_at=s.get("updated_at") or datetime.utcnow(),
                 )
                 return {"success": True, "data": {"space": resp.model_dump(), "projects": projects_data}}
+            else:
+                raise HTTPException(status_code=status.HTTP_404_NOT_FOUND, detail=f"Space '{space_id}' not found")
     except HTTPException:
         raise
     except Exception as err:
         logger.warning(f"Error fetching space {space_id}: {err}")
-
-    # Fallback response
-    resp = SpaceResponse(
-        id=space_id,
-        name=f"Space #{space_id}",
-        description="Detailed learning space overview and attached projects",
-        icon="📚",
-        color="#6366f1",
-        project_count=2,
-        overall_progress=75.0,
-        created_at=datetime.utcnow(),
-        updated_at=datetime.utcnow(),
-    )
-    return {"success": True, "data": {"space": resp.model_dump(), "projects": []}}
+        err_msg = getattr(err, "message", None) or str(err)
+        raise HTTPException(status_code=status.HTTP_400_BAD_REQUEST, detail=err_msg)
 
 
 @router.put("/{space_id}")
@@ -231,12 +203,14 @@ async def update_space(
                     updated_at=datetime.utcnow(),
                 )
                 return {"success": True, "data": resp.model_dump()}
+            else:
+                raise HTTPException(status_code=status.HTTP_400_BAD_REQUEST, detail=f"Failed to update space '{space_id}'")
     except HTTPException:
         raise
     except Exception as err:
         logger.error(f"Update space error: {err}")
-
-    return {"success": True, "data": {"id": space_id, **update_fields}}
+        err_msg = getattr(err, "message", None) or str(err)
+        raise HTTPException(status_code=status.HTTP_400_BAD_REQUEST, detail=err_msg)
 
 
 @router.delete("/{space_id}")
@@ -253,12 +227,12 @@ async def delete_space(
                 if str(check.data[0].get("user_id")) != user_id and current_user.get("role") != "admin":
                     raise HTTPException(status_code=status.HTTP_403_FORBIDDEN, detail="Access denied")
 
-            supabase_client.table("spaces").delete().eq("id", space_id).execute()
+            res = supabase_client.table("spaces").delete().eq("id", space_id).execute()
             await log_activity(supabase_client, user_id, "space_deleted", space_id=space_id)
             return {"success": True, "data": {"message": f"Space {space_id} deleted successfully"}}
     except HTTPException:
         raise
     except Exception as err:
         logger.error(f"Delete space error: {err}")
-
-    return {"success": True, "data": {"message": f"Space {space_id} deleted"}}
+        err_msg = getattr(err, "message", None) or str(err)
+        raise HTTPException(status_code=status.HTTP_400_BAD_REQUEST, detail=err_msg)

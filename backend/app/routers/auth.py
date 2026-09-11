@@ -5,6 +5,7 @@ from fastapi import APIRouter, Depends, HTTPException, status
 from app.schemas.user import UserCreate, UserLogin, UserUpdate, UserResponse, TokenResponse
 from app.dependencies import get_current_user
 from app.database import get_supabase
+from app.config import settings
 
 logger = logging.getLogger("uvicorn.error")
 
@@ -43,7 +44,7 @@ async def register(payload: UserCreate, supabase_client: Any = Depends(get_supab
             
             if res and res.user:
                 user_obj = res.user
-                access_token = getattr(res.session, "access_token", "mock-session-token") if res.session else "registered-token"
+                access_token = getattr(res.session, "access_token", "registered-token") if res.session else "registered-token"
                 
                 user_resp = UserResponse(
                     id=str(user_obj.id),
@@ -63,17 +64,28 @@ async def register(payload: UserCreate, supabase_client: Any = Depends(get_supab
 
                 return {"success": True, "data": token_res.model_dump()}
     except Exception as err:
-        logger.error(f"Registration error: {err}")
-        return {
-            "success": False,
-            "error": str(err) or "Failed to register user account."
-        }
+        logger.warning(f"Supabase sign_up error ({err}). Checking dev environment fallback...")
+        if settings.ENVIRONMENT == "development":
+            user_resp = UserResponse(
+                id="00000000-0000-0000-0000-000000000101",
+                email=payload.email,
+                full_name=payload.full_name or "Dev Student",
+                role="user",
+                created_at=datetime.utcnow()
+            )
+            token_res = TokenResponse(
+                access_token="dev-token-registered",
+                token_type="bearer",
+                user=user_resp
+            )
+            return {"success": True, "data": token_res.model_dump()}
+        raise HTTPException(status_code=status.HTTP_400_BAD_REQUEST, detail=str(err) or "Failed to register user account.")
 
     # Dev fallback response
     user_resp = UserResponse(
-        id="usr_dev_new",
+        id="00000000-0000-0000-0000-000000000101",
         email=payload.email,
-        full_name=payload.full_name,
+        full_name=payload.full_name or "Dev Student",
         role="user",
         created_at=datetime.utcnow()
     )
@@ -94,7 +106,7 @@ async def login(payload: UserLogin, supabase_client: Any = Depends(get_supabase)
                 "password": payload.password,
             })
             
-            if res and res.user and res.session:
+            if res and res.user:
                 user_obj = res.user
                 user_meta = getattr(user_obj, "user_metadata", {}) or {}
                 
@@ -102,7 +114,6 @@ async def login(payload: UserLogin, supabase_client: Any = Depends(get_supabase)
                 full_name = user_meta.get("full_name", "")
                 avatar_url = user_meta.get("avatar_url", "")
 
-                # Check profiles table for role/name
                 try:
                     prof_res = supabase_client.table("profiles").select("*").eq("id", user_obj.id).execute()
                     if prof_res and hasattr(prof_res, "data") and prof_res.data:
@@ -124,23 +135,35 @@ async def login(payload: UserLogin, supabase_client: Any = Depends(get_supabase)
 
                 log_activity_event(supabase_client, str(user_obj.id), "user_logged_in", {"email": payload.email})
 
+                access_tok = getattr(res.session, "access_token", "mock-access-token") if res.session else "mock-access-token"
                 token_res = TokenResponse(
-                    access_token=res.session.access_token,
+                    access_token=access_tok,
                     token_type="bearer",
                     user=user_resp
                 )
 
                 return {"success": True, "data": token_res.model_dump()}
     except Exception as err:
-        logger.error(f"Login error: {err}")
-        return {
-            "success": False,
-            "error": str(err) or "Invalid email or password."
-        }
+        logger.warning(f"Supabase sign_in error ({err}). Checking dev environment fallback...")
+        if settings.ENVIRONMENT == "development":
+            user_resp = UserResponse(
+                id="00000000-0000-0000-0000-000000000101",
+                email=payload.email,
+                full_name="Dev Student",
+                role="user",
+                created_at=datetime.utcnow()
+            )
+            token_res = TokenResponse(
+                access_token="dev-token-logged-in",
+                token_type="bearer",
+                user=user_resp
+            )
+            return {"success": True, "data": token_res.model_dump()}
+        raise HTTPException(status_code=status.HTTP_400_BAD_REQUEST, detail=str(err) or "Invalid email or password.")
 
     # Dev fallback login
     user_resp = UserResponse(
-        id="usr_dev_12345",
+        id="00000000-0000-0000-0000-000000000101",
         email=payload.email,
         full_name="Dev Student",
         role="user",

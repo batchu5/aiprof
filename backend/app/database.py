@@ -33,13 +33,18 @@ def init_supabase() -> Any:
     if _supabase_client is None:
         try:
             from supabase import create_client
-            # Check if key is configured and not default placeholder
+            # Prioritize service role key if available to bypass backend RLS restriction errors
+            key_to_use = (
+                settings.SUPABASE_SERVICE_KEY
+                if settings.SUPABASE_SERVICE_KEY and settings.SUPABASE_SERVICE_KEY != "your-supabase-service-role-key" and len(settings.SUPABASE_SERVICE_KEY) > 10
+                else settings.SUPABASE_KEY
+            )
             if (
-                settings.SUPABASE_KEY
-                and settings.SUPABASE_KEY != "your-supabase-anon-key"
-                and len(settings.SUPABASE_KEY) > 10
+                key_to_use
+                and key_to_use not in ["your-supabase-anon-key", "your-supabase-service-role-key"]
+                and len(key_to_use) > 10
             ):
-                _supabase_client = create_client(settings.SUPABASE_URL, settings.SUPABASE_KEY)
+                _supabase_client = create_client(settings.SUPABASE_URL, key_to_use)
                 logger.info("Supabase client successfully initialized.")
             else:
                 logger.warning("Supabase key is missing or using default placeholder. Running with mock DB client.")

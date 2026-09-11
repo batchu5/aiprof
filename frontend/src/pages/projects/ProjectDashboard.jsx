@@ -66,7 +66,8 @@ export const ProjectDashboard = () => {
     { id: 'materials', label: 'Materials', icon: FileText },
     { id: 'tutor', label: 'Tutor', icon: Bot, path: `/projects/${id}/tutor` },
     { id: 'quiz', label: 'Quiz', icon: HelpCircle, path: `/projects/${id}/quiz` },
-    { id: 'analytics', label: 'Analytics', icon: BarChart3, path: '/analytics' },
+    { id: 'growth', label: 'Growth', icon: TrendingUp, path: `/projects/${id}/growth` },
+    { id: 'analytics', label: 'Analytics', icon: BarChart3, path: `/projects/${id}/analytics` },
   ];
 
   return (

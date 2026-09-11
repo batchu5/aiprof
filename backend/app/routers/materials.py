@@ -97,6 +97,8 @@ async def upload_material(
             supabase_client.table("materials").insert(material_data).execute()
     except Exception as err:
         logger.error(f"Error inserting material record: {err}")
+        err_msg = getattr(err, "message", None) or str(err)
+        raise HTTPException(status_code=status.HTTP_400_BAD_REQUEST, detail=err_msg)
 
     # 4. Trigger Background Processing Task
     background_tasks.add_task(process_document, unique_id, supabase_client, gemini_client)
@@ -137,24 +139,7 @@ async def list_materials(
     except Exception as err:
         logger.warning(f"Error querying materials: {err}")
 
-    # Fallback mock material list
-    mock_materials = [
-        {
-            "id": "mat_1",
-            "project_id": project_id,
-            "user_id": user_id,
-            "file_name": "Deep_Learning_Fundamentals.pdf",
-            "file_path": f"materials/{user_id}/{project_id}/mat_1.pdf",
-            "file_size": 2450000,
-            "file_type": "pdf",
-            "processing_status": "ready",
-            "page_count": 14,
-            "chunk_count": 28,
-            "summary": "Core concepts of multi-layer neural networks, loss optimization, and forward-backward propagation.",
-            "created_at": datetime.utcnow().isoformat(),
-        }
-    ]
-    return {"success": True, "data": mock_materials}
+    return {"success": True, "data": []}
 
 
 @router.get("/{material_id}")
@@ -175,20 +160,14 @@ async def get_material(
                 chunks_res = supabase_client.table("content_chunks").select("id").eq("material_id", material_id).execute()
                 mat["chunk_count"] = len(chunks_res.data) if (chunks_res and hasattr(chunks_res, "data") and chunks_res.data) else 0
                 return {"success": True, "data": mat}
+            else:
+                raise HTTPException(status_code=status.HTTP_404_NOT_FOUND, detail="Material not found")
+    except HTTPException:
+        raise
     except Exception as err:
         logger.warning(f"Error getting material {material_id}: {err}")
-
-    return {
-        "success": True,
-        "data": {
-            "id": material_id,
-            "project_id": project_id,
-            "file_name": "Sample_Material.pdf",
-            "processing_status": "ready",
-            "chunk_count": 12,
-            "page_count": 5,
-        }
-    }
+        err_msg = getattr(err, "message", None) or str(err)
+        raise HTTPException(status_code=status.HTTP_400_BAD_REQUEST, detail=err_msg)
 
 
 @router.get("/{material_id}/status")
@@ -226,9 +205,9 @@ async def get_material_status(
         "success": True,
         "data": {
             "material_id": material_id,
-            "processing_status": "ready",
-            "page_count": 10,
-            "chunk_count": 20
+            "processing_status": "unknown",
+            "page_count": 0,
+            "chunk_count": 0
         }
     }
 
@@ -268,10 +247,12 @@ async def delete_material(
             )
 
             return {"success": True, "data": {"message": f"Material {material_id} deleted successfully"}}
+    except HTTPException:
+        raise
     except Exception as err:
         logger.error(f"Error deleting material {material_id}: {err}")
-
-    return {"success": True, "data": {"message": f"Material {material_id} deleted"}}
+        err_msg = getattr(err, "message", None) or str(err)
+        raise HTTPException(status_code=status.HTTP_400_BAD_REQUEST, detail=err_msg)
 
 
 @knowledge_router.get("/search")

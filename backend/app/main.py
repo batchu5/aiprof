@@ -17,6 +17,7 @@ from app.routers import (
     analytics,
     recommendations,
     admin,
+    home,
 )
 
 logger = logging.getLogger("uvicorn.error")
@@ -77,6 +78,7 @@ app.include_router(mastery.router, prefix="/api")
 app.include_router(analytics.router, prefix="/api")
 app.include_router(recommendations.router, prefix="/api")
 app.include_router(admin.router, prefix="/api")
+app.include_router(home.router, prefix="/api")
 
 
 @app.on_event("startup")

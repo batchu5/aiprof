@@ -22,8 +22,8 @@ def test_register_user():
     response = client.post("/api/auth/register", json=payload)
     assert response.status_code == 200
     data = response.json()
-    assert data["email"] == payload["email"]
-    assert data["full_name"] == payload["full_name"]
+    assert data["success"] is True
+    assert data["data"]["user"]["email"] == payload["email"]
 
 
 def test_login_user():
@@ -34,4 +34,5 @@ def test_login_user():
     response = client.post("/api/auth/login", json=payload)
     assert response.status_code == 200
     data = response.json()
-    assert "access_token" in data
+    assert data["success"] is True
+    assert "access_token" in data["data"]

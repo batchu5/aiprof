@@ -6,21 +6,22 @@ client = TestClient(app)
 
 
 def test_list_spaces():
-    headers = {"Authorization": "Bearer mock-token"}
+    headers = {"Authorization": "Bearer dev-token-test"}
     response = client.get("/api/spaces", headers=headers)
     assert response.status_code == 200
     data = response.json()
-    assert isinstance(data, list)
-    assert len(data) > 0
+    assert data["success"] is True
+    assert "spaces" in data["data"]
 
 
 def test_create_space():
-    headers = {"Authorization": "Bearer mock-token"}
+    headers = {"Authorization": "Bearer dev-token-test"}
     payload = {
-        "title": "Quantum Physics",
+        "name": "Quantum Physics",
         "description": "Quantum mechanics and wave functions"
     }
     response = client.post("/api/spaces", json=payload, headers=headers)
     assert response.status_code == 200
     data = response.json()
-    assert data["title"] == payload["title"]
+    assert data["success"] is True
+    assert data["data"]["name"] == payload["name"]
