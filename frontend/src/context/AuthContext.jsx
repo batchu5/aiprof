@@ -1,4 +1,4 @@
-import React, { createContext, useContext, useEffect, useState } from 'react';
+import React, { createContext, useContext, useEffect, useState, useCallback } from 'react';
 import { supabase } from '../services/supabaseClient';
 import authService from '../services/authService';
 
@@ -9,38 +9,105 @@ export const AuthProvider = ({ children }) => {
   const [session, setSession] = useState(null);
   const [loading, setLoading] = useState(true);
 
+  // Helper to extract role from user object or profile
+  const getRoleFromUser = (userObj) => {
+    if (!userObj) return 'user';
+    return (
+      userObj.role ||
+      userObj.user_metadata?.role ||
+      userObj.app_metadata?.role ||
+      'user'
+    );
+  };
+
+  const role = getRoleFromUser(user);
+  const isAdmin = role === 'admin';
+
+  // Check initial session & listen to state changes
   useEffect(() => {
-    // Initial session check
-    supabase.auth.getSession().then(({ data: { session } }) => {
-      setSession(session);
-      setUser(session?.user ?? null);
-      setLoading(false);
-    });
+    let mounted = true;
 
-    // Listen for auth changes
-    const { data: { subscription } } = supabase.auth.onAuthStateChange((_event, session) => {
-      setSession(session);
-      setUser(session?.user ?? null);
-      setLoading(false);
-    });
+    async function initAuth() {
+      try {
+        const { data: { session } } = await supabase.auth.getSession();
+        if (mounted) {
+          setSession(session);
+          setUser(session?.user ?? null);
+        }
+      } catch (err) {
+        console.error('Error fetching Supabase auth session:', err);
+      } finally {
+        if (mounted) setLoading(false);
+      }
+    }
 
-    return () => subscription.unsubscribe();
+    initAuth();
+
+    const { data: { subscription } } = supabase.auth.onAuthStateChange(
+      (_event, session) => {
+        if (mounted) {
+          setSession(session);
+          setUser(session?.user ?? null);
+          setLoading(false);
+        }
+      }
+    );
+
+    return () => {
+      mounted = false;
+      subscription.unsubscribe();
+    };
   }, []);
 
-  const login = async (email, password) => {
-    return await authService.login(email, password);
-  };
+  const login = useCallback(async (email, password) => {
+    setLoading(true);
+    try {
+      const data = await authService.login(email, password);
+      if (data?.session) {
+        setSession(data.session);
+        setUser(data.user || data.session.user);
+      }
+      return data;
+    } finally {
+      setLoading(false);
+    }
+  }, []);
 
-  const register = async (email, password, fullName) => {
-    return await authService.register(email, password, fullName);
-  };
+  const register = useCallback(async (email, password, fullName) => {
+    setLoading(true);
+    try {
+      const data = await authService.register(email, password, fullName);
+      if (data?.session) {
+        setSession(data.session);
+        setUser(data.user || data.session.user);
+      }
+      return data;
+    } finally {
+      setLoading(false);
+    }
+  }, []);
 
-  const logout = async () => {
-    return await authService.logout();
-  };
+  const logout = useCallback(async () => {
+    setLoading(true);
+    try {
+      await authService.logout();
+      setSession(null);
+      setUser(null);
+    } finally {
+      setLoading(false);
+    }
+  }, []);
 
-  const role = user?.user_metadata?.role || 'user';
-  const isAdmin = role === 'admin';
+  const updateProfile = useCallback(async (profileData) => {
+    const { data, error } = await supabase.auth.updateUser({
+      data: profileData,
+    });
+    if (error) throw error;
+    if (data?.user) {
+      setUser(data.user);
+    }
+    return data;
+  }, []);
 
   const value = {
     user,
@@ -51,6 +118,7 @@ export const AuthProvider = ({ children }) => {
     login,
     register,
     logout,
+    updateProfile,
   };
 
   return <AuthContext.Provider value={value}>{children}</AuthContext.Provider>;

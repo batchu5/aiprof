@@ -1,8 +1,8 @@
 import React from 'react';
-import { BrowserRouter, Routes, Route, Navigate, useLocation } from 'react-router-dom';
-import { AuthProvider, useAuthContext } from './context/AuthContext';
+import { BrowserRouter, Routes, Route, Navigate } from 'react-router-dom';
+import { AuthProvider } from './context/AuthContext';
 import ErrorBoundary from './components/common/ErrorBoundary';
-import Loading from './components/common/Loading';
+import ProtectedRoute from './components/common/ProtectedRoute';
 import Layout from './components/layout/Layout';
 
 // Pages
@@ -16,26 +16,6 @@ import TutorChat from './pages/tutor/TutorChat';
 import QuizView from './pages/quiz/QuizView';
 import Analytics from './pages/analytics/Analytics';
 import AdminDashboard from './pages/admin/AdminDashboard';
-
-// Protected Route Component
-const ProtectedRoute = ({ children, adminOnly = false }) => {
-  const { user, loading, isAdmin } = useAuthContext();
-  const location = useLocation();
-
-  if (loading) {
-    return <Loading fullScreen message="Verifying authentication..." />;
-  }
-
-  if (!user) {
-    return <Navigate to="/login" state={{ from: location }} replace />;
-  }
-
-  if (adminOnly && !isAdmin) {
-    return <Navigate to="/" replace />;
-  }
-
-  return children;
-};
 
 export const App = () => {
   return (
@@ -73,7 +53,7 @@ export const App = () => {
               />
             </Route>
 
-            {/* Catch-all fallback */}
+            {/* Fallback route */}
             <Route path="*" element={<Navigate to="/" replace />} />
           </Routes>
         </BrowserRouter>
