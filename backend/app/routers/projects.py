@@ -34,15 +34,31 @@ async def list_projects(
             
             res = query.order("created_at", desc=True).execute()
             if res and hasattr(res, "data") and res.data:
+                project_ids = [str(p["id"]) for p in res.data]
+
+                # Batch fetch counts for all projects at once (4 queries instead of 4*N)
+                mat_counts = {}
+                conv_counts = {}
+                quiz_counts = {}
+                concept_counts = {}
+
+                for table_name, counts_dict in [
+                    ("materials", mat_counts),
+                    ("conversations", conv_counts),
+                    ("quizzes", quiz_counts),
+                    ("concepts", concept_counts),
+                ]:
+                    try:
+                        t_res = supabase_client.table(table_name).select("id, project_id").in_("project_id", project_ids).execute()
+                        if t_res and hasattr(t_res, "data") and isinstance(t_res.data, list):
+                            for row in t_res.data:
+                                pid = str(row.get("project_id", ""))
+                                counts_dict[pid] = counts_dict.get(pid, 0) + 1
+                    except Exception:
+                        pass
+
                 for p in res.data:
                     p_id = str(p["id"])
-                    
-                    # Fetch counts
-                    mat_c = len(supabase_client.table("materials").select("id").eq("project_id", p_id).execute().data or [])
-                    conv_c = len(supabase_client.table("conversations").select("id").eq("project_id", p_id).execute().data or [])
-                    quiz_c = len(supabase_client.table("quizzes").select("id").eq("project_id", p_id).execute().data or [])
-                    concept_c = len(supabase_client.table("concepts").select("id").eq("project_id", p_id).execute().data or [])
-
                     projects_list.append(ProjectResponse(
                         id=p_id,
                         space_id=str(p.get("space_id", "")),
@@ -51,10 +67,10 @@ async def list_projects(
                         learning_goal=p.get("learning_goal"),
                         status=p.get("status", "active"),
                         overall_mastery=float(p.get("overall_mastery", 0.0)),
-                        material_count=mat_c,
-                        conversation_count=conv_c,
-                        quiz_count=quiz_c,
-                        concept_count=concept_c,
+                        material_count=mat_counts.get(p_id, 0),
+                        conversation_count=conv_counts.get(p_id, 0),
+                        quiz_count=quiz_counts.get(p_id, 0),
+                        concept_count=concept_counts.get(p_id, 0),
                         created_at=p.get("created_at") or datetime.utcnow(),
                         updated_at=p.get("updated_at") or datetime.utcnow(),
                     ))
@@ -86,7 +102,7 @@ async def create_project(
             sp_check = supabase_client.table("spaces").select("user_id").eq("id", payload.space_id).execute()
             if sp_check and hasattr(sp_check, "data") and sp_check.data:
                 sp_owner = str(sp_check.data[0].get("user_id"))
-                if sp_owner != user_id and current_user.get("role") != "admin" and user_id != "00000000-0000-0000-0000-000000000101":
+                if sp_owner != user_id and current_user.get("role") != "admin":
                     raise HTTPException(status_code=status.HTTP_403_FORBIDDEN, detail="Access denied to space")
 
             data = {
@@ -211,6 +227,20 @@ async def get_project_dashboard(
     # Get project base info
     proj_resp_data = await get_project(project_id, current_user, supabase_client)
     project_info = proj_resp_data.get("data", {})
+    
+    # Calculate average quiz score
+    avg_score = 0.0
+    try:
+        if hasattr(supabase_client, "table"):
+            q_res = supabase_client.table("quizzes").select("score").eq("project_id", project_id).not_.is_("score", "null").execute()
+            if q_res and hasattr(q_res, "data") and q_res.data:
+                scores = [float(q["score"]) for q in q_res.data if q.get("score") is not None]
+                if scores:
+                    avg_score = sum(scores) / len(scores)
+    except Exception as err:
+        logger.warning(f"Error fetching avg quiz score: {err}")
+    
+    project_info["avg_score"] = round(avg_score)
     
     # Fetch recent activity
     activities = await get_recent_activity(supabase_client, user_id, limit=10, project_id=project_id)

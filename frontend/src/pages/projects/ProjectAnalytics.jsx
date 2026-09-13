@@ -107,29 +107,29 @@ export const ProjectAnalytics = () => {
 
         <button
           onClick={fetchAnalytics}
-          className="text-xs text-slate-400 hover:text-slate-200 transition-colors flex items-center gap-1.5"
+          className="text-xs text-slate-500 hover:text-slate-700 transition-colors flex items-center gap-1.5"
         >
           <RefreshCw className="w-3.5 h-3.5" /> Refresh Data
         </button>
       </div>
 
       {/* Header Banner */}
-      <div className="rounded-2xl bg-gradient-to-br from-indigo-950/80 via-slate-900 to-purple-950/60 p-6 sm:p-8 border border-indigo-500/20 backdrop-blur-md shadow-2xl flex flex-col md:flex-row items-start md:items-center justify-between gap-6">
+      <div className="rounded-2xl bg-gradient-to-br from-indigo-950/80 via-slate-900 to-purple-950/60 p-6 sm:p-8 border border-blue-500/20 backdrop-blur-md shadow-2xl flex flex-col md:flex-row items-start md:items-center justify-between gap-6">
         <div className="space-y-2">
-          <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-purple-500/10 text-purple-400 border border-purple-500/20 text-xs font-semibold uppercase tracking-wider">
+          <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-blue-600/10 text-purple-400 border border-blue-600/20 text-xs font-semibold uppercase tracking-wider">
             <BarChart3 className="w-3.5 h-3.5" /> Project Analytics
           </div>
-          <h1 className="text-3xl font-extrabold text-white">Learning & Performance Telemetry</h1>
-          <p className="text-slate-300 text-sm max-w-xl">
+          <h1 className="text-3xl font-extrabold text-slate-900">Learning & Performance Telemetry</h1>
+          <p className="text-slate-600 text-sm max-w-xl">
             Detailed breakdown of study sessions, quiz accuracy, concept mastery distribution, and AI model response metrics.
           </p>
         </div>
 
-        <div className="px-4 py-3 rounded-2xl bg-slate-900/80 border border-slate-800 flex items-center gap-3">
+        <div className="px-4 py-3 rounded-2xl bg-white/80 border border-slate-200 flex items-center gap-3">
           <Clock className="w-6 h-6 text-cyan-400" />
           <div>
-            <p className="text-xs text-slate-400 font-medium">Estimated Study Time</p>
-            <p className="text-sm font-bold text-slate-100">{act.total_study_time_estimate || '~0 hours'}</p>
+            <p className="text-xs text-slate-500 font-medium">Estimated Study Time</p>
+            <p className="text-sm font-bold text-slate-900">{act.total_study_time_estimate || '~0 hours'}</p>
           </div>
         </div>
       </div>
@@ -137,15 +137,15 @@ export const ProjectAnalytics = () => {
       {/* ROW 1: KEY METRICS (4 Stat Cards) */}
       <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
         {/* Total Sessions */}
-        <div className="p-5 rounded-2xl bg-slate-900/70 border border-slate-800 hover:border-indigo-500/40 transition-all backdrop-blur-md space-y-3">
+        <div className="p-5 rounded-2xl bg-white/70 border border-slate-200 hover:border-blue-500/40 transition-all backdrop-blur-md space-y-3">
           <div className="flex items-center justify-between">
-            <span className="text-xs font-semibold text-slate-400 uppercase tracking-wider">Total Sessions</span>
-            <div className="p-2.5 rounded-xl bg-indigo-500/10 text-indigo-400 border border-indigo-500/20">
+            <span className="text-xs font-semibold text-slate-500 uppercase tracking-wider">Total Sessions</span>
+            <div className="p-2.5 rounded-xl bg-blue-500/10 text-indigo-400 border border-blue-500/20">
               <Clock className="w-5 h-5" />
             </div>
           </div>
           <div>
-            <h3 className="text-3xl font-extrabold text-white">{act.total_sessions ?? 0}</h3>
+            <h3 className="text-3xl font-extrabold text-slate-900">{act.total_sessions ?? 0}</h3>
             <p className="text-xs text-emerald-400 mt-1 flex items-center gap-1 font-semibold">
               <TrendingUp className="w-3.5 h-3.5" /> Most active on {act.most_active_day || 'None'}
             </p>
@@ -153,15 +153,15 @@ export const ProjectAnalytics = () => {
         </div>
 
         {/* Quiz Accuracy */}
-        <div className="p-5 rounded-2xl bg-slate-900/70 border border-slate-800 hover:border-cyan-500/40 transition-all backdrop-blur-md space-y-3">
+        <div className="p-5 rounded-2xl bg-white/70 border border-slate-200 hover:border-cyan-500/40 transition-all backdrop-blur-md space-y-3">
           <div className="flex items-center justify-between">
-            <span className="text-xs font-semibold text-slate-400 uppercase tracking-wider">Quiz Accuracy</span>
+            <span className="text-xs font-semibold text-slate-500 uppercase tracking-wider">Quiz Accuracy</span>
             <div className="p-2.5 rounded-xl bg-cyan-500/10 text-cyan-400 border border-cyan-500/20">
               <HelpCircle className="w-5 h-5" />
             </div>
           </div>
           <div>
-            <h3 className="text-3xl font-extrabold text-white">{Math.round(perf.quiz_accuracy || 0)}%</h3>
+            <h3 className="text-3xl font-extrabold text-slate-900">{Math.round(perf.quiz_accuracy || 0)}%</h3>
             <p className="text-xs text-cyan-400 mt-1 font-semibold">
               {perf.quiz_accuracy > 0 ? (perf.quiz_accuracy >= 70 ? 'High Retention Rate' : 'Developing Accuracy') : 'No Quizzes Completed'}
             </p>
@@ -169,18 +169,18 @@ export const ProjectAnalytics = () => {
         </div>
 
         {/* Current Mastery */}
-        <div className="p-5 rounded-2xl bg-slate-900/70 border border-slate-800 hover:border-purple-500/40 transition-all backdrop-blur-md space-y-3">
+        <div className="p-5 rounded-2xl bg-white/70 border border-slate-200 hover:border-blue-600/40 transition-all backdrop-blur-md space-y-3">
           <div className="flex items-center justify-between">
-            <span className="text-xs font-semibold text-slate-400 uppercase tracking-wider">Current Mastery</span>
-            <div className="p-2.5 rounded-xl bg-purple-500/10 text-purple-400 border border-purple-500/20">
+            <span className="text-xs font-semibold text-slate-500 uppercase tracking-wider">Current Mastery</span>
+            <div className="p-2.5 rounded-xl bg-blue-600/10 text-purple-400 border border-blue-600/20">
               <Target className="w-5 h-5" />
             </div>
           </div>
           <div>
-            <h3 className="text-3xl font-extrabold text-white">{Math.round(perf.current_mastery || 0)}%</h3>
-            <div className="w-full h-1.5 bg-slate-950 rounded-full overflow-hidden mt-2 border border-slate-800">
+            <h3 className="text-3xl font-extrabold text-slate-900">{Math.round(perf.current_mastery || 0)}%</h3>
+            <div className="w-full h-1.5 bg-slate-50 rounded-full overflow-hidden mt-2 border border-slate-200">
               <div
-                className="h-full bg-gradient-to-r from-indigo-500 to-purple-400 rounded-full"
+                className="h-full bg-gradient-to-r from-blue-500 to-purple-400 rounded-full"
                 style={{ width: `${perf.current_mastery || 0}%` }}
               />
             </div>
@@ -188,17 +188,17 @@ export const ProjectAnalytics = () => {
         </div>
 
         {/* AI Interactions */}
-        <div className="p-5 rounded-2xl bg-slate-900/70 border border-slate-800 hover:border-rose-500/40 transition-all backdrop-blur-md space-y-3">
+        <div className="p-5 rounded-2xl bg-white/70 border border-slate-200 hover:border-rose-500/40 transition-all backdrop-blur-md space-y-3">
           <div className="flex items-center justify-between">
-            <span className="text-xs font-semibold text-slate-400 uppercase tracking-wider">AI Interactions</span>
+            <span className="text-xs font-semibold text-slate-500 uppercase tracking-wider">AI Interactions</span>
             <div className="p-2.5 rounded-xl bg-rose-500/10 text-rose-400 border border-rose-500/20">
               <Brain className="w-5 h-5" />
             </div>
           </div>
           <div>
-            <h3 className="text-3xl font-extrabold text-white">{aiAct.total_ai_requests ?? 0}</h3>
-            <p className="text-xs text-slate-400 mt-1 font-medium">
-              Avg Latency: <span className="text-slate-200 font-bold">{aiAct.avg_response_time_ms ?? 0}ms</span>
+            <h3 className="text-3xl font-extrabold text-slate-900">{aiAct.total_ai_requests ?? 0}</h3>
+            <p className="text-xs text-slate-500 mt-1 font-medium">
+              Avg Latency: <span className="text-slate-700 font-bold">{aiAct.avg_response_time_ms ?? 0}ms</span>
             </p>
           </div>
         </div>
@@ -248,7 +248,7 @@ export const ProjectAnalytics = () => {
             ) : (
               <div className="h-full flex flex-col items-center justify-center text-center p-6">
                 <HelpCircle className="w-10 h-10 text-slate-600 mb-2 opacity-50" />
-                <p className="text-sm font-semibold text-slate-300">No Quiz Attempts Yet</p>
+                <p className="text-sm font-semibold text-slate-600">No Quiz Attempts Yet</p>
                 <p className="text-xs text-slate-500 mt-1">Complete a quiz in this project to generate quiz accuracy trends.</p>
               </div>
             )}
@@ -313,40 +313,40 @@ export const ProjectAnalytics = () => {
         {/* Right: AI Telemetry & Latency */}
         <Card title="AI Telemetry & Response Metrics" subtitle="Engine latency and system reliability">
           <div className="space-y-4 mt-4">
-            <div className="p-4 rounded-xl bg-slate-900/80 border border-slate-800 flex items-center justify-between">
+            <div className="p-4 rounded-xl bg-white/80 border border-slate-200 flex items-center justify-between">
               <div className="flex items-center gap-3">
-                <div className="p-2.5 rounded-lg bg-indigo-500/10 text-indigo-400">
+                <div className="p-2.5 rounded-lg bg-blue-500/10 text-indigo-400">
                   <Zap className="w-5 h-5" />
                 </div>
                 <div>
-                  <p className="text-xs font-semibold text-slate-200">Average Response Time</p>
-                  <p className="text-xs text-slate-400">Gemini 2.0 Flash Latency</p>
+                  <p className="text-xs font-semibold text-slate-700">Average Response Time</p>
+                  <p className="text-xs text-slate-500">Gemini 2.0 Flash Latency</p>
                 </div>
               </div>
               <span className="text-lg font-extrabold text-indigo-400">{aiAct.avg_response_time_ms ?? 0} ms</span>
             </div>
 
-            <div className="p-4 rounded-xl bg-slate-900/80 border border-slate-800 flex items-center justify-between">
+            <div className="p-4 rounded-xl bg-white/80 border border-slate-200 flex items-center justify-between">
               <div className="flex items-center gap-3">
                 <div className="p-2.5 rounded-lg bg-cyan-500/10 text-cyan-400">
                   <Bot className="w-5 h-5" />
                 </div>
                 <div>
-                  <p className="text-xs font-semibold text-slate-200">Total AI Requests</p>
-                  <p className="text-xs text-slate-400">Tutor Q&A, Quizzes & Eval</p>
+                  <p className="text-xs font-semibold text-slate-700">Total AI Requests</p>
+                  <p className="text-xs text-slate-500">Tutor Q&A, Quizzes & Eval</p>
                 </div>
               </div>
               <span className="text-lg font-extrabold text-cyan-400">{aiAct.total_ai_requests ?? 0}</span>
             </div>
 
-            <div className="p-4 rounded-xl bg-slate-900/80 border border-slate-800 flex items-center justify-between">
+            <div className="p-4 rounded-xl bg-white/80 border border-slate-200 flex items-center justify-between">
               <div className="flex items-center gap-3">
                 <div className="p-2.5 rounded-lg bg-emerald-500/10 text-emerald-400">
                   <Sparkles className="w-5 h-5" />
                 </div>
                 <div>
-                  <p className="text-xs font-semibold text-slate-200">API Reliability Status</p>
-                  <p className="text-xs text-slate-400">Error rate: 0.0%</p>
+                  <p className="text-xs font-semibold text-slate-700">API Reliability Status</p>
+                  <p className="text-xs text-slate-500">Error rate: 0.0%</p>
                 </div>
               </div>
               <span className="text-xs font-bold px-3 py-1 rounded-full bg-emerald-500/10 text-emerald-400 border border-emerald-500/30">

@@ -3,7 +3,7 @@ from typing import Any, Dict, List, Optional
 from fastapi import APIRouter, Depends, HTTPException, status
 from pydantic import BaseModel, Field
 
-from app.dependencies import get_current_user
+from app.dependencies import get_current_user, verify_project_access
 from app.database import get_supabase
 from app.services.quiz_service import QuizService
 from app.ai.gemini_client import gemini_client
@@ -23,22 +23,6 @@ class QuizAnswerPayload(BaseModel):
     answer: str = Field(..., min_length=1, description="Student selected option or open-ended text")
 
 
-async def verify_project_access(project_id: str, user_id: str, supabase_client: Any, current_user: Dict[str, Any]):
-    """Verify that current user owns the project or is admin."""
-    try:
-        if hasattr(supabase_client, "table"):
-            res = supabase_client.table("projects").select("user_id").eq("id", project_id).execute()
-            if res and hasattr(res, "data") and res.data:
-                proj_user = str(res.data[0].get("user_id"))
-                if proj_user != user_id and current_user.get("role") != "admin":
-                    raise HTTPException(
-                        status_code=status.HTTP_403_FORBIDDEN,
-                        detail="Access denied to this project"
-                    )
-    except HTTPException:
-        raise
-    except Exception as err:
-        logger.warning(f"Project access verification notice: {err}")
 
 
 @router.post("/start")

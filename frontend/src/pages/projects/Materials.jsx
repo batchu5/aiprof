@@ -99,7 +99,7 @@ export const Materials = ({ projectIdOverride }) => {
       return;
     }
     if (file.size > 20 * 1024 * 1024) {
-      toast.error('File size exceeds 20MB limit.');
+      toast.error('File size exceeds 1MB limit. (As it is free tier please adjust hehe)');
       return;
     }
     setSelectedFile(file);
@@ -160,14 +160,14 @@ export const Materials = ({ projectIdOverride }) => {
         );
       case 'processing':
         return (
-          <span className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-xs font-semibold bg-indigo-500/10 text-indigo-400 border border-indigo-500/20">
+          <span className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-xs font-semibold bg-blue-500/10 text-indigo-400 border border-blue-500/20">
             <RefreshCw className="w-3.5 h-3.5 animate-spin" />
             🔄 Processing...
           </span>
         );
       case 'reading':
         return (
-          <span className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-xs font-semibold bg-purple-500/10 text-purple-400 border border-purple-500/20">
+          <span className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-xs font-semibold bg-blue-600/10 text-purple-400 border border-blue-600/20">
             <BookOpen className="w-3.5 h-3.5 animate-pulse" />
             📖 Reading OCR...
           </span>
@@ -210,15 +210,15 @@ export const Materials = ({ projectIdOverride }) => {
       <Toaster position="top-right" toastOptions={{ style: { background: '#1e293b', color: '#f8fafc' } }} />
 
       {/* Header */}
-      <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 border-b border-slate-800 pb-5">
+      <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 border-b border-slate-200 pb-5">
         <div>
-          <h2 className="text-2xl font-extrabold text-white flex items-center gap-3">
-            <span className="p-2 rounded-2xl bg-indigo-500/10 text-indigo-400 border border-indigo-500/20">
+          <h2 className="text-2xl font-extrabold text-slate-900 flex items-center gap-3">
+            <span className="p-2 rounded-2xl bg-blue-500/10 text-indigo-400 border border-blue-500/20">
               <FileText className="w-6 h-6" />
             </span>
             Learning Materials
           </h2>
-          <p className="text-slate-400 text-sm mt-1">
+          <p className="text-slate-500 text-sm mt-1">
             Upload PDFs for Gemini 1.5 Flash parsing, OCR, and pgvector RAG indexing.
           </p>
         </div>
@@ -236,8 +236,8 @@ export const Materials = ({ projectIdOverride }) => {
         onClick={() => fileInputRef.current?.click()}
         className={`border-2 border-dashed rounded-3xl p-8 text-center cursor-pointer transition-all duration-300 backdrop-blur-md ${
           isDragOver
-            ? 'border-indigo-500 bg-indigo-600/10 scale-[1.01]'
-            : 'border-slate-700/80 bg-slate-900/50 hover:border-indigo-500/50 hover:bg-slate-800/40'
+            ? 'border-blue-500 bg-blue-600/10 scale-[1.01]'
+            : 'border-slate-200/80 bg-white/50 hover:border-blue-500/50 hover:bg-white'
         }`}
       >
         <input
@@ -248,14 +248,14 @@ export const Materials = ({ projectIdOverride }) => {
           className="hidden"
         />
 
-        <div className="w-16 h-16 rounded-2xl bg-indigo-500/10 text-indigo-400 border border-indigo-500/20 flex items-center justify-center mx-auto mb-4 shadow-inner">
+        <div className="w-16 h-16 rounded-2xl bg-blue-500/10 text-indigo-400 border border-blue-500/20 flex items-center justify-center mx-auto mb-4 shadow-inner">
           <Upload className="w-8 h-8" />
         </div>
 
-        <h3 className="text-lg font-bold text-white mb-1">
+        <h3 className="text-lg font-bold text-slate-900 mb-1">
           {selectedFile ? selectedFile.name : 'Drop PDF here or click to upload'}
         </h3>
-        <p className="text-xs text-slate-400 mb-4">Max file size 20MB • PDF documents only</p>
+        <p className="text-xs text-slate-500 mb-4">Max file size 1MB, please adjust as it gemini model is free tier, hehe :( -  PDF documents only</p>
 
         {selectedFile && (
           <div className="max-w-xs mx-auto space-y-3" onClick={(e) => e.stopPropagation()}>
@@ -274,14 +274,14 @@ export const Materials = ({ projectIdOverride }) => {
       {loading ? (
         <Loading message="Loading study materials..." />
       ) : materials.length === 0 ? (
-        <div className="bg-slate-900/40 border border-slate-800 rounded-3xl p-10 text-center">
+        <div className="bg-white/40 border border-slate-200 rounded-3xl p-10 text-center">
           <FileText className="w-12 h-12 text-slate-600 mx-auto mb-3" />
-          <h4 className="text-base font-bold text-white mb-1">No learning materials uploaded yet</h4>
-          <p className="text-xs text-slate-400">Upload your course PDFs above to enable RAG tutor search and automatic quiz generation.</p>
+          <h4 className="text-base font-bold text-slate-900 mb-1">No learning materials uploaded yet</h4>
+          <p className="text-xs text-slate-500">Upload your course PDFs above to enable RAG tutor search and automatic quiz generation.</p>
         </div>
       ) : (
         <div className="space-y-4">
-          <h3 className="text-base font-bold text-white flex items-center gap-2">
+          <h3 className="text-base font-bold text-slate-900 flex items-center gap-2">
             Uploaded Materials ({materials.length})
           </h3>
 
@@ -294,16 +294,16 @@ export const Materials = ({ projectIdOverride }) => {
               return (
                 <div
                   key={mat.id}
-                  className="bg-slate-800/50 backdrop-blur-md border border-slate-700/60 rounded-2xl p-5 shadow-xl space-y-4 transition-all"
+                  className="bg-white backdrop-blur-md border border-slate-200/60 rounded-2xl p-5 shadow-xl space-y-4 transition-all"
                 >
                   <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
                     <div className="flex items-center gap-4">
-                      <div className="p-3 rounded-2xl bg-indigo-500/10 text-indigo-400 border border-indigo-500/20 shrink-0">
+                      <div className="p-3 rounded-2xl bg-blue-500/10 text-indigo-400 border border-blue-500/20 shrink-0">
                         <FileText className="w-6 h-6" />
                       </div>
                       <div>
-                        <h4 className="text-base font-bold text-white line-clamp-1">{mat.file_name}</h4>
-                        <div className="flex items-center gap-3 text-xs text-slate-400 mt-1">
+                        <h4 className="text-base font-bold text-slate-900 line-clamp-1">{mat.file_name}</h4>
+                        <div className="flex items-center gap-3 text-xs text-slate-500 mt-1">
                           <span>{formatBytes(mat.file_size)}</span>
                           <span>•</span>
                           <span>{new Date(mat.created_at || Date.now()).toLocaleDateString()}</span>
@@ -316,7 +316,7 @@ export const Materials = ({ projectIdOverride }) => {
 
                       <button
                         onClick={() => handleDelete(mat.id, mat.file_name)}
-                        className="p-2 rounded-xl text-slate-400 hover:text-red-400 hover:bg-red-500/10 transition-colors"
+                        className="p-2 rounded-xl text-slate-500 hover:text-red-400 hover:bg-red-500/10 transition-colors"
                         title="Delete Material"
                       >
                         <Trash2 className="w-4 h-4" />
@@ -326,13 +326,13 @@ export const Materials = ({ projectIdOverride }) => {
 
                   {/* Ready Stats & Summary */}
                   {isReady && (
-                    <div className="pt-3 border-t border-slate-700/50 space-y-3">
-                      <div className="flex flex-wrap items-center justify-between gap-4 text-xs font-semibold text-slate-300">
+                    <div className="pt-3 border-t border-slate-200/50 space-y-3">
+                      <div className="flex flex-wrap items-center justify-between gap-4 text-xs font-semibold text-slate-600">
                         <div className="flex items-center gap-4">
-                          <span className="px-2.5 py-1 rounded-lg bg-slate-900 border border-slate-700">
+                          <span className="px-2.5 py-1 rounded-lg bg-white border border-slate-200">
                             📄 {mat.page_count || 1} Pages
                           </span>
-                          <span className="px-2.5 py-1 rounded-lg bg-slate-900 border border-slate-700">
+                          <span className="px-2.5 py-1 rounded-lg bg-white border border-slate-200">
                             🔍 {mat.chunk_count || 0} Chunks Indexed
                           </span>
                         </div>
@@ -349,7 +349,7 @@ export const Materials = ({ projectIdOverride }) => {
                       </div>
 
                       {isExpanded && mat.summary && (
-                        <div className="p-4 rounded-xl bg-slate-900/80 border border-slate-700/80 text-xs text-slate-300 space-y-1 animate-fade-in">
+                        <div className="p-4 rounded-xl bg-white/80 border border-slate-200/80 text-xs text-slate-600 space-y-1 animate-fade-in">
                           <p className="font-bold text-indigo-300 flex items-center gap-1.5 mb-1">
                             <Sparkles className="w-3.5 h-3.5" /> AI Summary Takeaways:
                           </p>

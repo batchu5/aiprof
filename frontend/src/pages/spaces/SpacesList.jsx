@@ -77,15 +77,15 @@ export const SpacesList = () => {
       <Toaster position="top-right" toastOptions={{ style: { background: '#1e293b', color: '#f8fafc' } }} />
 
       {/* Header Section */}
-      <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 border-b border-slate-800/80 pb-6">
+      <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 border-b border-slate-200/80 pb-6">
         <div>
-          <h1 className="text-3xl font-extrabold text-white tracking-tight flex items-center gap-3">
-            <span className="p-2 rounded-2xl bg-indigo-600/20 text-indigo-400 border border-indigo-500/30">
+          <h1 className="text-3xl font-extrabold text-slate-900 tracking-tight flex items-center gap-3">
+            <span className="p-2 rounded-2xl bg-blue-600/20 text-indigo-400 border border-blue-500/30">
               <BookOpen className="w-7 h-7" />
             </span>
             My Learning Spaces
           </h1>
-          <p className="text-slate-400 text-sm mt-1">
+          <p className="text-slate-500 text-sm mt-1">
             Organize your academic domains, courses, and project repositories.
           </p>
         </div>
@@ -93,7 +93,7 @@ export const SpacesList = () => {
         <Button
           variant="primary"
           onClick={() => setIsModalOpen(true)}
-          className="flex items-center gap-2 py-3 px-5 shadow-lg shadow-indigo-600/20 text-sm font-semibold"
+          className="flex items-center gap-2 py-3 px-5 shadow-lg shadow-blue-600/20 text-sm font-semibold"
         >
           <Plus className="w-5 h-5" />
           Create Space
@@ -105,12 +105,12 @@ export const SpacesList = () => {
         <Loading message="Fetching your study spaces..." />
       ) : spaces.length === 0 ? (
         /* Empty State */
-        <div className="bg-slate-900/60 border border-slate-800 rounded-3xl p-12 text-center max-w-lg mx-auto shadow-2xl backdrop-blur-md">
-          <div className="w-20 h-20 bg-indigo-500/10 text-indigo-400 rounded-3xl flex items-center justify-center mx-auto mb-6 border border-indigo-500/20 shadow-inner">
+        <div className="bg-white/60 border border-slate-200 rounded-3xl p-12 text-center max-w-lg mx-auto shadow-2xl backdrop-blur-md">
+          <div className="w-20 h-20 bg-blue-500/10 text-indigo-400 rounded-3xl flex items-center justify-center mx-auto mb-6 border border-blue-500/20 shadow-inner">
             <FolderPlus className="w-10 h-10" />
           </div>
-          <h3 className="text-xl font-bold text-white mb-2">No learning spaces found</h3>
-          <p className="text-slate-400 text-sm mb-6 leading-relaxed">
+          <h3 className="text-xl font-bold text-slate-900 mb-2">No learning spaces found</h3>
+          <p className="text-slate-500 text-sm mb-6 leading-relaxed">
             Create your first learning space to group your projects, upload PDFs, and begin tracking your Gemini AI study analytics.
           </p>
           <Button variant="primary" onClick={() => setIsModalOpen(true)} className="mx-auto flex items-center gap-2">
@@ -126,7 +126,7 @@ export const SpacesList = () => {
               <div
                 key={space.id}
                 onClick={() => navigate(`/spaces/${space.id}`)}
-                className="group relative bg-slate-800/50 backdrop-blur-md border border-slate-700/50 rounded-2xl p-6 shadow-xl hover:shadow-2xl transition-all duration-300 hover:scale-[1.02] hover:border-indigo-500/50 cursor-pointer flex flex-col justify-between overflow-hidden"
+                className="group relative bg-white backdrop-blur-md border border-slate-200/50 rounded-2xl p-6 shadow-xl hover:shadow-2xl transition-all duration-300 hover:scale-[1.02] hover:border-blue-500/50 cursor-pointer flex flex-col justify-between overflow-hidden"
               >
                 {/* Accent Glow */}
                 <div
@@ -144,37 +144,37 @@ export const SpacesList = () => {
                       {space.icon || '📚'}
                     </div>
 
-                    <div className="flex items-center gap-1.5 px-3 py-1 rounded-full bg-slate-900/80 border border-slate-700/60 text-xs text-slate-300 font-medium">
+                    <div className="flex items-center gap-1.5 px-3 py-1 rounded-full bg-white/80 border border-slate-200/60 text-xs text-slate-600 font-medium">
                       <Layers className="w-3.5 h-3.5 text-indigo-400" />
                       <span>{space.project_count || 0} Projects</span>
                     </div>
                   </div>
 
                   {/* Title & Description */}
-                  <h3 className="text-xl font-bold text-white group-hover:text-indigo-300 transition-colors line-clamp-1">
+                  <h3 className="text-xl font-bold text-slate-900 group-hover:text-indigo-300 transition-colors line-clamp-1">
                     {space.name}
                   </h3>
-                  <p className="text-sm text-slate-400 mt-2 line-clamp-2 leading-relaxed">
+                  <p className="text-sm text-slate-500 mt-2 line-clamp-2 leading-relaxed">
                     {space.description || 'No description provided for this space.'}
                   </p>
                 </div>
 
                 {/* Progress Bar & Footer */}
-                <div className="mt-6 pt-4 border-t border-slate-700/40 space-y-3">
+                <div className="mt-6 pt-4 border-t border-slate-200/40 space-y-3">
                   <div>
                     <div className="flex justify-between text-xs font-semibold mb-1.5">
-                      <span className="text-slate-400">Mastery Progress</span>
+                      <span className="text-slate-500">Mastery Progress</span>
                       <span className="text-indigo-400">{progress}%</span>
                     </div>
-                    <div className="w-full h-2 bg-slate-900/80 rounded-full overflow-hidden border border-slate-800">
+                    <div className="w-full h-2 bg-white/80 rounded-full overflow-hidden border border-slate-200">
                       <div
-                        className="h-full bg-gradient-to-r from-indigo-500 to-purple-500 rounded-full transition-all duration-500"
+                        className="h-full bg-gradient-to-r from-blue-500 to-blue-600 rounded-full transition-all duration-500"
                         style={{ width: `${progress}%` }}
                       />
                     </div>
                   </div>
 
-                  <div className="flex items-center justify-between text-xs text-slate-400 pt-1">
+                  <div className="flex items-center justify-between text-xs text-slate-500 pt-1">
                     <span className="flex items-center gap-1">
                       <Activity className="w-3.5 h-3.5 text-indigo-400" />
                       {space.recent_activity || 'Active'}
@@ -194,7 +194,7 @@ export const SpacesList = () => {
       <Modal isOpen={isModalOpen} onClose={() => setIsModalOpen(false)} title="Create New Learning Space">
         <form onSubmit={handleCreateSpace} className="space-y-5">
           <div>
-            <label className="block text-xs font-semibold text-slate-300 uppercase tracking-wider mb-2">
+            <label className="block text-xs font-semibold text-slate-600 uppercase tracking-wider mb-2">
               Space Name *
             </label>
             <input
@@ -203,12 +203,12 @@ export const SpacesList = () => {
               value={name}
               onChange={(e) => setName(e.target.value)}
               placeholder="e.g. Computer Science, Machine Learning"
-              className="w-full px-4 py-3 bg-slate-900 border border-slate-700 rounded-xl text-white placeholder-slate-500 focus:outline-none focus:border-indigo-500 focus:ring-1 focus:ring-indigo-500 text-sm"
+              className="w-full px-4 py-3 bg-white border border-slate-200 rounded-xl text-slate-900 placeholder-slate-500 focus:outline-none focus:border-blue-500 focus:ring-1 focus:ring-blue-500 text-sm"
             />
           </div>
 
           <div>
-            <label className="block text-xs font-semibold text-slate-300 uppercase tracking-wider mb-2">
+            <label className="block text-xs font-semibold text-slate-600 uppercase tracking-wider mb-2">
               Description
             </label>
             <textarea
@@ -216,23 +216,23 @@ export const SpacesList = () => {
               value={description}
               onChange={(e) => setDescription(e.target.value)}
               placeholder="Brief overview of course or domain topics..."
-              className="w-full px-4 py-3 bg-slate-900 border border-slate-700 rounded-xl text-white placeholder-slate-500 focus:outline-none focus:border-indigo-500 focus:ring-1 focus:ring-indigo-500 text-sm resize-none"
+              className="w-full px-4 py-3 bg-white border border-slate-200 rounded-xl text-slate-900 placeholder-slate-500 focus:outline-none focus:border-blue-500 focus:ring-1 focus:ring-blue-500 text-sm resize-none"
             />
           </div>
 
           {/* Emoji Picker */}
           <div>
-            <label className="block text-xs font-semibold text-slate-300 uppercase tracking-wider mb-2">
+            <label className="block text-xs font-semibold text-slate-600 uppercase tracking-wider mb-2">
               Space Icon
             </label>
-            <div className="grid grid-cols-6 gap-2 p-2 bg-slate-900 rounded-xl border border-slate-800">
+            <div className="grid grid-cols-6 gap-2 p-2 bg-white rounded-xl border border-slate-200">
               {EMOJI_OPTIONS.map((e) => (
                 <button
                   type="button"
                   key={e}
                   onClick={() => setIcon(e)}
                   className={`p-2.5 text-xl rounded-lg transition-all ${
-                    icon === e ? 'bg-indigo-600/30 border border-indigo-500 scale-110' : 'hover:bg-slate-800'
+                    icon === e ? 'bg-blue-600/30 border border-blue-500 scale-110' : 'hover:bg-white'
                   }`}
                 >
                   {e}
@@ -243,7 +243,7 @@ export const SpacesList = () => {
 
           {/* Color Preset Picker */}
           <div>
-            <label className="block text-xs font-semibold text-slate-300 uppercase tracking-wider mb-2">
+            <label className="block text-xs font-semibold text-slate-600 uppercase tracking-wider mb-2">
               Theme Color
             </label>
             <div className="flex items-center gap-3">
@@ -261,7 +261,7 @@ export const SpacesList = () => {
             </div>
           </div>
 
-          <div className="flex justify-end gap-3 pt-4 border-t border-slate-700">
+          <div className="flex justify-end gap-3 pt-4 border-t border-slate-200">
             <Button type="button" variant="outline" onClick={() => setIsModalOpen(false)}>
               Cancel
             </Button>

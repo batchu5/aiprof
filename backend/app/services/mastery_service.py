@@ -161,8 +161,7 @@ class MasteryService:
                 recent_scores.append(round(float(score), 1))
 
         if not recent_scores:
-            # Fallback data if no quizzes completed yet
-            recent_scores = [60.0, 70.0, 75.0]
+            recent_scores = []
 
         avg_score = round(sum(recent_scores) / len(recent_scores), 1) if recent_scores else 0.0
 
@@ -194,7 +193,7 @@ class MasteryService:
                 "recent_scores": recent_scores,
                 "improvement": improvement
             },
-            "strengths": strengths or ["Core Principles"],
+            "strengths": strengths,
             "weaknesses": weaknesses,
-            "milestones": milestones or [{"text": "Started Learning Goal Journey 🚀", "date": datetime.utcnow().strftime("%Y-%m-%d")}]
+            "milestones": milestones
         }

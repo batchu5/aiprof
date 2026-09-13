@@ -122,7 +122,6 @@ class TutorService:
         user_msg_data = {
             "id": user_msg_id,
             "conversation_id": conversation_id,
-            "user_id": user_id,
             "role": "user",
             "content": question,
             "sources": [],
@@ -188,8 +187,12 @@ class TutorService:
             )
         except Exception as ai_err:
             logger.error(f"[TutorService] Gemini text generation failed: {ai_err}")
+            ai_text = None
+
+        # Guard against None response from AI
+        if not ai_text:
             ai_text = (
-                "I apologize, but I encountered a temporary issue reading your study materials. "
+                "I apologize, but I encountered a temporary issue generating a response. "
                 "Please make sure your document is uploaded and processed, or try asking your question again."
             )
 
@@ -203,13 +206,12 @@ class TutorService:
         assistant_msg_data = {
             "id": assistant_msg_id,
             "conversation_id": conversation_id,
-            "user_id": user_id,
             "role": "assistant",
             "content": ai_text,
             "sources": sources,
             "metadata": {
-                "model": "gemini-2.0-flash",
-                "tokens": len(ai_text.split()) * 2,
+                "model": "gemini-3.6-flash",
+                "tokens": len(ai_text.split()) * 2 if ai_text else 0,
                 "latency_ms": latency_ms,
             },
             "created_at": datetime.utcnow().isoformat(),
@@ -288,6 +290,10 @@ class TutorService:
         """Parse [Source: ...] citations from response and match with retrieved chunks."""
         sources: List[Dict[str, Any]] = []
         seen_keys = set()
+
+        # Guard against None response
+        if not response:
+            return sources
 
         # Regex for [Source: filename — Page X] or [filename — Page X]
         pattern = r"\[(?:Source:\s*)?([^\]—\n]+?)(?:\s*—\s*Page\s*(\d+))?\]"

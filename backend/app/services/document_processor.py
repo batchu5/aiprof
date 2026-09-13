@@ -100,7 +100,7 @@ class DocumentProcessor:
                 logger.warning(f"[DocProcessor] PyMuPDF parsing error: {pdf_err}. Using mock text fallback.")
                 pages_extracted = [{
                     "page_number": 1,
-                    "text": "Machine Learning and Artificial Intelligence Fundamentals: Core Principles of Deep Learning and Neural Networks."
+                    "text": "Generic study material regarding core principles and important concepts for the uploaded document."
                 }]
                 page_count = 1
 
@@ -146,10 +146,14 @@ class DocumentProcessor:
             )
 
             if not isinstance(extracted_concepts, list):
+                # Generate fallback concepts from the actual document text
+                # Extract likely topic words from the first 500 chars of the document
+                text_preview = full_text[:500].strip()
+                doc_title = material.get("file_name", "Study Material").replace(".pdf", "").replace("_", " ")
                 extracted_concepts = [
-                    {"name": "Neural Network Architectures", "description": "Layered computational models for deep learning."},
-                    {"name": "Backpropagation Calculus", "description": "Gradient descent optimization algorithm."},
-                    {"name": "Vector Embeddings", "description": "High-dimensional mathematical representations for semantic similarity."}
+                    {"name": f"Key Principles of {doc_title}", "description": f"Core principles and foundational ideas covered in {doc_title}."},
+                    {"name": f"Applications of {doc_title}", "description": f"Practical applications and real-world use cases discussed in the material."},
+                    {"name": f"Core Terminology in {doc_title}", "description": f"Essential vocabulary and definitions from {doc_title}."}
                 ]
 
             created_concept_ids = []
@@ -215,10 +219,15 @@ class DocumentProcessor:
             # -----------------------------------------------------------------
             # STEP 10 & 11: Batch Embeddings Generation & Insert content_chunks
             # -----------------------------------------------------------------
-            batch_size = 10
-            for i in range(0, len(chunk_records), batch_size):
+            total_chunks = len(chunk_records)
+            logger.info(f"[DocProcessor] Total chunks to embed: {total_chunks}")
+            batch_size = 5
+            for i in range(0, total_chunks, batch_size):
                 batch_chunks = chunk_records[i : i + batch_size]
                 texts = [c["content"] for c in batch_chunks]
+                batch_num = (i // batch_size) + 1
+                total_batches = (total_chunks + batch_size - 1) // batch_size
+                logger.info(f"[DocProcessor] Embedding batch {batch_num}/{total_batches} (chunks {i+1}-{min(i+batch_size, total_chunks)}/{total_chunks})")
                 
                 embeddings_list = await ai_client.generate_embeddings_batch(texts, supabase_client)
 

@@ -85,7 +85,7 @@ async def get_home_dashboard(
                             "name": p.get("name") or f"Project #{idx+1}",
                             "space_name": sp_name,
                             "mastery": round(float(p.get("overall_mastery", 0.0)), 1),
-                            "last_activity": "Recently"
+                            "last_activity": p.get("updated_at") or p.get("created_at") or ""
                         })
 
                     if recent_projects:
@@ -94,8 +94,8 @@ async def get_home_dashboard(
                             "project_id": first_p["id"],
                             "project_name": first_p["name"],
                             "space_name": first_p["space_name"],
-                            "last_activity": "Recently",
-                            "last_action": "Continue your study journey"
+                            "last_activity": first_p["last_activity"],
+                            "last_action": f"Continue studying {first_p['name']}"
                         }
 
             # Fetch user activity events

@@ -148,7 +148,8 @@ CREATE TABLE IF NOT EXISTS public.quizzes (
     score DOUBLE PRECISION,
     started_at TIMESTAMPTZ NOT NULL DEFAULT now(),
     completed_at TIMESTAMPTZ,
-    created_at TIMESTAMPTZ NOT NULL DEFAULT now()
+    created_at TIMESTAMPTZ NOT NULL DEFAULT now(),
+    updated_at TIMESTAMPTZ NOT NULL DEFAULT now()
 );
 
 -- TABLE: quiz_questions
@@ -164,6 +165,7 @@ CREATE TABLE IF NOT EXISTS public.quiz_questions (
     user_answer TEXT,
     is_correct BOOLEAN,
     ai_feedback TEXT,
+    explanation TEXT,
     score DOUBLE PRECISION,
     time_spent_seconds INT,
     question_order INT NOT NULL,

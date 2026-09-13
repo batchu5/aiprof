@@ -66,7 +66,9 @@ async def get_current_user(
     # 2. Verify token via Supabase Auth
     try:
         if hasattr(supabase_client, "auth") and callable(getattr(supabase_client.auth, "get_user", None)):
-            res = supabase_client.auth.get_user(token)
+            from supabase import create_client
+            auth_client = create_client(settings.SUPABASE_URL, settings.SUPABASE_KEY)
+            res = auth_client.auth.get_user(token)
             if res and res.user:
                 user_obj = res.user
                 user_id = str(user_obj.id)
@@ -96,20 +98,21 @@ async def get_current_user(
     except Exception as err:
         logger.warning(f"Supabase auth check failed or running in dev fallback mode: {err}")
 
-    # 3. Development fallback verification (uses valid UUID format)
-    if token.startswith("dev-token-") or settings.ENVIRONMENT == "development":
+# 3. Development fallback verification (uses valid UUID format)
+    if token.startswith("dev-token-"):
+        logger.warning("[Auth] Using development fallback — not for production use.")
         dev_id = "00000000-0000-0000-0000-000000000101"
         ensure_user_profile(
             supabase_client,
             user_id=dev_id,
-            email="student@university.edu",
+            email="dev-user@localhost",
             full_name="Dev Student",
             role="user",
         )
 
         return {
             "id": dev_id,
-            "email": "student@university.edu",
+            "email": "dev-user@localhost",
             "role": "user",
             "full_name": "Dev Student",
             "avatar_url": "",
@@ -136,3 +139,29 @@ async def require_admin(
 
 # Alias for backward compatibility
 get_admin_user = require_admin
+
+
+async def verify_project_access(
+    project_id: str,
+    user_id: str,
+    supabase_client: Any,
+    current_user: Dict[str, Any],
+) -> None:
+    """
+    Shared helper to verify that a user owns the project or is admin.
+    Raises HTTPException 403 if access is denied.
+    """
+    try:
+        if hasattr(supabase_client, "table"):
+            res = supabase_client.table("projects").select("user_id").eq("id", project_id).execute()
+            if res and hasattr(res, "data") and res.data:
+                proj_user = str(res.data[0].get("user_id"))
+                if proj_user != user_id and current_user.get("role") != "admin":
+                    raise HTTPException(
+                        status_code=status.HTTP_403_FORBIDDEN,
+                        detail="Access denied to this project",
+                    )
+    except HTTPException:
+        raise
+    except Exception as e:
+        logger.warning(f"Error checking project ownership: {e}")

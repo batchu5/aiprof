@@ -58,7 +58,7 @@ export const ProjectDashboard = () => {
   const recommendations = dashboardData?.recommendations || [];
   const masterySummary = dashboardData?.mastery_summary || {};
 
-  const mastery = project.overall_mastery || 84.5;
+  const mastery = project.overall_mastery || 0;
   const strokeDashoffset = 283 - (283 * mastery) / 100;
 
   const tabs = [
@@ -75,28 +75,28 @@ export const ProjectDashboard = () => {
       <Toaster position="top-right" toastOptions={{ style: { background: '#1e293b', color: '#f8fafc' } }} />
 
       {/* Breadcrumb */}
-      <nav className="flex items-center gap-2 text-sm text-slate-400">
-        <Link to="/" className="hover:text-white transition-colors">Home</Link>
+      <nav className="flex items-center gap-2 text-sm text-slate-500">
+        <Link to="/" className="hover:text-slate-900 transition-colors">Home</Link>
         <ChevronRight className="w-4 h-4" />
-        <Link to="/spaces" className="hover:text-white transition-colors">Spaces</Link>
+        <Link to="/spaces" className="hover:text-slate-900 transition-colors">Spaces</Link>
         <ChevronRight className="w-4 h-4" />
-        <span className="text-slate-100 font-semibold">{project.name || `Project #${id}`}</span>
+        <span className="text-slate-900 font-semibold">{project.name || `Project #${id}`}</span>
       </nav>
 
       {/* Project Header Banner */}
-      <div className="bg-slate-900/70 border border-slate-800 rounded-3xl p-6 sm:p-8 backdrop-blur-md shadow-2xl relative overflow-hidden flex flex-col md:flex-row items-center justify-between gap-6">
+      <div className="bg-white/70 border border-slate-200 rounded-3xl p-6 sm:p-8 backdrop-blur-md shadow-2xl relative overflow-hidden flex flex-col md:flex-row items-center justify-between gap-6">
         <div className="space-y-3 flex-1">
-          <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-indigo-500/10 border border-indigo-500/20 text-indigo-300 text-xs font-semibold">
+          <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-blue-500/10 border border-blue-500/20 text-indigo-300 text-xs font-semibold">
             <Sparkles className="w-3.5 h-3.5" />
             AI RAG Knowledge Base Active
           </div>
-          <h1 className="text-3xl font-extrabold text-white">{project.name}</h1>
-          <p className="text-slate-300 text-sm max-w-xl leading-relaxed">
+          <h1 className="text-3xl font-extrabold text-slate-900">{project.name}</h1>
+          <p className="text-slate-600 text-sm max-w-xl leading-relaxed">
             {project.description || 'Interactive project dashboard with automated study context and vector embeddings.'}
           </p>
 
           {project.learning_goal && (
-            <div className="flex items-center gap-2 text-xs font-medium text-slate-400 bg-slate-800/60 px-3 py-2 rounded-xl border border-slate-700/50 w-fit">
+            <div className="flex items-center gap-2 text-xs font-medium text-slate-500 bg-white/60 px-3 py-2 rounded-xl border border-slate-200/50 w-fit">
               <Target className="w-4 h-4 text-indigo-400 shrink-0" />
               <span>Goal: {project.learning_goal}</span>
             </div>
@@ -106,12 +106,12 @@ export const ProjectDashboard = () => {
         {/* Animated Circular Mastery Ring */}
         <div className="relative flex items-center justify-center w-36 h-36 shrink-0">
           <svg className="w-full h-full transform -rotate-90" viewBox="0 0 100 100">
-            <circle cx="50" cy="50" r="45" className="text-slate-800" strokeWidth="8" stroke="currentColor" fill="transparent" />
+            <circle cx="50" cy="50" r="45" className="text-slate-200" strokeWidth="8" stroke="currentColor" fill="transparent" />
             <circle
               cx="50"
               cy="50"
               r="45"
-              className="text-indigo-500 transition-all duration-1000 ease-out"
+              className="text-blue-500 transition-all duration-1000 ease-out"
               strokeWidth="8"
               strokeDasharray="283"
               strokeDashoffset={strokeDashoffset}
@@ -121,14 +121,14 @@ export const ProjectDashboard = () => {
             />
           </svg>
           <div className="absolute inset-0 flex flex-col items-center justify-center text-center">
-            <span className="text-2xl font-extrabold text-white">{mastery}%</span>
+            <span className="text-2xl font-extrabold text-slate-900">{mastery}%</span>
             <span className="text-[10px] uppercase tracking-wider text-indigo-300 font-semibold">Mastery</span>
           </div>
         </div>
       </div>
 
       {/* Pill Navigation Tabs */}
-      <div className="flex items-center gap-2 border-b border-slate-800/80 pb-3 overflow-x-auto">
+      <div className="flex items-center gap-2 border-b border-slate-200/80 pb-3 overflow-x-auto">
         {tabs.map((tab) => {
           const Icon = tab.icon;
           const isActive = activeTab === tab.id;
@@ -144,8 +144,8 @@ export const ProjectDashboard = () => {
               }}
               className={`flex items-center gap-2 px-4 py-2.5 rounded-xl font-semibold text-sm transition-all whitespace-nowrap ${
                 isActive
-                  ? 'bg-indigo-600/20 text-indigo-400 border border-indigo-500/30 shadow-md shadow-indigo-500/10'
-                  : 'text-slate-400 hover:text-slate-200 hover:bg-slate-800/60'
+                  ? 'bg-blue-600/20 text-indigo-400 border border-blue-500/30 shadow-md shadow-blue-500/10'
+                  : 'text-slate-500 hover:text-slate-700 hover:bg-white/60'
               }`}
             >
               <Icon className="w-4 h-4" />
@@ -161,22 +161,22 @@ export const ProjectDashboard = () => {
           {/* Top Cards Row */}
           <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
             {/* Continue Learning */}
-            <Card className="hover:border-indigo-500/50 flex flex-col justify-between">
+            <Card className="hover:border-blue-500/50 flex flex-col justify-between">
               <div>
                 <div className="flex items-center justify-between mb-4">
-                  <div className="p-3 rounded-2xl bg-indigo-500/10 text-indigo-400 border border-indigo-500/20">
+                  <div className="p-3 rounded-2xl bg-blue-500/10 text-indigo-400 border border-blue-500/20">
                     <Bot className="w-6 h-6" />
                   </div>
-                  <span className="text-xs font-semibold px-2.5 py-1 rounded-full bg-indigo-500/10 text-indigo-400">
+                  <span className="text-xs font-semibold px-2.5 py-1 rounded-full bg-blue-500/10 text-indigo-400">
                     AI Session Active
                   </span>
                 </div>
-                <h3 className="text-lg font-bold text-white">Continue AI Tutor Chat</h3>
-                <p className="text-slate-400 text-sm mt-1">
+                <h3 className="text-lg font-bold text-slate-900">Continue AI Tutor Chat</h3>
+                <p className="text-slate-500 text-sm mt-1">
                   Resume contextual Q&A on your uploaded project materials with Gemini Flash.
                 </p>
               </div>
-              <div className="mt-6 pt-4 border-t border-slate-700/50 flex justify-end">
+              <div className="mt-6 pt-4 border-t border-slate-200/50 flex justify-end">
                 <Button variant="primary" onClick={() => navigate(`/projects/${id}/tutor`)} className="flex items-center gap-2 text-sm">
                   Resume Chat <ArrowRight className="w-4 h-4" />
                 </Button>
@@ -194,14 +194,14 @@ export const ProjectDashboard = () => {
                     Priority Recommendation
                   </span>
                 </div>
-                <h3 className="text-lg font-bold text-white">
+                <h3 className="text-lg font-bold text-slate-900">
                   {recommendations[0]?.title || 'Take Assessment Quiz'}
                 </h3>
-                <p className="text-slate-400 text-sm mt-1">
+                <p className="text-slate-500 text-sm mt-1">
                   {recommendations[0]?.description || 'Test your understanding of recent concepts to update your mastery score.'}
                 </p>
               </div>
-              <div className="mt-6 pt-4 border-t border-slate-700/50 flex justify-end">
+              <div className="mt-6 pt-4 border-t border-slate-200/50 flex justify-end">
                 <Button variant="accent" onClick={() => navigate(`/projects/${id}/quiz`)} className="flex items-center gap-2 text-sm font-semibold">
                   Start Quiz <ArrowRight className="w-4 h-4" />
                 </Button>
@@ -211,43 +211,43 @@ export const ProjectDashboard = () => {
 
           {/* Quick Stats Grid */}
           <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
-            <div className="bg-slate-800/40 border border-slate-700/50 rounded-2xl p-4 flex items-center gap-3">
-              <div className="p-2.5 rounded-xl bg-indigo-500/10 text-indigo-400">
+            <div className="bg-white border border-slate-200/50 rounded-2xl p-4 flex items-center gap-3">
+              <div className="p-2.5 rounded-xl bg-blue-500/10 text-indigo-400">
                 <FileText className="w-5 h-5" />
               </div>
               <div>
-                <p className="text-xs text-slate-400 font-semibold uppercase">Materials</p>
-                <p className="text-lg font-bold text-white">{project.material_count || 3}</p>
+                <p className="text-xs text-slate-500 font-semibold uppercase">Materials</p>
+                <p className="text-lg font-bold text-slate-900">{project.material_count || 0}</p>
               </div>
             </div>
 
-            <div className="bg-slate-800/40 border border-slate-700/50 rounded-2xl p-4 flex items-center gap-3">
-              <div className="p-2.5 rounded-xl bg-purple-500/10 text-purple-400">
+            <div className="bg-white border border-slate-200/50 rounded-2xl p-4 flex items-center gap-3">
+              <div className="p-2.5 rounded-xl bg-blue-600/10 text-purple-400">
                 <Bot className="w-5 h-5" />
               </div>
               <div>
-                <p className="text-xs text-slate-400 font-semibold uppercase">Questions Asked</p>
-                <p className="text-lg font-bold text-white">{project.conversation_count || 12}</p>
+                <p className="text-xs text-slate-500 font-semibold uppercase">Questions Asked</p>
+                <p className="text-lg font-bold text-slate-900">{project.conversation_count || 0}</p>
               </div>
             </div>
 
-            <div className="bg-slate-800/40 border border-slate-700/50 rounded-2xl p-4 flex items-center gap-3">
+            <div className="bg-white border border-slate-200/50 rounded-2xl p-4 flex items-center gap-3">
               <div className="p-2.5 rounded-xl bg-cyan-500/10 text-cyan-400">
                 <HelpCircle className="w-5 h-5" />
               </div>
               <div>
-                <p className="text-xs text-slate-400 font-semibold uppercase">Quizzes Taken</p>
-                <p className="text-lg font-bold text-white">{project.quiz_count || 4}</p>
+                <p className="text-xs text-slate-500 font-semibold uppercase">Quizzes Taken</p>
+                <p className="text-lg font-bold text-slate-900">{project.quiz_count || 0}</p>
               </div>
             </div>
 
-            <div className="bg-slate-800/40 border border-slate-700/50 rounded-2xl p-4 flex items-center gap-3">
+            <div className="bg-white border border-slate-200/50 rounded-2xl p-4 flex items-center gap-3">
               <div className="p-2.5 rounded-xl bg-amber-500/10 text-amber-400">
                 <Award className="w-5 h-5" />
               </div>
               <div>
-                <p className="text-xs text-slate-400 font-semibold uppercase">Avg Score</p>
-                <p className="text-lg font-bold text-white">88%</p>
+                <p className="text-xs text-slate-500 font-semibold uppercase">Avg Score</p>
+                <p className="text-lg font-bold text-slate-900">{project.avg_score || 0}%</p>
               </div>
             </div>
           </div>
@@ -260,17 +260,17 @@ export const ProjectDashboard = () => {
                 {topConcepts.map((concept, idx) => (
                   <div key={idx} className="space-y-1.5">
                     <div className="flex items-center justify-between text-xs font-semibold">
-                      <span className="text-slate-200">{concept.name}</span>
+                      <span className="text-slate-700">{concept.name}</span>
                       <span className="text-indigo-400">{concept.mastery}%</span>
                     </div>
-                    <div className="w-full h-2 bg-slate-900 rounded-full overflow-hidden border border-slate-800">
+                    <div className="w-full h-2 bg-white rounded-full overflow-hidden border border-slate-200">
                       <div
                         className={`h-full rounded-full transition-all duration-500 ${
                           concept.trend === 'needs_attention'
                             ? 'bg-amber-500'
                             : concept.mastery >= 90
                             ? 'bg-emerald-400'
-                            : 'bg-indigo-500'
+                            : 'bg-blue-500'
                         }`}
                         style={{ width: `${concept.mastery}%` }}
                       />
@@ -284,16 +284,16 @@ export const ProjectDashboard = () => {
             <Card title="Recent Project Activity" subtitle="Timeline of learning events">
               <div className="space-y-4 mt-2">
                 {recentActivity.map((act, idx) => (
-                  <div key={idx} className="flex items-center justify-between p-3 rounded-xl bg-slate-900/60 border border-slate-800 text-xs">
+                  <div key={idx} className="flex items-center justify-between p-3 rounded-xl bg-white/60 border border-slate-200 text-xs">
                     <div className="flex items-center gap-3">
-                      <div className="p-2 rounded-lg bg-slate-800 text-indigo-400">
+                      <div className="p-2 rounded-lg bg-white text-indigo-400">
                         <Clock className="w-4 h-4" />
                       </div>
                       <div>
-                        <p className="font-semibold text-slate-200">
+                        <p className="font-semibold text-slate-700">
                           {act.event_type?.replace('_', ' ').toUpperCase() || 'Activity Event'}
                         </p>
-                        <p className="text-slate-400 text-[11px] mt-0.5">
+                        <p className="text-slate-500 text-[11px] mt-0.5">
                           {act.event_data?.name || act.event_data?.action || 'Project Interaction'}
                         </p>
                       </div>

@@ -10,7 +10,7 @@ export const Layout = () => {
   const closeSidebar = () => setSidebarOpen(false);
 
   return (
-    <div className="min-h-screen bg-slate-900 text-slate-100 flex flex-col md:flex-row bg-[radial-gradient(ellipse_at_top,_var(--tw-gradient-stops))] from-slate-900 via-[#0f172a] to-[#312e81]/30">
+    <div className="min-h-screen bg-slate-50 text-slate-900 flex flex-col md:flex-row">
       {/* Sidebar */}
       <Sidebar isOpen={sidebarOpen} onClose={closeSidebar} />
 

@@ -177,28 +177,28 @@ export const Growth = () => {
 
         <button
           onClick={loadAllGrowthData}
-          className="text-xs text-slate-400 hover:text-slate-200 transition-colors flex items-center gap-1.5"
+          className="text-xs text-slate-500 hover:text-slate-700 transition-colors flex items-center gap-1.5"
         >
           <RefreshCw className="w-3.5 h-3.5" /> Refresh Analytics
         </button>
       </div>
 
       {/* Header Banner */}
-      <div className="rounded-2xl bg-gradient-to-br from-indigo-950/80 via-slate-900 to-purple-950/60 p-6 sm:p-8 border border-indigo-500/20 backdrop-blur-md shadow-2xl flex flex-col md:flex-row items-start md:items-center justify-between gap-6">
+      <div className="rounded-2xl bg-gradient-to-br from-indigo-950/80 via-slate-900 to-purple-950/60 p-6 sm:p-8 border border-blue-500/20 backdrop-blur-md shadow-2xl flex flex-col md:flex-row items-start md:items-center justify-between gap-6">
         <div className="space-y-2">
           <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-emerald-500/10 text-emerald-400 border border-emerald-500/20 text-xs font-semibold uppercase tracking-wider">
             <TrendingUp className="w-3.5 h-3.5" /> Growth Analytics
           </div>
-          <h1 className="text-3xl font-extrabold text-white">Mastery Model & Growth Tracking</h1>
-          <p className="text-slate-300 text-sm max-w-xl">
+          <h1 className="text-3xl font-extrabold text-slate-900">Mastery Model & Growth Tracking</h1>
+          <p className="text-slate-600 text-sm max-w-xl">
             Track concept comprehension trajectory, quiz performance milestones, and real-time AI study recommendations.
           </p>
         </div>
 
-        <div className="px-4 py-3 rounded-2xl bg-slate-900/80 border border-slate-800 flex items-center gap-3">
+        <div className="px-4 py-3 rounded-2xl bg-white/80 border border-slate-200 flex items-center gap-3">
           <span className="text-2xl">📈</span>
           <div>
-            <p className="text-xs text-slate-400 font-medium">Overall Direction</p>
+            <p className="text-xs text-slate-500 font-medium">Overall Direction</p>
             <p className="text-sm font-bold text-emerald-400">
               {growthSummary.overall_trend === 'improving' ? 'Learning is Improving!' : 'Attention Required'}
             </p>
@@ -212,7 +212,7 @@ export const Growth = () => {
         <div className="p-5 rounded-2xl bg-emerald-500/10 border border-emerald-500/30 flex items-center justify-between backdrop-blur-md">
           <div className="space-y-1">
             <p className="text-xs font-semibold text-emerald-400 uppercase tracking-wider">Improving Concepts</p>
-            <p className="text-3xl font-extrabold text-white">{growthSummary.improving_count}</p>
+            <p className="text-3xl font-extrabold text-slate-900">{growthSummary.improving_count}</p>
           </div>
           <div className="p-3 rounded-xl bg-emerald-500/20 text-emerald-300">
             <TrendingUp className="w-6 h-6" />
@@ -220,12 +220,12 @@ export const Growth = () => {
         </div>
 
         {/* Stable */}
-        <div className="p-5 rounded-2xl bg-indigo-500/10 border border-indigo-500/30 flex items-center justify-between backdrop-blur-md">
+        <div className="p-5 rounded-2xl bg-blue-500/10 border border-blue-500/30 flex items-center justify-between backdrop-blur-md">
           <div className="space-y-1">
             <p className="text-xs font-semibold text-indigo-400 uppercase tracking-wider">Stable Concepts</p>
-            <p className="text-3xl font-extrabold text-white">{growthSummary.stable_count}</p>
+            <p className="text-3xl font-extrabold text-slate-900">{growthSummary.stable_count}</p>
           </div>
-          <div className="p-3 rounded-xl bg-indigo-500/20 text-indigo-300">
+          <div className="p-3 rounded-xl bg-blue-500/20 text-indigo-300">
             <Minus className="w-6 h-6" />
           </div>
         </div>
@@ -234,7 +234,7 @@ export const Growth = () => {
         <div className="p-5 rounded-2xl bg-amber-500/10 border border-amber-500/30 flex items-center justify-between backdrop-blur-md">
           <div className="space-y-1">
             <p className="text-xs font-semibold text-amber-400 uppercase tracking-wider">Needs Attention</p>
-            <p className="text-3xl font-extrabold text-white">{growthSummary.needs_attention_count}</p>
+            <p className="text-3xl font-extrabold text-slate-900">{growthSummary.needs_attention_count}</p>
           </div>
           <div className="p-3 rounded-xl bg-amber-500/20 text-amber-300">
             <TrendingDown className="w-6 h-6" />
@@ -248,8 +248,8 @@ export const Growth = () => {
         subtitle="Visual representation of concept levels and changes over time"
       >
         {/* Sort Bar */}
-        <div className="flex items-center justify-between border-b border-slate-800 pb-4 mb-6">
-          <div className="flex items-center gap-2 text-xs text-slate-400 font-semibold">
+        <div className="flex items-center justify-between border-b border-slate-200 pb-4 mb-6">
+          <div className="flex items-center gap-2 text-xs text-slate-500 font-semibold">
             <SlidersHorizontal className="w-4 h-4 text-indigo-400" /> Sort Concepts:
           </div>
           <div className="flex items-center gap-2">
@@ -263,8 +263,8 @@ export const Growth = () => {
                 onClick={() => setSortOption(opt.id)}
                 className={`px-3 py-1.5 rounded-lg text-xs font-semibold transition-all ${
                   sortOption === opt.id
-                    ? 'bg-indigo-600 text-white shadow-md shadow-indigo-500/20'
-                    : 'bg-slate-900 text-slate-400 hover:text-slate-200 border border-slate-800'
+                    ? 'bg-blue-600 text-slate-900 shadow-md shadow-blue-500/20'
+                    : 'bg-white text-slate-500 hover:text-slate-700 border border-slate-200'
                 }`}
               >
                 {opt.label}
@@ -287,29 +287,29 @@ export const Growth = () => {
               if (curr < 40) barGradient = 'from-rose-500 to-red-400';
               else if (curr < 75) barGradient = 'from-amber-500 to-yellow-400';
 
-              let trendIcon = <Minus className="w-4 h-4 text-slate-400" />;
+              let trendIcon = <Minus className="w-4 h-4 text-slate-500" />;
               if (item.trend === 'improving' || change > 0) trendIcon = <TrendingUp className="w-4 h-4 text-emerald-400" />;
               if (item.trend === 'needs_attention' || item.trend === 'declining' || change < 0) trendIcon = <TrendingDown className="w-4 h-4 text-rose-400" />;
 
               return (
-                <div key={idx} className="p-4 rounded-xl bg-slate-900/60 border border-slate-800/80 space-y-2 hover:border-slate-700 transition-all">
+                <div key={idx} className="p-4 rounded-xl bg-white/60 border border-slate-200/80 space-y-2 hover:border-slate-200 transition-all">
                   <div className="flex items-center justify-between text-xs sm:text-sm font-semibold">
                     <div className="flex items-center gap-2">
-                      <span className="text-slate-100">{name}</span>
+                      <span className="text-slate-900">{name}</span>
                       {trendIcon}
                     </div>
                     <div className="flex items-center gap-3">
                       <span className={`text-xs px-2 py-0.5 rounded font-bold ${
-                        change > 0 ? 'bg-emerald-500/10 text-emerald-400' : change < 0 ? 'bg-rose-500/10 text-rose-400' : 'bg-slate-800 text-slate-400'
+                        change > 0 ? 'bg-emerald-500/10 text-emerald-400' : change < 0 ? 'bg-rose-500/10 text-rose-400' : 'bg-white text-slate-500'
                       }`}>
                         {change > 0 ? `+${change}%` : `${change}%`}
                       </span>
-                      <span className="text-slate-200 font-extrabold text-sm">{Math.round(curr)}%</span>
+                      <span className="text-slate-700 font-extrabold text-sm">{Math.round(curr)}%</span>
                     </div>
                   </div>
 
                   {/* Progress Bar */}
-                  <div className="w-full h-2.5 bg-slate-950 rounded-full overflow-hidden border border-slate-800/60">
+                  <div className="w-full h-2.5 bg-slate-50 rounded-full overflow-hidden border border-slate-200/60">
                     <div
                       className={`h-full bg-gradient-to-r ${barGradient} transition-all duration-700 ease-out rounded-full`}
                       style={{ width: `${Math.max(4, Math.min(100, curr))}%` }}
@@ -317,7 +317,7 @@ export const Growth = () => {
                   </div>
 
                   {item.trend_description && (
-                    <p className="text-[11px] text-slate-400">{item.trend_description}</p>
+                    <p className="text-[11px] text-slate-500">{item.trend_description}</p>
                   )}
                 </div>
               );
@@ -382,7 +382,7 @@ export const Growth = () => {
             </div>
 
             {/* Weaknesses Column */}
-            <div className="space-y-2 pt-2 border-t border-slate-800">
+            <div className="space-y-2 pt-2 border-t border-slate-200">
               <h4 className="text-xs font-bold text-amber-400 uppercase tracking-wider flex items-center gap-1.5">
                 🎯 Target Areas to Improve (&lt;40%)
               </h4>
@@ -411,12 +411,12 @@ export const Growth = () => {
               <p className="text-xs text-slate-500">Complete quizzes and tutor sessions to unlock milestones.</p>
             ) : (
               milestones.map((m, i) => (
-                <div key={i} className="flex items-start gap-3 p-3 rounded-xl bg-slate-900/50 border border-slate-800 text-xs">
-                  <div className="p-2 rounded-lg bg-indigo-500/10 text-indigo-400 shrink-0">
+                <div key={i} className="flex items-start gap-3 p-3 rounded-xl bg-white/50 border border-slate-200 text-xs">
+                  <div className="p-2 rounded-lg bg-blue-500/10 text-indigo-400 shrink-0">
                     <Award className="w-4 h-4" />
                   </div>
                   <div className="flex-1">
-                    <p className="font-semibold text-slate-200">{m.text}</p>
+                    <p className="font-semibold text-slate-700">{m.text}</p>
                     <p className="text-[10px] text-slate-500 mt-0.5">{m.date || 'Recent'}</p>
                   </div>
                 </div>
@@ -430,10 +430,10 @@ export const Growth = () => {
       <div className="space-y-4">
         <div className="flex items-center justify-between">
           <div>
-            <h2 className="text-xl font-bold text-slate-100 flex items-center gap-2">
+            <h2 className="text-xl font-bold text-slate-900 flex items-center gap-2">
               <Sparkles className="w-5 h-5 text-indigo-400" /> AI Action Recommendations
             </h2>
-            <p className="text-xs text-slate-400 mt-0.5">Dynamically synthesized based on your mastery profile and recent activity</p>
+            <p className="text-xs text-slate-500 mt-0.5">Dynamically synthesized based on your mastery profile and recent activity</p>
           </div>
 
           <Button
@@ -456,13 +456,13 @@ export const Growth = () => {
 
         <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
           {recommendationsList.length === 0 ? (
-            <div className="md:col-span-2 p-8 rounded-2xl bg-slate-900/50 border border-slate-800 text-center text-slate-400 text-xs">
+            <div className="md:col-span-2 p-8 rounded-2xl bg-white/50 border border-slate-200 text-center text-slate-500 text-xs">
               No active recommendations. Click "Generate New Recommendations" to ask AI for fresh study actions.
             </div>
           ) : (
             recommendationsList.map((rec) => {
               const priority = rec.priority || 5;
-              let priorityClass = 'bg-indigo-500/10 text-indigo-400 border-indigo-500/20';
+              let priorityClass = 'bg-blue-500/10 text-indigo-400 border-blue-500/20';
               let priorityLabel = 'Low Priority';
 
               if (priority >= 8) {
@@ -476,12 +476,12 @@ export const Growth = () => {
               return (
                 <div
                   key={rec.id}
-                  className="p-5 rounded-2xl bg-slate-900/70 border border-slate-800 hover:border-indigo-500/40 transition-all backdrop-blur-md flex flex-col justify-between space-y-4"
+                  className="p-5 rounded-2xl bg-white/70 border border-slate-200 hover:border-blue-500/40 transition-all backdrop-blur-md flex flex-col justify-between space-y-4"
                 >
                   <div className="space-y-3">
                     <div className="flex items-center justify-between">
                       <div className="flex items-center gap-2">
-                        <div className="p-2 rounded-xl bg-slate-800/80">
+                        <div className="p-2 rounded-xl bg-white">
                           {getRecommendationIcon(rec.type)}
                         </div>
                         <span className={`text-[10px] font-bold px-2.5 py-0.5 rounded-full border ${priorityClass}`}>
@@ -491,7 +491,7 @@ export const Growth = () => {
 
                       <button
                         onClick={() => handleDismissRecommendation(rec.id)}
-                        className="text-slate-500 hover:text-slate-300 p-1 rounded-lg hover:bg-slate-800 transition-colors"
+                        className="text-slate-500 hover:text-slate-600 p-1 rounded-lg hover:bg-white transition-colors"
                         title="Dismiss"
                       >
                         <X className="w-4 h-4" />
@@ -499,12 +499,12 @@ export const Growth = () => {
                     </div>
 
                     <div>
-                      <h4 className="font-bold text-slate-100 text-sm">{rec.title}</h4>
-                      <p className="text-xs text-slate-300 mt-1 leading-relaxed">{rec.description}</p>
+                      <h4 className="font-bold text-slate-900 text-sm">{rec.title}</h4>
+                      <p className="text-xs text-slate-600 mt-1 leading-relaxed">{rec.description}</p>
                     </div>
                   </div>
 
-                  <div className="pt-3 border-t border-slate-800/80 flex justify-end">
+                  <div className="pt-3 border-t border-slate-200/80 flex justify-end">
                     <Button
                       variant="primary"
                       onClick={() => handleActionRecommendation(rec)}

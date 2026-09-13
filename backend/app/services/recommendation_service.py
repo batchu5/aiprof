@@ -65,7 +65,7 @@ class RecommendationService:
         except Exception as q_err:
             logger.warning(f"[RecommendationService] fetch quizzes error: {q_err}")
 
-        quiz_performance = "\n".join(quiz_lines) if quiz_lines else "Average assessment score: 70%"
+        quiz_performance = "\n".join(quiz_lines) if quiz_lines else "No quiz data available yet."
 
         # 4. Fetch learning goal
         learning_goal = "Master project concepts thoroughly"

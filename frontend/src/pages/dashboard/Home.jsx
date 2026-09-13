@@ -70,41 +70,41 @@ export const Home = () => {
   return (
     <div className="space-y-8 animate-fade-in pb-12">
       {/* 1. WELCOME BANNER SECTION */}
-      <div className="relative overflow-hidden rounded-3xl bg-gradient-to-r from-indigo-950 via-purple-950 to-slate-950 border border-indigo-500/20 p-8 shadow-2xl">
-        <div className="absolute -top-24 -left-24 w-96 h-96 bg-indigo-500/10 rounded-full blur-3xl animate-pulse-glow pointer-events-none"></div>
-        <div className="absolute -bottom-24 -right-24 w-96 h-96 bg-purple-500/10 rounded-full blur-3xl animate-pulse-glow pointer-events-none"></div>
+      <div className="relative overflow-hidden rounded-3xl bg-gradient-to-r from-blue-100 via-indigo-50 to-white border border-blue-200 p-8 shadow-xl">
+        <div className="absolute -top-24 -left-24 w-96 h-96 bg-blue-500/10 rounded-full blur-3xl animate-pulse-glow pointer-events-none"></div>
+        <div className="absolute -bottom-24 -right-24 w-96 h-96 bg-blue-600/10 rounded-full blur-3xl animate-pulse-glow pointer-events-none"></div>
 
         <div className="relative z-10 flex flex-col lg:flex-row items-start lg:items-center justify-between gap-6">
           <div className="space-y-3 max-w-2xl">
-            <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-indigo-500/10 border border-indigo-500/30 text-indigo-300 text-xs font-semibold">
-              <Sparkles className="w-3.5 h-3.5 text-indigo-400" />
+            <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-blue-100 border border-blue-200 text-blue-700 text-xs font-semibold">
+              <Sparkles className="w-3.5 h-3.5 text-blue-600" />
               <span>AI Mastery Engine Active</span>
-              <span className="inline-flex items-center gap-1 ml-2 pl-2 border-l border-indigo-500/30 text-amber-400">
-                <Flame className="w-3.5 h-3.5 fill-amber-400" />
+              <span className="inline-flex items-center gap-1 ml-2 pl-2 border-l border-blue-200 text-amber-600">
+                <Flame className="w-3.5 h-3.5 fill-amber-500" />
                 {overallProgress.active_streak || 0} Day Streak
               </span>
             </div>
-            <h1 className="text-3xl sm:text-4xl font-extrabold text-white tracking-tight">
+            <h1 className="text-3xl sm:text-4xl font-extrabold text-slate-900 tracking-tight">
               {welcomeMsg} 👋
             </h1>
-            <p className="text-slate-300 text-sm sm:text-base leading-relaxed">
+            <p className="text-slate-600 text-sm sm:text-base leading-relaxed">
               Track your concept mastery, continue your AI study sessions, and review personalized quiz recommendations.
             </p>
           </div>
 
           {/* Quick Header Stats */}
           <div className="grid grid-cols-3 gap-3 w-full lg:w-auto">
-            <div className="p-4 rounded-2xl bg-slate-900/80 border border-slate-800 text-center min-w-[90px] shadow-lg backdrop-blur-sm">
-              <p className="text-xs font-semibold text-slate-400 uppercase">Spaces</p>
-              <h4 className="text-xl font-bold text-indigo-400 mt-1">{overallProgress.total_spaces || 0}</h4>
+            <div className="p-4 rounded-2xl bg-white/80 border border-slate-200 text-center min-w-[90px] shadow-lg backdrop-blur-sm">
+              <p className="text-xs font-semibold text-slate-500 uppercase">Spaces</p>
+              <h4 className="text-xl font-bold text-blue-600 mt-1">{overallProgress.total_spaces || 0}</h4>
             </div>
-            <div className="p-4 rounded-2xl bg-slate-900/80 border border-slate-800 text-center min-w-[90px] shadow-lg backdrop-blur-sm">
-              <p className="text-xs font-semibold text-slate-400 uppercase">Projects</p>
-              <h4 className="text-xl font-bold text-purple-400 mt-1">{overallProgress.total_projects || 0}</h4>
+            <div className="p-4 rounded-2xl bg-white/80 border border-slate-200 text-center min-w-[90px] shadow-lg backdrop-blur-sm">
+              <p className="text-xs font-semibold text-slate-500 uppercase">Projects</p>
+              <h4 className="text-xl font-bold text-indigo-600 mt-1">{overallProgress.total_projects || 0}</h4>
             </div>
-            <div className="p-4 rounded-2xl bg-slate-900/80 border border-slate-800 text-center min-w-[90px] shadow-lg backdrop-blur-sm">
-              <p className="text-xs font-semibold text-slate-400 uppercase">Mastery</p>
-              <h4 className="text-xl font-bold text-cyan-400 mt-1">{masteryPct.toFixed(0)}%</h4>
+            <div className="p-4 rounded-2xl bg-white/80 border border-slate-200 text-center min-w-[90px] shadow-lg backdrop-blur-sm">
+              <p className="text-xs font-semibold text-slate-500 uppercase">Mastery</p>
+              <h4 className="text-xl font-bold text-blue-500 mt-1">{masteryPct.toFixed(0)}%</h4>
             </div>
           </div>
         </div>
@@ -112,16 +112,16 @@ export const Home = () => {
 
       {/* 2. CONTINUE LEARNING FEATURED CARD */}
       {continueLearning ? (
-        <div className="relative overflow-hidden rounded-2xl bg-slate-900/80 border border-indigo-500/30 p-6 sm:p-8 shadow-xl backdrop-blur-md hover:border-indigo-500/50 transition-all">
+        <div className="relative overflow-hidden rounded-2xl bg-white/80 border border-blue-500/30 p-6 sm:p-8 shadow-xl backdrop-blur-md hover:border-blue-500/50 transition-all">
           <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-6">
             <div className="space-y-2">
               <div className="inline-flex items-center gap-1.5 text-xs font-bold uppercase tracking-wider text-indigo-400">
                 <Play className="w-3.5 h-3.5 fill-indigo-400" />
                 Continue Where You Left Off
               </div>
-              <h3 className="text-xl sm:text-2xl font-bold text-slate-100">{continueLearning.project_name}</h3>
-              <p className="text-xs sm:text-sm text-slate-400 flex items-center gap-2">
-                <span className="px-2 py-0.5 rounded bg-slate-800 border border-slate-700 text-slate-300 font-medium">
+              <h3 className="text-xl sm:text-2xl font-bold text-slate-900">{continueLearning.project_name}</h3>
+              <p className="text-xs sm:text-sm text-slate-500 flex items-center gap-2">
+                <span className="px-2 py-0.5 rounded bg-white border border-slate-200 text-slate-600 font-medium">
                   {continueLearning.space_name}
                 </span>
                 <span>•</span>
@@ -131,7 +131,7 @@ export const Home = () => {
             <Button
               onClick={() => navigate(`/projects/${continueLearning.project_id}`)}
               variant="primary"
-              className="w-full sm:w-auto flex items-center justify-center gap-2 py-3 px-6 text-sm font-semibold shadow-lg shadow-indigo-500/25 hover:scale-105 transition-transform"
+              className="w-full sm:w-auto flex items-center justify-center gap-2 py-3 px-6 text-sm font-semibold shadow-lg shadow-blue-500/25 hover:scale-105 transition-transform"
             >
               Continue Learning <ArrowRight className="w-4 h-4" />
             </Button>
@@ -151,11 +151,11 @@ export const Home = () => {
       <div>
         <div className="flex items-center justify-between mb-4">
           <div>
-            <h3 className="text-lg font-bold text-slate-100 flex items-center gap-2">
+            <h3 className="text-lg font-bold text-slate-900 flex items-center gap-2">
               <Folder className="w-5 h-5 text-indigo-400" />
               Recent Projects
             </h3>
-            <p className="text-xs text-slate-400">Jump straight into active subjects</p>
+            <p className="text-xs text-slate-500">Jump straight into active subjects</p>
           </div>
           <button
             onClick={() => navigate('/spaces')}
@@ -171,24 +171,24 @@ export const Home = () => {
               <div
                 key={p.id}
                 onClick={() => navigate(`/projects/${p.id}`)}
-                className="group cursor-pointer p-5 rounded-2xl bg-slate-900/60 border border-slate-800 hover:border-indigo-500/40 hover:bg-slate-900/90 transition-all shadow-md hover:shadow-indigo-950/20"
+                className="group cursor-pointer p-5 rounded-2xl bg-white/60 border border-slate-200 hover:border-blue-500/40 hover:bg-white/90 transition-all shadow-md hover:shadow-indigo-950/20"
               >
                 <div className="flex items-center justify-between mb-3">
-                  <span className="text-xs font-medium px-2.5 py-1 rounded-full bg-slate-800 text-slate-300 border border-slate-700">
+                  <span className="text-xs font-medium px-2.5 py-1 rounded-full bg-white text-slate-600 border border-slate-200">
                     {p.space_name || 'Study Space'}
                   </span>
                   <span className="text-xs text-slate-500">{p.last_activity || 'Recent'}</span>
                 </div>
-                <h4 className="font-bold text-slate-100 group-hover:text-indigo-400 transition-colors line-clamp-1 mb-3">
+                <h4 className="font-bold text-slate-900 group-hover:text-indigo-400 transition-colors line-clamp-1 mb-3">
                   {p.name}
                 </h4>
-                <div className="flex items-center justify-between pt-2 border-t border-slate-800/80">
-                  <span className="text-xs text-slate-400">Mastery Progress</span>
+                <div className="flex items-center justify-between pt-2 border-t border-slate-200/80">
+                  <span className="text-xs text-slate-500">Mastery Progress</span>
                   <span className="text-xs font-bold text-cyan-400">{p.mastery}%</span>
                 </div>
-                <div className="mt-1.5 w-full h-1.5 rounded-full bg-slate-800 overflow-hidden">
+                <div className="mt-1.5 w-full h-1.5 rounded-full bg-white overflow-hidden">
                   <div
-                    className="h-full bg-gradient-to-r from-indigo-500 to-cyan-400 rounded-full transition-all duration-700"
+                    className="h-full bg-gradient-to-r from-blue-500 to-cyan-400 rounded-full transition-all duration-700"
                     style={{ width: `${Math.min(100, p.mastery)}%` }}
                   ></div>
                 </div>
@@ -213,14 +213,14 @@ export const Home = () => {
           <div className="grid grid-cols-1 sm:grid-cols-2 gap-6 items-center my-auto py-2">
             {/* SVG Circular Gauge */}
             <div className="relative flex flex-col items-center justify-center">
-              <svg className="w-36 h-36 transform -rotate-90">
+              <svg className="w-36 h-36 transform -rotate-90" viewBox="0 0 144 144">
                 <circle
                   cx="72"
                   cy="72"
                   r={circleRadius}
                   stroke="currentColor"
                   strokeWidth="10"
-                  className="text-slate-800"
+                  className="text-slate-200"
                   fill="transparent"
                 />
                 <circle
@@ -243,34 +243,34 @@ export const Home = () => {
                 </defs>
               </svg>
               <div className="absolute flex flex-col items-center justify-center text-center">
-                <span className="text-3xl font-extrabold text-white">{masteryPct.toFixed(0)}%</span>
-                <span className="text-[10px] font-semibold text-slate-400 uppercase tracking-widest">Mastery</span>
+                <span className="text-3xl font-extrabold text-slate-900">{masteryPct.toFixed(0)}%</span>
+                <span className="text-[10px] font-semibold text-slate-500 uppercase tracking-widest">Mastery</span>
               </div>
             </div>
 
             {/* Overall Stats Breakdown */}
             <div className="space-y-4">
-              <div className="p-3.5 rounded-xl bg-slate-900 border border-slate-800 flex items-center justify-between">
+              <div className="p-3.5 rounded-xl bg-white border border-slate-200 flex items-center justify-between">
                 <div className="flex items-center gap-3">
                   <div className="p-2 rounded-lg bg-emerald-500/10 text-emerald-400">
                     <CheckCircle2 className="w-5 h-5" />
                   </div>
                   <div>
-                    <p className="text-xs text-slate-400">Mastered Concepts</p>
-                    <p className="text-base font-bold text-slate-100">
+                    <p className="text-xs text-slate-500">Mastered Concepts</p>
+                    <p className="text-base font-bold text-slate-900">
                       {overallProgress.mastered} <span className="text-xs text-slate-500 font-normal">/ {overallProgress.total_concepts} total</span>
                     </p>
                   </div>
                 </div>
               </div>
 
-              <div className="p-3.5 rounded-xl bg-slate-900 border border-slate-800 flex items-center justify-between">
+              <div className="p-3.5 rounded-xl bg-white border border-slate-200 flex items-center justify-between">
                 <div className="flex items-center gap-3">
-                  <div className="p-2 rounded-lg bg-indigo-500/10 text-indigo-400">
+                  <div className="p-2 rounded-lg bg-blue-500/10 text-indigo-400">
                     <TrendingUp className="w-5 h-5" />
                   </div>
                   <div>
-                    <p className="text-xs text-slate-400">Weekly Activity vs Last Week</p>
+                    <p className="text-xs text-slate-500">Weekly Activity vs Last Week</p>
                     <p className="text-base font-bold text-emerald-400">{activitySummary.vs_last_week || '+0%'}</p>
                   </div>
                 </div>
@@ -299,10 +299,10 @@ export const Home = () => {
               </AreaChart>
             </ResponsiveContainer>
           </div>
-          <div className="grid grid-cols-3 gap-2 pt-3 border-t border-slate-800/80 text-center">
+          <div className="grid grid-cols-3 gap-2 pt-3 border-t border-slate-200/80 text-center">
             <div>
               <p className="text-[10px] text-slate-500 uppercase">Sessions</p>
-              <p className="text-sm font-bold text-slate-200">{activitySummary.this_week?.sessions || 0}</p>
+              <p className="text-sm font-bold text-slate-700">{activitySummary.this_week?.sessions || 0}</p>
             </div>
             <div>
               <p className="text-[10px] text-slate-500 uppercase">Questions</p>
@@ -323,14 +323,14 @@ export const Home = () => {
           {areasToImprove.length > 0 ? (
             <div className="space-y-4">
               {areasToImprove.map((item, idx) => (
-                <div key={idx} className="p-4 rounded-xl bg-slate-900/60 border border-slate-800 flex items-center justify-between gap-4">
+                <div key={idx} className="p-4 rounded-xl bg-white/60 border border-slate-200 flex items-center justify-between gap-4">
                   <div className="space-y-1 min-w-0 flex-1">
                     <div className="flex items-center gap-2">
                       <AlertCircle className="w-4 h-4 text-amber-400 shrink-0" />
-                      <p className="text-sm font-bold text-slate-200 truncate">{item.concept}</p>
+                      <p className="text-sm font-bold text-slate-700 truncate">{item.concept}</p>
                     </div>
-                    <p className="text-xs text-slate-400 truncate">{item.project}</p>
-                    <div className="w-full h-1.5 bg-slate-800 rounded-full overflow-hidden mt-2">
+                    <p className="text-xs text-slate-500 truncate">{item.project}</p>
+                    <div className="w-full h-1.5 bg-white rounded-full overflow-hidden mt-2">
                       <div className="h-full bg-amber-500 rounded-full" style={{ width: `${item.mastery}%` }}></div>
                     </div>
                   </div>
@@ -346,10 +346,10 @@ export const Home = () => {
               ))}
             </div>
           ) : (
-            <div className="py-8 text-center bg-slate-900/40 border border-slate-800/80 rounded-xl">
+            <div className="py-8 text-center bg-white/40 border border-slate-200/80 rounded-xl">
               <CheckCircle2 className="w-8 h-8 text-emerald-400 mx-auto mb-2" />
-              <p className="text-sm font-semibold text-slate-200">No Weak Areas Identified Yet</p>
-              <p className="text-xs text-slate-400 mt-1">Take quizzes and study materials to generate targeted weak concept tracking.</p>
+              <p className="text-sm font-semibold text-slate-700">No Weak Areas Identified Yet</p>
+              <p className="text-xs text-slate-500 mt-1">Take quizzes and study materials to generate targeted weak concept tracking.</p>
             </div>
           )}
         </Card>
@@ -359,9 +359,9 @@ export const Home = () => {
           {recommendedActions.length > 0 ? (
             <div className="space-y-4">
               {recommendedActions.map((rec, idx) => (
-                <div key={idx} className="p-4 rounded-xl bg-slate-900/60 border border-slate-800 flex items-center justify-between gap-4">
+                <div key={idx} className="p-4 rounded-xl bg-white/60 border border-slate-200 flex items-center justify-between gap-4">
                   <div className="flex items-start gap-3 min-w-0 flex-1">
-                    <div className="p-2.5 rounded-xl bg-indigo-500/10 text-indigo-400 shrink-0 mt-0.5">
+                    <div className="p-2.5 rounded-xl bg-blue-500/10 text-indigo-400 shrink-0 mt-0.5">
                       {rec.type === 'take_quiz' ? (
                         <Award className="w-5 h-5 text-purple-400" />
                       ) : rec.type === 'tutor_session' ? (
@@ -371,8 +371,8 @@ export const Home = () => {
                       )}
                     </div>
                     <div className="min-w-0">
-                      <p className="text-sm font-bold text-slate-200 truncate">{rec.title}</p>
-                      <p className="text-xs text-slate-400 line-clamp-1">{rec.description}</p>
+                      <p className="text-sm font-bold text-slate-700 truncate">{rec.title}</p>
+                      <p className="text-xs text-slate-500 line-clamp-1">{rec.description}</p>
                       <span className="inline-block text-[10px] font-semibold text-slate-500 mt-1">{rec.project_name}</span>
                     </div>
                   </div>
@@ -392,10 +392,10 @@ export const Home = () => {
               ))}
             </div>
           ) : (
-            <div className="py-8 text-center bg-slate-900/40 border border-slate-800/80 rounded-xl">
+            <div className="py-8 text-center bg-white/40 border border-slate-200/80 rounded-xl">
               <Sparkles className="w-8 h-8 text-indigo-400 mx-auto mb-2" />
-              <p className="text-sm font-semibold text-slate-200">No Recommendations Yet</p>
-              <p className="text-xs text-slate-400 mt-1">Create a space and upload study materials to receive personalized AI recommendations.</p>
+              <p className="text-sm font-semibold text-slate-700">No Recommendations Yet</p>
+              <p className="text-xs text-slate-500 mt-1">Create a space and upload study materials to receive personalized AI recommendations.</p>
             </div>
           )}
         </Card>

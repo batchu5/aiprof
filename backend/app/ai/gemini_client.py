@@ -1,5 +1,6 @@
 import logging
 import time
+import asyncio
 import json
 from typing import Optional, List, Dict, Any
 import google.generativeai as genai
@@ -48,10 +49,11 @@ def log_ai_usage(
 
 
 class GeminiClient:
-    def __init__(self, model_name: str = "gemini-1.5-flash"):
+    def __init__(self, model_name: str = "gemini-3.6-flash"):
         self.model_name = model_name
 
-    def _execute_with_retry(self, func, max_retries: int = 3, initial_delay: float = 1.0):
+    async def _execute_with_retry(self, func, max_retries: int = 3, initial_delay: float = 1.0):
+        import re as _re
         delay = initial_delay
         last_exception = None
         for attempt in range(max_retries):
@@ -59,8 +61,24 @@ class GeminiClient:
                 return func()
             except Exception as e:
                 last_exception = e
+                err_str = str(e)
+
+                # If daily quota is exhausted, fail fast — no point retrying
+                if "429" in err_str and "PerDay" in err_str:
+                    logger.error(f"Gemini daily quota exhausted. Not retrying. Error: {e}")
+                    raise
+
+                # For 429 rate-limit errors, respect the server's suggested retry delay
+                if "429" in err_str:
+                    match = _re.search(r"retry in (\d+\.?\d*)", err_str, _re.IGNORECASE)
+                    if match:
+                        server_delay = float(match.group(1)) + 1.0
+                        logger.warning(f"Gemini API rate limited. Waiting {server_delay}s as suggested by server...")
+                        await asyncio.sleep(server_delay)
+                        continue
+
                 logger.warning(f"Gemini API attempt {attempt + 1} failed: {e}. Retrying in {delay}s...")
-                time.sleep(delay)
+                await asyncio.sleep(delay)
                 delay *= 2
         raise last_exception
 
@@ -92,7 +110,7 @@ class GeminiClient:
                     )
                 )
 
-            res = self._execute_with_retry(_call)
+            res = await self._execute_with_retry(_call)
             latency = int((time.time() - start_time) * 1000)
 
             in_tokens = getattr(res.usage_metadata, "prompt_token_count", 0) if hasattr(res, "usage_metadata") else 0
@@ -134,7 +152,7 @@ class GeminiClient:
                     )
                 )
 
-            res = self._execute_with_retry(_call)
+            res = await self._execute_with_retry(_call)
             latency = int((time.time() - start_time) * 1000)
 
             in_tokens = getattr(res.usage_metadata, "prompt_token_count", 0) if hasattr(res, "usage_metadata") else 0
@@ -153,14 +171,17 @@ class GeminiClient:
         try:
             def _call():
                 return genai.embed_content(
-                    model="models/text-embedding-004",
+                    model="models/gemini-embedding-001",
                     content=text,
                     task_type="retrieval_document"
                 )
-            res = self._execute_with_retry(_call)
+            res = await self._execute_with_retry(_call)
             latency = int((time.time() - start_time) * 1000)
-            log_ai_usage(supabase_client, "embedding", "text-embedding-004", len(text.split()), 0, latency, "success")
-            return res["embedding"]
+            log_ai_usage(supabase_client, "embedding", "gemini-embedding-001", len(text.split()), 0, latency, "success")
+            
+            # Truncate to 768 dimensions to match database schema
+            embedding = res["embedding"]
+            return embedding[:768]
         except Exception as e:
             logger.error(f"Error generating embedding: {e}")
             # Return 768-dim zero vector fallback
@@ -168,9 +189,12 @@ class GeminiClient:
 
     async def generate_embeddings_batch(self, texts: List[str], supabase_client: Any = None) -> List[List[float]]:
         embeddings = []
-        for text in texts:
+        for i, text in enumerate(texts):
             emb = await self.generate_embedding(text, supabase_client)
             embeddings.append(emb)
+            # Small delay between calls to avoid API rate limiting
+            if i < len(texts) - 1:
+                await asyncio.sleep(0.5)
         return embeddings
 
     async def analyze_image(
@@ -180,7 +204,7 @@ class GeminiClient:
         supabase_client: Any = None
     ) -> str:
         start_time = time.time()
-        model_name = "gemini-1.5-flash"
+        model_name = "gemini-3.6-flash"
         try:
             model = genai.GenerativeModel(model_name)
             image_part = {
@@ -191,7 +215,7 @@ class GeminiClient:
             def _call():
                 return model.generate_content([image_part, prompt])
 
-            res = self._execute_with_retry(_call)
+            res = await self._execute_with_retry(_call)
             latency = int((time.time() - start_time) * 1000)
             log_ai_usage(supabase_client, "ocr_vision", model_name, 100, 100, latency, "success")
             return res.text

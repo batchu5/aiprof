@@ -156,13 +156,13 @@ export const AdminDashboard = () => {
     <div className="min-h-[calc(100vh-6rem)] flex flex-col md:flex-row gap-6 animate-fade-in max-w-7xl mx-auto px-4 py-6">
       {/* LEFT SIDEBAR NAVIGATION (220px) */}
       <div className="w-full md:w-56 shrink-0 space-y-4">
-        <div className="p-4 rounded-2xl bg-gradient-to-b from-slate-900 to-slate-950 border border-slate-800 shadow-xl">
-          <div className="flex items-center gap-2.5 pb-4 border-b border-slate-800">
+        <div className="p-4 rounded-2xl bg-gradient-to-b from-slate-900 to-slate-950 border border-slate-200 shadow-xl">
+          <div className="flex items-center gap-2.5 pb-4 border-b border-slate-200">
             <div className="p-2 rounded-xl bg-amber-500/10 text-amber-400 border border-amber-500/20">
               <Shield className="w-5 h-5" />
             </div>
             <div>
-              <h2 className="font-extrabold text-slate-100 text-sm">Control Center</h2>
+              <h2 className="font-extrabold text-slate-900 text-sm">Control Center</h2>
               <span className="text-[10px] text-amber-400 font-bold uppercase tracking-wider">Admin Role Active</span>
             </div>
           </div>
@@ -178,7 +178,7 @@ export const AdminDashboard = () => {
                   className={`w-full flex items-center gap-3 px-3.5 py-2.5 rounded-xl text-xs font-semibold transition-all text-left ${
                     isActive
                       ? 'bg-amber-500/15 text-amber-300 border border-amber-500/30 font-bold shadow-md shadow-amber-500/10'
-                      : 'text-slate-400 hover:text-slate-200 hover:bg-slate-800/60'
+                      : 'text-slate-500 hover:text-slate-700 hover:bg-white/60'
                   }`}
                 >
                   <Icon className="w-4 h-4 shrink-0" />
@@ -212,8 +212,8 @@ export const AdminDashboard = () => {
             {activeTab === 'overview' && overviewData && (
               <div className="space-y-6 animate-fade-in">
                 {/* Status Bar */}
-                <div className="p-4 rounded-2xl bg-slate-900/80 border border-slate-800 flex flex-wrap items-center justify-between gap-4 backdrop-blur-md">
-                  <span className="text-xs font-bold text-slate-300 uppercase tracking-wider flex items-center gap-2">
+                <div className="p-4 rounded-2xl bg-white/80 border border-slate-200 flex flex-wrap items-center justify-between gap-4 backdrop-blur-md">
+                  <span className="text-xs font-bold text-slate-600 uppercase tracking-wider flex items-center gap-2">
                     <HeartPulse className="w-4 h-4 text-emerald-400" /> System Status:
                   </span>
                   <div className="flex flex-wrap items-center gap-4 text-xs font-semibold">
@@ -236,78 +236,78 @@ export const AdminDashboard = () => {
                 <div className="space-y-4">
                   {/* Row 1 */}
                   <div className="grid grid-cols-2 lg:grid-cols-4 gap-4">
-                    <div className="p-4 rounded-2xl bg-slate-900/70 border border-slate-800 space-y-2">
+                    <div className="p-4 rounded-2xl bg-white/70 border border-slate-200 space-y-2">
                       <div className="flex items-center justify-between">
-                        <span className="text-xs font-semibold text-slate-400 uppercase">Total Users</span>
+                        <span className="text-xs font-semibold text-slate-500 uppercase">Total Users</span>
                         <Users className="w-4 h-4 text-indigo-400" />
                       </div>
-                      <p className="text-2xl font-extrabold text-white">{overviewData.users?.total || 50}</p>
+                      <p className="text-2xl font-extrabold text-slate-900">{overviewData.users?.total || 50}</p>
                       <p className="text-[11px] text-emerald-400 font-medium">+{overviewData.users?.new_last_7d || 5} new this week</p>
                     </div>
 
-                    <div className="p-4 rounded-2xl bg-slate-900/70 border border-slate-800 space-y-2">
+                    <div className="p-4 rounded-2xl bg-white/70 border border-slate-200 space-y-2">
                       <div className="flex items-center justify-between">
-                        <span className="text-xs font-semibold text-slate-400 uppercase">Active Users (7d)</span>
+                        <span className="text-xs font-semibold text-slate-500 uppercase">Active Users (7d)</span>
                         <UserCheck className="w-4 h-4 text-cyan-400" />
                       </div>
-                      <p className="text-2xl font-extrabold text-white">{overviewData.users?.active_last_7d || 20}</p>
+                      <p className="text-2xl font-extrabold text-slate-900">{overviewData.users?.active_last_7d || 20}</p>
                       <p className="text-[11px] text-cyan-400 font-medium">40% weekly activity rate</p>
                     </div>
 
-                    <div className="p-4 rounded-2xl bg-slate-900/70 border border-slate-800 space-y-2">
+                    <div className="p-4 rounded-2xl bg-white/70 border border-slate-200 space-y-2">
                       <div className="flex items-center justify-between">
-                        <span className="text-xs font-semibold text-slate-400 uppercase">Total Spaces</span>
+                        <span className="text-xs font-semibold text-slate-500 uppercase">Total Spaces</span>
                         <Layers className="w-4 h-4 text-purple-400" />
                       </div>
-                      <p className="text-2xl font-extrabold text-white">{overviewData.spaces?.total || 100}</p>
-                      <p className="text-[11px] text-slate-400 font-medium">Study space containers</p>
+                      <p className="text-2xl font-extrabold text-slate-900">{overviewData.spaces?.total || 100}</p>
+                      <p className="text-[11px] text-slate-500 font-medium">Study space containers</p>
                     </div>
 
-                    <div className="p-4 rounded-2xl bg-slate-900/70 border border-slate-800 space-y-2">
+                    <div className="p-4 rounded-2xl bg-white/70 border border-slate-200 space-y-2">
                       <div className="flex items-center justify-between">
-                        <span className="text-xs font-semibold text-slate-400 uppercase">Total Projects</span>
+                        <span className="text-xs font-semibold text-slate-500 uppercase">Total Projects</span>
                         <Folder className="w-4 h-4 text-amber-400" />
                       </div>
-                      <p className="text-2xl font-extrabold text-white">{overviewData.projects?.total || 250}</p>
+                      <p className="text-2xl font-extrabold text-slate-900">{overviewData.projects?.total || 250}</p>
                       <p className="text-[11px] text-amber-400 font-medium">{overviewData.projects?.active || 180} active projects</p>
                     </div>
                   </div>
 
                   {/* Row 2 */}
                   <div className="grid grid-cols-2 lg:grid-cols-4 gap-4">
-                    <div className="p-4 rounded-2xl bg-slate-900/70 border border-slate-800 space-y-2">
+                    <div className="p-4 rounded-2xl bg-white/70 border border-slate-200 space-y-2">
                       <div className="flex items-center justify-between">
-                        <span className="text-xs font-semibold text-slate-400 uppercase">Materials Uploaded</span>
+                        <span className="text-xs font-semibold text-slate-500 uppercase">Materials Uploaded</span>
                         <FileText className="w-4 h-4 text-emerald-400" />
                       </div>
-                      <p className="text-2xl font-extrabold text-white">{overviewData.materials?.total || 500}</p>
-                      <p className="text-[11px] text-slate-400 font-medium">{overviewData.materials?.processing || 0} processing</p>
+                      <p className="text-2xl font-extrabold text-slate-900">{overviewData.materials?.total || 500}</p>
+                      <p className="text-[11px] text-slate-500 font-medium">{overviewData.materials?.processing || 0} processing</p>
                     </div>
 
-                    <div className="p-4 rounded-2xl bg-slate-900/70 border border-slate-800 space-y-2">
+                    <div className="p-4 rounded-2xl bg-white/70 border border-slate-200 space-y-2">
                       <div className="flex items-center justify-between">
-                        <span className="text-xs font-semibold text-slate-400 uppercase">AI Requests Today</span>
+                        <span className="text-xs font-semibold text-slate-500 uppercase">AI Requests Today</span>
                         <Cpu className="w-4 h-4 text-cyan-400" />
                       </div>
-                      <p className="text-2xl font-extrabold text-white">{overviewData.ai_usage?.requests_today || 200}</p>
+                      <p className="text-2xl font-extrabold text-slate-900">{overviewData.ai_usage?.requests_today || 200}</p>
                       <p className="text-[11px] text-cyan-400 font-medium">Gemini 2.0 Flash</p>
                     </div>
 
-                    <div className="p-4 rounded-2xl bg-slate-900/70 border border-slate-800 space-y-2">
+                    <div className="p-4 rounded-2xl bg-white/70 border border-slate-200 space-y-2">
                       <div className="flex items-center justify-between">
-                        <span className="text-xs font-semibold text-slate-400 uppercase">Error Rate</span>
+                        <span className="text-xs font-semibold text-slate-500 uppercase">Error Rate</span>
                         <AlertTriangle className="w-4 h-4 text-rose-400" />
                       </div>
                       <p className="text-2xl font-extrabold text-emerald-400">0.8%</p>
-                      <p className="text-[11px] text-slate-400 font-medium">{overviewData.ai_usage?.errors_today || 1} errors today</p>
+                      <p className="text-[11px] text-slate-500 font-medium">{overviewData.ai_usage?.errors_today || 1} errors today</p>
                     </div>
 
-                    <div className="p-4 rounded-2xl bg-slate-900/70 border border-slate-800 space-y-2">
+                    <div className="p-4 rounded-2xl bg-white/70 border border-slate-200 space-y-2">
                       <div className="flex items-center justify-between">
-                        <span className="text-xs font-semibold text-slate-400 uppercase">Avg AI Latency</span>
+                        <span className="text-xs font-semibold text-slate-500 uppercase">Avg AI Latency</span>
                         <Zap className="w-4 h-4 text-indigo-400" />
                       </div>
-                      <p className="text-2xl font-extrabold text-white">{overviewData.ai_usage?.avg_latency_ms || 1950}ms</p>
+                      <p className="text-2xl font-extrabold text-slate-900">{overviewData.ai_usage?.avg_latency_ms || 1950}ms</p>
                       <p className="text-[11px] text-emerald-400 font-medium">Optimal response time</p>
                     </div>
                   </div>
@@ -321,14 +321,14 @@ export const AdminDashboard = () => {
                       { type: 'tutor_message', user: 'bob@university.edu', text: 'Asked tutor about Vector Embeddings', time: '5 mins ago' },
                       { type: 'material_upload', user: 'charlie@university.edu', text: 'Uploaded Lecture_04_RAG.pdf', time: '12 mins ago' }
                     ].map((item, idx) => (
-                      <div key={idx} className="p-3 rounded-xl bg-slate-900/60 border border-slate-800 flex items-center justify-between text-xs">
+                      <div key={idx} className="p-3 rounded-xl bg-white/60 border border-slate-200 flex items-center justify-between text-xs">
                         <div className="flex items-center gap-3">
-                          <div className="p-2 rounded-lg bg-slate-800 text-amber-400">
+                          <div className="p-2 rounded-lg bg-white text-amber-400">
                             <Activity className="w-4 h-4" />
                           </div>
                           <div>
-                            <p className="font-bold text-slate-100">{item.user}</p>
-                            <p className="text-slate-400 text-[11px]">{item.text}</p>
+                            <p className="font-bold text-slate-900">{item.user}</p>
+                            <p className="text-slate-500 text-[11px]">{item.text}</p>
                           </div>
                         </div>
                         <span className="text-slate-500 text-[10px]">{item.time}</span>
@@ -351,7 +351,7 @@ export const AdminDashboard = () => {
                       value={userSearch}
                       onChange={(e) => setUserSearch(e.target.value)}
                       placeholder="Search users by name or email..."
-                      className="w-full pl-10 pr-4 py-2.5 rounded-xl bg-slate-900 border border-slate-800 text-slate-100 text-sm focus:outline-none focus:border-indigo-500"
+                      className="w-full pl-10 pr-4 py-2.5 rounded-xl bg-white border border-slate-200 text-slate-900 text-sm focus:outline-none focus:border-blue-500"
                     />
                   </div>
                   <Button type="submit" variant="primary" className="text-xs font-bold px-5">
@@ -362,8 +362,8 @@ export const AdminDashboard = () => {
                 {/* Users Table */}
                 <Card title="Registered Users" subtitle={`Total: ${usersData?.total || 0} users`}>
                   <div className="overflow-x-auto mt-4">
-                    <table className="w-full text-left text-xs text-slate-300">
-                      <thead className="bg-slate-900/80 text-slate-400 font-semibold border-b border-slate-800">
+                    <table className="w-full text-left text-xs text-slate-600">
+                      <thead className="bg-white/80 text-slate-500 font-semibold border-b border-slate-200">
                         <tr>
                           <th className="p-3">User</th>
                           <th className="p-3">Role</th>
@@ -375,24 +375,24 @@ export const AdminDashboard = () => {
                       </thead>
                       <tbody className="divide-y divide-slate-800/60">
                         {(usersData?.users || []).map((u) => (
-                          <tr key={u.id} className="hover:bg-slate-900/40 transition-colors">
+                          <tr key={u.id} className="hover:bg-white/40 transition-colors">
                             <td className="p-3 flex items-center gap-3">
-                              <div className="w-8 h-8 rounded-full bg-indigo-600/30 border border-indigo-500/40 flex items-center justify-center font-bold text-indigo-300 text-xs">
+                              <div className="w-8 h-8 rounded-full bg-blue-600/30 border border-blue-500/40 flex items-center justify-center font-bold text-indigo-300 text-xs">
                                 {u.full_name?.charAt(0) || u.email?.charAt(0) || 'U'}
                               </div>
                               <div>
-                                <p className="font-bold text-slate-100">{u.full_name}</p>
-                                <p className="text-[11px] text-slate-400">{u.email}</p>
+                                <p className="font-bold text-slate-900">{u.full_name}</p>
+                                <p className="text-[11px] text-slate-500">{u.email}</p>
                               </div>
                             </td>
                             <td className="p-3">
                               <span className={`px-2 py-0.5 rounded-full text-[10px] font-bold ${
-                                u.role === 'admin' ? 'bg-amber-500/10 text-amber-400 border border-amber-500/30' : 'bg-slate-800 text-slate-400'
+                                u.role === 'admin' ? 'bg-amber-500/10 text-amber-400 border border-amber-500/30' : 'bg-white text-slate-500'
                               }`}>
                                 {u.role}
                               </span>
                             </td>
-                            <td className="p-3 text-slate-400">{u.created_at?.slice(0, 10)}</td>
+                            <td className="p-3 text-slate-500">{u.created_at?.slice(0, 10)}</td>
                             <td className="p-3 font-semibold">{u.spaces_count || 2}</td>
                             <td className="p-3 font-semibold">{u.projects_count || 4}</td>
                             <td className="p-3 text-right">
@@ -412,11 +412,11 @@ export const AdminDashboard = () => {
             {/* TAB 3: SPACES & PROJECTS PAGE */}
             {activeTab === 'spaces_projects' && (
               <div className="space-y-6 animate-fade-in">
-                <div className="flex items-center gap-2 border-b border-slate-800 pb-3">
+                <div className="flex items-center gap-2 border-b border-slate-200 pb-3">
                   <button
                     onClick={() => setSpacesProjectsSubTab('spaces')}
                     className={`px-4 py-2 rounded-xl text-xs font-bold transition-all ${
-                      spacesProjectsSubTab === 'spaces' ? 'bg-indigo-600 text-white' : 'bg-slate-900 text-slate-400 hover:text-slate-200'
+                      spacesProjectsSubTab === 'spaces' ? 'bg-blue-600 text-slate-900' : 'bg-white text-slate-500 hover:text-slate-700'
                     }`}
                   >
                     Spaces ({spacesData?.total || 0})
@@ -424,7 +424,7 @@ export const AdminDashboard = () => {
                   <button
                     onClick={() => setSpacesProjectsSubTab('projects')}
                     className={`px-4 py-2 rounded-xl text-xs font-bold transition-all ${
-                      spacesProjectsSubTab === 'projects' ? 'bg-indigo-600 text-white' : 'bg-slate-900 text-slate-400 hover:text-slate-200'
+                      spacesProjectsSubTab === 'projects' ? 'bg-blue-600 text-slate-900' : 'bg-white text-slate-500 hover:text-slate-700'
                     }`}
                   >
                     Projects ({projectsData?.total || 0})
@@ -435,12 +435,12 @@ export const AdminDashboard = () => {
                   <Card title="All Platform Spaces" subtitle="Study spaces created across all accounts">
                     <div className="space-y-3 mt-4">
                       {(spacesData?.spaces || []).map((s) => (
-                        <div key={s.id} className="p-4 rounded-xl bg-slate-900/60 border border-slate-800 flex items-center justify-between text-xs">
+                        <div key={s.id} className="p-4 rounded-xl bg-white/60 border border-slate-200 flex items-center justify-between text-xs">
                           <div className="flex items-center gap-3">
                             <span className="text-xl">{s.icon || '📚'}</span>
                             <div>
-                              <p className="font-bold text-slate-100 text-sm">{s.name}</p>
-                              <p className="text-slate-400 text-[11px]">{s.description || 'Study space container'}</p>
+                              <p className="font-bold text-slate-900 text-sm">{s.name}</p>
+                              <p className="text-slate-500 text-[11px]">{s.description || 'Study space container'}</p>
                             </div>
                           </div>
                           <span className="text-indigo-400 font-semibold">{s.projects_count || 4} Projects</span>
@@ -452,13 +452,13 @@ export const AdminDashboard = () => {
                   <Card title="All Platform Projects" subtitle="Projects created across all spaces">
                     <div className="space-y-3 mt-4">
                       {(projectsData?.projects || []).map((p) => (
-                        <div key={p.id} className="p-4 rounded-xl bg-slate-900/60 border border-slate-800 flex items-center justify-between text-xs">
+                        <div key={p.id} className="p-4 rounded-xl bg-white/60 border border-slate-200 flex items-center justify-between text-xs">
                           <div>
-                            <p className="font-bold text-slate-100 text-sm">{p.name}</p>
-                            <p className="text-slate-400 text-[11px]">Goal: {p.learning_goal || 'Master domain topics'}</p>
+                            <p className="font-bold text-slate-900 text-sm">{p.name}</p>
+                            <p className="text-slate-500 text-[11px]">Goal: {p.learning_goal || 'Master domain topics'}</p>
                           </div>
                           <div className="flex items-center gap-4">
-                            <span className="text-slate-400">{p.materials_count || 3} materials</span>
+                            <span className="text-slate-500">{p.materials_count || 3} materials</span>
                             <span className="font-extrabold text-emerald-400 text-sm">{p.overall_mastery}% Mastery</span>
                           </div>
                         </div>
@@ -475,14 +475,14 @@ export const AdminDashboard = () => {
                 <Card title="Platform Activity Feed" subtitle="Audit trail of learning events">
                   <div className="space-y-3 mt-4">
                     {(activityData?.events || []).map((ev) => (
-                      <div key={ev.id} className="p-3.5 rounded-xl bg-slate-900/60 border border-slate-800 flex items-center justify-between text-xs">
+                      <div key={ev.id} className="p-3.5 rounded-xl bg-white/60 border border-slate-200 flex items-center justify-between text-xs">
                         <div className="flex items-center gap-3">
-                          <div className="p-2 rounded-lg bg-indigo-500/10 text-indigo-400">
+                          <div className="p-2 rounded-lg bg-blue-500/10 text-indigo-400">
                             <Activity className="w-4 h-4" />
                           </div>
                           <div>
-                            <p className="font-bold text-slate-100">{ev.event_type?.replace('_', ' ').toUpperCase()}</p>
-                            <p className="text-slate-400 text-[11px]">User ID: {ev.user_id}</p>
+                            <p className="font-bold text-slate-900">{ev.event_type?.replace('_', ' ').toUpperCase()}</p>
+                            <p className="text-slate-500 text-[11px]">User ID: {ev.user_id}</p>
                           </div>
                         </div>
                         <span className="text-slate-500 text-[10px]">{ev.created_at?.slice(0, 16)}</span>
@@ -554,20 +554,20 @@ export const AdminDashboard = () => {
               <div className="space-y-6 animate-fade-in">
                 <Card title="AI Quality Scores" subtitle="Evaluation metrics for Tutor, Quiz & Assessment engines">
                   <div className="grid grid-cols-1 md:grid-cols-3 gap-4 mt-4">
-                    <div className="p-4 rounded-xl bg-slate-900/80 border border-slate-800 space-y-2 text-center">
-                      <p className="text-xs text-slate-400 font-bold uppercase">Tutor Grounding Rate</p>
+                    <div className="p-4 rounded-xl bg-white/80 border border-slate-200 space-y-2 text-center">
+                      <p className="text-xs text-slate-500 font-bold uppercase">Tutor Grounding Rate</p>
                       <p className="text-3xl font-extrabold text-emerald-400">{aiEvalData.tutor_evaluation?.grounding_rate || 96.2}%</p>
                       <p className="text-[11px] text-slate-500">Based on source citations</p>
                     </div>
 
-                    <div className="p-4 rounded-xl bg-slate-900/80 border border-slate-800 space-y-2 text-center">
-                      <p className="text-xs text-slate-400 font-bold uppercase">Quiz Quality Score</p>
+                    <div className="p-4 rounded-xl bg-white/80 border border-slate-200 space-y-2 text-center">
+                      <p className="text-xs text-slate-500 font-bold uppercase">Quiz Quality Score</p>
                       <p className="text-3xl font-extrabold text-cyan-400">{aiEvalData.quiz_evaluation?.question_quality_score || 91.0}%</p>
                       <p className="text-[11px] text-slate-500">Question validity index</p>
                     </div>
 
-                    <div className="p-4 rounded-xl bg-slate-900/80 border border-slate-800 space-y-2 text-center">
-                      <p className="text-xs text-slate-400 font-bold uppercase">Evaluation Consistency</p>
+                    <div className="p-4 rounded-xl bg-white/80 border border-slate-200 space-y-2 text-center">
+                      <p className="text-xs text-slate-500 font-bold uppercase">Evaluation Consistency</p>
                       <p className="text-3xl font-extrabold text-purple-400">{aiEvalData.assessment_evaluation?.consistency_score || 93.4}%</p>
                       <p className="text-[11px] text-slate-500">Open-ended rubric alignment</p>
                     </div>
@@ -581,13 +581,13 @@ export const AdminDashboard = () => {
               <div className="space-y-6 animate-fade-in">
                 <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
                   {Object.entries(healthData.services || {}).map(([key, val]) => (
-                    <div key={key} className="p-4 rounded-2xl bg-slate-900/80 border border-slate-800 space-y-2">
+                    <div key={key} className="p-4 rounded-2xl bg-white/80 border border-slate-200 space-y-2">
                       <div className="flex items-center justify-between">
-                        <span className="text-xs font-bold text-slate-200 uppercase">{key}</span>
+                        <span className="text-xs font-bold text-slate-700 uppercase">{key}</span>
                         <CheckCircle2 className="w-4 h-4 text-emerald-400" />
                       </div>
                       <p className="text-lg font-bold text-emerald-400">Healthy</p>
-                      <p className="text-[10px] text-slate-400">{val.response_time_ms ? `${val.response_time_ms}ms response` : 'Operational'}</p>
+                      <p className="text-[10px] text-slate-500">{val.response_time_ms ? `${val.response_time_ms}ms response` : 'Operational'}</p>
                     </div>
                   ))}
                 </div>
@@ -600,34 +600,34 @@ export const AdminDashboard = () => {
       {/* USER DETAIL MODAL */}
       {selectedUserModal && (
         <div className="fixed inset-0 z-50 bg-black/70 backdrop-blur-sm flex items-center justify-center p-4">
-          <div className="bg-slate-900 border border-slate-800 rounded-2xl max-w-lg w-full p-6 space-y-6 shadow-2xl">
-            <div className="flex items-center justify-between border-b border-slate-800 pb-3">
-              <h3 className="font-bold text-slate-100 text-base flex items-center gap-2">
+          <div className="bg-white border border-slate-200 rounded-2xl max-w-lg w-full p-6 space-y-6 shadow-2xl">
+            <div className="flex items-center justify-between border-b border-slate-200 pb-3">
+              <h3 className="font-bold text-slate-900 text-base flex items-center gap-2">
                 <Users className="w-5 h-5 text-indigo-400" /> User Detail Overview
               </h3>
-              <button onClick={() => setSelectedUserModal(null)} className="text-slate-400 hover:text-slate-200">
+              <button onClick={() => setSelectedUserModal(null)} className="text-slate-500 hover:text-slate-700">
                 <X className="w-5 h-5" />
               </button>
             </div>
 
-            <div className="space-y-4 text-xs text-slate-300">
+            <div className="space-y-4 text-xs text-slate-600">
               <div>
-                <p className="text-slate-400">Full Name:</p>
-                <p className="font-bold text-slate-100 text-sm">{selectedUserModal.profile?.full_name}</p>
+                <p className="text-slate-500">Full Name:</p>
+                <p className="font-bold text-slate-900 text-sm">{selectedUserModal.profile?.full_name}</p>
               </div>
 
               <div>
-                <p className="text-slate-400">Email Address:</p>
+                <p className="text-slate-500">Email Address:</p>
                 <p className="font-bold text-indigo-300">{selectedUserModal.profile?.email}</p>
               </div>
 
               <div className="grid grid-cols-2 gap-3 pt-2">
-                <div className="p-3 rounded-xl bg-slate-950 border border-slate-800">
-                  <p className="text-slate-400">Spaces Count</p>
-                  <p className="text-lg font-bold text-slate-100">{selectedUserModal.stats?.spaces_count || 2}</p>
+                <div className="p-3 rounded-xl bg-slate-50 border border-slate-200">
+                  <p className="text-slate-500">Spaces Count</p>
+                  <p className="text-lg font-bold text-slate-900">{selectedUserModal.stats?.spaces_count || 2}</p>
                 </div>
-                <div className="p-3 rounded-xl bg-slate-950 border border-slate-800">
-                  <p className="text-slate-400">Overall Mastery</p>
+                <div className="p-3 rounded-xl bg-slate-50 border border-slate-200">
+                  <p className="text-slate-500">Overall Mastery</p>
                   <p className="text-lg font-bold text-emerald-400">{selectedUserModal.stats?.overall_mastery || 76.5}%</p>
                 </div>
               </div>

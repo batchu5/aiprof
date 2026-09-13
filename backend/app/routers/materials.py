@@ -4,7 +4,7 @@ import os
 from typing import Dict, Any, List, Optional
 from datetime import datetime
 from fastapi import APIRouter, Depends, HTTPException, status, UploadFile, File, BackgroundTasks, Query
-from app.dependencies import get_current_user
+from app.dependencies import get_current_user, verify_project_access
 from app.database import get_supabase
 from app.services.document_processor import process_document
 from app.services.activity_service import log_activity
@@ -18,20 +18,6 @@ knowledge_router = APIRouter(prefix="/projects/{project_id}/knowledge", tags=["K
 
 
 
-async def verify_project_ownership(project_id: str, user_id: str, supabase_client: Any, current_user: Dict[str, Any]):
-    """Helper to verify that user owns the project or is admin."""
-    try:
-        if hasattr(supabase_client, "table"):
-            res = supabase_client.table("projects").select("user_id").eq("id", project_id).execute()
-            if res and hasattr(res, "data") and res.data:
-                proj_user = str(res.data[0].get("user_id"))
-                if proj_user != user_id and current_user.get("role") != "admin":
-                    raise HTTPException(status_code=status.HTTP_403_FORBIDDEN, detail="Access denied to this project")
-    except HTTPException:
-        raise
-    except Exception as e:
-        logger.warning(f"Error checking project ownership: {e}")
-
 
 @router.post("/upload")
 async def upload_material(
@@ -42,7 +28,7 @@ async def upload_material(
     supabase_client: Any = Depends(get_supabase)
 ):
     user_id = current_user["id"]
-    await verify_project_ownership(project_id, user_id, supabase_client, current_user)
+    await verify_project_access(project_id, user_id, supabase_client, current_user)
 
     # 1. Validate file extension and size
     filename = file.filename or "document.pdf"
@@ -122,7 +108,7 @@ async def list_materials(
     supabase_client: Any = Depends(get_supabase)
 ):
     user_id = current_user["id"]
-    await verify_project_ownership(project_id, user_id, supabase_client, current_user)
+    await verify_project_access(project_id, user_id, supabase_client, current_user)
 
     try:
         if hasattr(supabase_client, "table"):
@@ -150,7 +136,7 @@ async def get_material(
     supabase_client: Any = Depends(get_supabase)
 ):
     user_id = current_user["id"]
-    await verify_project_ownership(project_id, user_id, supabase_client, current_user)
+    await verify_project_access(project_id, user_id, supabase_client, current_user)
 
     try:
         if hasattr(supabase_client, "table"):
@@ -178,7 +164,7 @@ async def get_material_status(
     supabase_client: Any = Depends(get_supabase)
 ):
     user_id = current_user["id"]
-    await verify_project_ownership(project_id, user_id, supabase_client, current_user)
+    await verify_project_access(project_id, user_id, supabase_client, current_user)
 
     try:
         if hasattr(supabase_client, "table"):
@@ -220,7 +206,7 @@ async def delete_material(
     supabase_client: Any = Depends(get_supabase)
 ):
     user_id = current_user["id"]
-    await verify_project_ownership(project_id, user_id, supabase_client, current_user)
+    await verify_project_access(project_id, user_id, supabase_client, current_user)
 
     try:
         if hasattr(supabase_client, "table"):
@@ -271,7 +257,7 @@ async def search_knowledge(
     Extracts query embedding using Gemini text-embedding-004 model and calls match_chunks RPC.
     """
     user_id = current_user["id"]
-    await verify_project_ownership(project_id, user_id, supabase_client, current_user)
+    await verify_project_access(project_id, user_id, supabase_client, current_user)
 
     search_query = q or query or ""
     if not search_query.strip():

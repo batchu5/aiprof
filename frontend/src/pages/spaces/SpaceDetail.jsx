@@ -128,16 +128,16 @@ export const SpaceDetail = () => {
       <Toaster position="top-right" toastOptions={{ style: { background: '#1e293b', color: '#f8fafc' } }} />
 
       {/* Breadcrumb Navigation */}
-      <nav className="flex items-center gap-2 text-sm text-slate-400">
-        <Link to="/" className="hover:text-white transition-colors">Home</Link>
+      <nav className="flex items-center gap-2 text-sm text-slate-500">
+        <Link to="/" className="hover:text-slate-900 transition-colors">Home</Link>
         <ChevronRight className="w-4 h-4" />
-        <Link to="/spaces" className="hover:text-white transition-colors">Spaces</Link>
+        <Link to="/spaces" className="hover:text-slate-900 transition-colors">Spaces</Link>
         <ChevronRight className="w-4 h-4" />
-        <span className="text-slate-100 font-semibold">{space?.name || 'Space Details'}</span>
+        <span className="text-slate-900 font-semibold">{space?.name || 'Space Details'}</span>
       </nav>
 
       {/* Space Header */}
-      <div className="bg-slate-900/60 border border-slate-800 rounded-3xl p-6 sm:p-8 backdrop-blur-md shadow-2xl relative overflow-hidden flex flex-col md:flex-row md:items-center justify-between gap-6">
+      <div className="bg-white/60 border border-slate-200 rounded-3xl p-6 sm:p-8 backdrop-blur-md shadow-2xl relative overflow-hidden flex flex-col md:flex-row md:items-center justify-between gap-6">
         <div className="flex items-start gap-5">
           <div
             className="w-16 h-16 rounded-2xl flex items-center justify-center text-3xl shadow-lg border border-white/10 shrink-0"
@@ -146,8 +146,8 @@ export const SpaceDetail = () => {
             {space?.icon || '📚'}
           </div>
           <div>
-            <h1 className="text-3xl font-extrabold text-white">{space?.name}</h1>
-            <p className="text-slate-400 text-sm mt-2 max-w-2xl leading-relaxed">
+            <h1 className="text-3xl font-extrabold text-slate-900">{space?.name}</h1>
+            <p className="text-slate-500 text-sm mt-2 max-w-2xl leading-relaxed">
               {space?.description || 'No description available.'}
             </p>
           </div>
@@ -165,29 +165,29 @@ export const SpaceDetail = () => {
 
       {/* Stats Bar */}
       <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
-        <div className="bg-slate-800/50 border border-slate-700/50 rounded-2xl p-4 text-center">
-          <p className="text-xs font-semibold text-slate-400 uppercase">Total Projects</p>
-          <p className="text-2xl font-bold text-white mt-1">{projects.length}</p>
+        <div className="bg-white border border-slate-200/50 rounded-2xl p-4 text-center">
+          <p className="text-xs font-semibold text-slate-500 uppercase">Total Projects</p>
+          <p className="text-2xl font-bold text-slate-900 mt-1">{projects.length}</p>
         </div>
-        <div className="bg-slate-800/50 border border-slate-700/50 rounded-2xl p-4 text-center">
-          <p className="text-xs font-semibold text-slate-400 uppercase">Overall Progress</p>
+        <div className="bg-white border border-slate-200/50 rounded-2xl p-4 text-center">
+          <p className="text-xs font-semibold text-slate-500 uppercase">Overall Progress</p>
           <p className="text-2xl font-bold text-indigo-400 mt-1">{space?.overall_progress || 80}%</p>
         </div>
-        <div className="bg-slate-800/50 border border-slate-700/50 rounded-2xl p-4 text-center">
-          <p className="text-xs font-semibold text-slate-400 uppercase">Active Projects</p>
+        <div className="bg-white border border-slate-200/50 rounded-2xl p-4 text-center">
+          <p className="text-xs font-semibold text-slate-500 uppercase">Active Projects</p>
           <p className="text-2xl font-bold text-emerald-400 mt-1">
             {projects.filter(p => p.status !== 'archived').length}
           </p>
         </div>
-        <div className="bg-slate-800/50 border border-slate-700/50 rounded-2xl p-4 text-center">
-          <p className="text-xs font-semibold text-slate-400 uppercase">Last Activity</p>
+        <div className="bg-white border border-slate-200/50 rounded-2xl p-4 text-center">
+          <p className="text-xs font-semibold text-slate-500 uppercase">Last Activity</p>
           <p className="text-2xl font-bold text-cyan-400 mt-1">Today</p>
         </div>
       </div>
 
       {/* Projects Section Header */}
-      <div className="flex items-center justify-between border-b border-slate-800 pb-4">
-        <h2 className="text-xl font-bold text-white flex items-center gap-2">
+      <div className="flex items-center justify-between border-b border-slate-200 pb-4">
+        <h2 className="text-xl font-bold text-slate-900 flex items-center gap-2">
           <Layers className="w-5 h-5 text-indigo-400" /> Attached Projects
         </h2>
         <Button variant="primary" onClick={() => setIsAddProjectOpen(true)} className="flex items-center gap-2 py-2 px-4 text-sm">
@@ -203,36 +203,36 @@ export const SpaceDetail = () => {
             <div
               key={proj.id}
               onClick={() => navigate(`/projects/${proj.id}`)}
-              className="group bg-slate-800/50 backdrop-blur-md border border-slate-700/50 hover:border-indigo-500/50 rounded-2xl p-6 shadow-xl hover:shadow-2xl transition-all duration-300 hover:scale-[1.02] cursor-pointer flex flex-col justify-between"
+              className="group bg-white backdrop-blur-md border border-slate-200/50 hover:border-blue-500/50 rounded-2xl p-6 shadow-xl hover:shadow-2xl transition-all duration-300 hover:scale-[1.02] cursor-pointer flex flex-col justify-between"
             >
               <div>
                 <div className="flex items-center justify-between mb-3">
                   <span className="text-xs font-semibold px-2.5 py-1 rounded-full bg-emerald-500/10 text-emerald-400 border border-emerald-500/20">
                     {proj.status || 'Active'}
                   </span>
-                  <span className="text-xs text-slate-400 flex items-center gap-1">
+                  <span className="text-xs text-slate-500 flex items-center gap-1">
                     <Target className="w-3.5 h-3.5 text-indigo-400" /> Goal Set
                   </span>
                 </div>
 
-                <h3 className="text-lg font-bold text-white group-hover:text-indigo-300 transition-colors line-clamp-1">
+                <h3 className="text-lg font-bold text-slate-900 group-hover:text-indigo-300 transition-colors line-clamp-1">
                   {proj.name}
                 </h3>
-                <p className="text-xs text-slate-400 mt-2 line-clamp-2 leading-relaxed">
+                <p className="text-xs text-slate-500 mt-2 line-clamp-2 leading-relaxed">
                   {proj.description || 'No description provided.'}
                 </p>
               </div>
 
               {/* Progress & Quick Actions */}
-              <div className="mt-6 pt-4 border-t border-slate-700/40 space-y-4">
+              <div className="mt-6 pt-4 border-t border-slate-200/40 space-y-4">
                 <div>
                   <div className="flex justify-between text-xs font-semibold mb-1">
-                    <span className="text-slate-400">Mastery</span>
+                    <span className="text-slate-500">Mastery</span>
                     <span className="text-indigo-400">{mastery}%</span>
                   </div>
-                  <div className="w-full h-1.5 bg-slate-900 rounded-full overflow-hidden">
+                  <div className="w-full h-1.5 bg-white rounded-full overflow-hidden">
                     <div
-                      className="h-full bg-gradient-to-r from-indigo-500 to-cyan-400 rounded-full transition-all duration-500"
+                      className="h-full bg-gradient-to-r from-blue-500 to-cyan-400 rounded-full transition-all duration-500"
                       style={{ width: `${mastery}%` }}
                     />
                   </div>
@@ -243,14 +243,14 @@ export const SpaceDetail = () => {
                     <button
                       onClick={(e) => { e.stopPropagation(); navigate(`/projects/${proj.id}/tutor`); }}
                       title="AI Tutor"
-                      className="p-2 rounded-xl bg-slate-900 hover:bg-indigo-600/20 text-slate-300 hover:text-indigo-400 transition-colors border border-slate-700/60"
+                      className="p-2 rounded-xl bg-white hover:bg-blue-600/20 text-slate-600 hover:text-indigo-400 transition-colors border border-slate-200/60"
                     >
                       <MessageSquare className="w-4 h-4" />
                     </button>
                     <button
                       onClick={(e) => { e.stopPropagation(); navigate(`/projects/${proj.id}/quiz`); }}
                       title="Take Quiz"
-                      className="p-2 rounded-xl bg-slate-900 hover:bg-purple-600/20 text-slate-300 hover:text-purple-400 transition-colors border border-slate-700/60"
+                      className="p-2 rounded-xl bg-white hover:bg-blue-700/20 text-slate-600 hover:text-purple-400 transition-colors border border-slate-200/60"
                     >
                       <HelpCircle className="w-4 h-4" />
                     </button>
@@ -267,13 +267,13 @@ export const SpaceDetail = () => {
         {/* Add Project Card */}
         <div
           onClick={() => setIsAddProjectOpen(true)}
-          className="border-2 border-dashed border-slate-700/80 hover:border-indigo-500/60 rounded-2xl p-8 flex flex-col items-center justify-center text-center cursor-pointer hover:bg-slate-800/30 transition-all min-h-[220px]"
+          className="border-2 border-dashed border-slate-200/80 hover:border-blue-500/60 rounded-2xl p-8 flex flex-col items-center justify-center text-center cursor-pointer hover:bg-white/30 transition-all min-h-[220px]"
         >
-          <div className="w-12 h-12 rounded-2xl bg-indigo-500/10 text-indigo-400 flex items-center justify-center mb-3">
+          <div className="w-12 h-12 rounded-2xl bg-blue-500/10 text-indigo-400 flex items-center justify-center mb-3">
             <Plus className="w-6 h-6" />
           </div>
-          <p className="text-base font-bold text-white">Add New Project</p>
-          <p className="text-xs text-slate-400 mt-1">Attach a new course module or project domain</p>
+          <p className="text-base font-bold text-slate-900">Add New Project</p>
+          <p className="text-xs text-slate-500 mt-1">Attach a new course module or project domain</p>
         </div>
       </div>
 
@@ -281,25 +281,25 @@ export const SpaceDetail = () => {
       <Modal isOpen={isEditSpaceOpen} onClose={() => setIsEditSpaceOpen(false)} title="Edit Space">
         <form onSubmit={handleUpdateSpace} className="space-y-4">
           <div>
-            <label className="block text-xs font-semibold text-slate-300 uppercase tracking-wider mb-2">Space Name</label>
+            <label className="block text-xs font-semibold text-slate-600 uppercase tracking-wider mb-2">Space Name</label>
             <input
               type="text"
               required
               value={spaceName}
               onChange={(e) => setSpaceName(e.target.value)}
-              className="w-full px-4 py-3 bg-slate-900 border border-slate-700 rounded-xl text-white text-sm"
+              className="w-full px-4 py-3 bg-white border border-slate-200 rounded-xl text-slate-900 text-sm"
             />
           </div>
           <div>
-            <label className="block text-xs font-semibold text-slate-300 uppercase tracking-wider mb-2">Description</label>
+            <label className="block text-xs font-semibold text-slate-600 uppercase tracking-wider mb-2">Description</label>
             <textarea
               rows={3}
               value={spaceDesc}
               onChange={(e) => setSpaceDesc(e.target.value)}
-              className="w-full px-4 py-3 bg-slate-900 border border-slate-700 rounded-xl text-white text-sm resize-none"
+              className="w-full px-4 py-3 bg-white border border-slate-200 rounded-xl text-slate-900 text-sm resize-none"
             />
           </div>
-          <div className="flex justify-end gap-3 pt-4 border-t border-slate-700">
+          <div className="flex justify-end gap-3 pt-4 border-t border-slate-200">
             <Button type="button" variant="outline" onClick={() => setIsEditSpaceOpen(false)}>Cancel</Button>
             <Button type="submit" variant="primary" isLoading={submitting}>Save Changes</Button>
           </div>
@@ -310,37 +310,37 @@ export const SpaceDetail = () => {
       <Modal isOpen={isAddProjectOpen} onClose={() => setIsAddProjectOpen(false)} title="Add New Project">
         <form onSubmit={handleCreateProject} className="space-y-4">
           <div>
-            <label className="block text-xs font-semibold text-slate-300 uppercase tracking-wider mb-2">Project Name *</label>
+            <label className="block text-xs font-semibold text-slate-600 uppercase tracking-wider mb-2">Project Name *</label>
             <input
               type="text"
               required
               value={projName}
               onChange={(e) => setProjName(e.target.value)}
               placeholder="e.g. Neural Networks & CNNs"
-              className="w-full px-4 py-3 bg-slate-900 border border-slate-700 rounded-xl text-white text-sm"
+              className="w-full px-4 py-3 bg-white border border-slate-200 rounded-xl text-slate-900 text-sm"
             />
           </div>
           <div>
-            <label className="block text-xs font-semibold text-slate-300 uppercase tracking-wider mb-2">Description</label>
+            <label className="block text-xs font-semibold text-slate-600 uppercase tracking-wider mb-2">Description</label>
             <textarea
               rows={2}
               value={projDesc}
               onChange={(e) => setProjDesc(e.target.value)}
               placeholder="Module overview or course summary..."
-              className="w-full px-4 py-3 bg-slate-900 border border-slate-700 rounded-xl text-white text-sm resize-none"
+              className="w-full px-4 py-3 bg-white border border-slate-200 rounded-xl text-slate-900 text-sm resize-none"
             />
           </div>
           <div>
-            <label className="block text-xs font-semibold text-slate-300 uppercase tracking-wider mb-2">Learning Goal</label>
+            <label className="block text-xs font-semibold text-slate-600 uppercase tracking-wider mb-2">Learning Goal</label>
             <input
               type="text"
               value={projGoal}
               onChange={(e) => setProjGoal(e.target.value)}
               placeholder="e.g. Master backprop equations and pass quiz"
-              className="w-full px-4 py-3 bg-slate-900 border border-slate-700 rounded-xl text-white text-sm"
+              className="w-full px-4 py-3 bg-white border border-slate-200 rounded-xl text-slate-900 text-sm"
             />
           </div>
-          <div className="flex justify-end gap-3 pt-4 border-t border-slate-700">
+          <div className="flex justify-end gap-3 pt-4 border-t border-slate-200">
             <Button type="button" variant="outline" onClick={() => setIsAddProjectOpen(false)}>Cancel</Button>
             <Button type="submit" variant="primary" isLoading={submitting}>Create Project</Button>
           </div>

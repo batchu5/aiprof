@@ -182,7 +182,7 @@ class AnalyticsService:
             },
             "growth": {
                 "mastery_over_time": mastery_over_time,
-                "improvement_rate": "+0% this week" if total_sessions == 0 else "+12.5% this week",
+                "improvement_rate": "+0% this week" if total_sessions == 0 else f"Active for {total_sessions} sessions",
                 "streak_days": streak_days
             },
             "ai_activity": {
@@ -219,10 +219,20 @@ class AnalyticsService:
                 if pj_res and hasattr(pj_res, "data") and isinstance(pj_res.data, list):
                     projects_count = len(pj_res.data)
                     for proj in sorted(pj_res.data, key=lambda x: float(x.get("overall_mastery", 0.0)), reverse=True)[:5]:
+                        # Fetch actual space name
+                        proj_space_name = ""
+                        try:
+                            sp_id = str(proj.get("space_id", ""))
+                            if sp_id:
+                                sp_name_res = self.supabase.table("spaces").select("name").eq("id", sp_id).execute()
+                                if sp_name_res and hasattr(sp_name_res, "data") and sp_name_res.data:
+                                    proj_space_name = sp_name_res.data[0].get("name", "")
+                        except Exception:
+                            pass
                         top_projects.append({
                             "name": proj.get("name", "Project"),
                             "mastery": round(float(proj.get("overall_mastery", 0.0)), 1),
-                            "space_name": "Study Space"
+                            "space_name": proj_space_name
                         })
 
                 mt_res = self.supabase.table("materials").select("id").eq("user_id", user_id).execute()
@@ -257,9 +267,27 @@ class AnalyticsService:
                             weak_count += 1
 
                         if len(areas_to_improve) < 5 and m_lvl < 60.0:
+                            # Resolve concept name
+                            concept_name = f"Concept {str(cm.get('concept_id', ''))[:8]}"
+                            try:
+                                cname_res = self.supabase.table("concepts").select("name").eq("id", str(cm.get('concept_id', ''))).execute()
+                                if cname_res and hasattr(cname_res, "data") and cname_res.data:
+                                    concept_name = cname_res.data[0].get("name", concept_name)
+                            except Exception:
+                                pass
+
+                            # Resolve project name
+                            project_name = ""
+                            try:
+                                pname_res = self.supabase.table("projects").select("name").eq("id", str(cm.get('project_id', ''))).execute()
+                                if pname_res and hasattr(pname_res, "data") and pname_res.data:
+                                    project_name = pname_res.data[0].get("name", "")
+                            except Exception:
+                                pass
+
                             areas_to_improve.append({
-                                "concept": f"Concept #{str(cm.get('concept_id'))[:6]}",
-                                "project": "Study Project",
+                                "concept": concept_name,
+                                "project": project_name,
                                 "mastery": round(m_lvl, 1)
                             })
         except Exception as c_err:

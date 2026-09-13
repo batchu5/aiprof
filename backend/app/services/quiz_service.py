@@ -224,15 +224,19 @@ class QuizService:
 
         generated = None
         try:
+            logger.info(f"[QuizService] Calling Gemini generate_structured for concept: {concept_name}, type: {q_type}, difficulty: {difficulty}")
             generated = await self.gemini.generate_structured(
                 prompt=gen_prompt,
                 system_instruction="You are an expert adaptive learning assessment author."
             )
+            logger.info(f"[QuizService] Gemini returned: type={type(generated).__name__}, value={generated}")
         except Exception as gen_err:
-            logger.warning(f"[QuizService] Gemini generation fallback: {gen_err}")
+            logger.warning(f"[QuizService] Gemini generation exception: {gen_err}")
 
         # Fallback question structure if AI call fails
         if not generated or not isinstance(generated, dict) or "question_text" not in generated:
+            reason = "None response" if generated is None else f"type={type(generated).__name__}, keys={list(generated.keys()) if isinstance(generated, dict) else 'N/A'}"
+            logger.warning(f"[QuizService] Using FALLBACK question. Reason: {reason}")
             if q_type == "mcq":
                 generated = {
                     "question_text": f"Which of the following best describes {concept_name}?",
@@ -252,6 +256,19 @@ class QuizService:
                     "key_points": [f"Definition of {concept_name}", "Key components", "Practical application"],
                     "explanation": f"A standard answer should define {concept_name} and outline its practical applications."
                 }
+
+        # 7.5 Shuffle MCQ options so correct answer isn't always "A"
+        if q_type == "mcq" and generated.get("options"):
+            options = generated["options"]
+            random.shuffle(options)
+            labels = ["A", "B", "C", "D"]
+            new_correct = "A"
+            for idx, opt in enumerate(options):
+                opt["label"] = labels[idx]
+                if opt.get("is_correct"):
+                    new_correct = labels[idx]
+            generated["options"] = options
+            generated["correct_answer"] = new_correct
 
         # 8. Save question to database
         question_id = str(uuid.uuid4())
@@ -371,14 +388,20 @@ class QuizService:
             )
 
             try:
-                eval_res = await self.gemini.generate_structured(
+                eval_result = await self.gemini.generate_structured(
                     prompt=eval_prompt,
                     system_instruction="You are an encouraging academic evaluator."
                 )
-                if isinstance(eval_res, dict):
+                if isinstance(eval_result, dict):
+                    eval_res = eval_result
                     score = float(eval_res.get("score", 70.0))
                     is_correct = bool(eval_res.get("is_correct", score >= 60.0))
                     feedback = eval_res.get("feedback", "Good effort in explaining this concept!")
+                else:
+                    logger.warning(f"[QuizService] generate_structured returned {type(eval_result).__name__}, using fallback scoring")
+                    score = 80.0 if len(answer.split()) > 8 else 45.0
+                    is_correct = score >= 60.0
+                    feedback = "Answer recorded. Continue practicing this concept to build mastery."
             except Exception as eval_err:
                 logger.warning(f"[QuizService] Open-ended evaluation notice: {eval_err}")
                 score = 80.0 if len(answer.split()) > 8 else 45.0
@@ -483,6 +506,10 @@ class QuizService:
             )
         except Exception:
             pass
+
+        # Ensure eval_res is always a dict to prevent NoneType crashes
+        if not isinstance(eval_res, dict):
+            eval_res = {}
 
         return {
             "question_id": question_id,

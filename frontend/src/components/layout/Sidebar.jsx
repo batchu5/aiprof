@@ -18,29 +18,29 @@ export const Sidebar = ({ isOpen, onClose }) => {
       {/* Mobile backdrop */}
       {isOpen && (
         <div
-          className="fixed inset-0 z-40 bg-slate-950/80 backdrop-blur-sm md:hidden"
+          className="fixed inset-0 z-40 bg-slate-50/80 backdrop-blur-sm md:hidden"
           onClick={onClose}
         />
       )}
 
       <aside
-        className={`fixed top-0 left-0 z-50 h-full w-64 bg-slate-900 border-r border-slate-800 transform transition-transform duration-300 ease-in-out md:translate-x-0 ${
+        className={`fixed top-0 left-0 z-50 h-full w-64 bg-white border-r border-slate-200 transform transition-transform duration-300 ease-in-out md:translate-x-0 ${
           isOpen ? 'translate-x-0' : '-translate-x-full'
         } flex flex-col`}
       >
         {/* Sidebar Header */}
-        <div className="flex items-center justify-between h-16 px-6 border-b border-slate-800 bg-slate-900/50">
+        <div className="flex items-center justify-between h-16 px-6 border-b border-slate-200 bg-white/50">
           <div className="flex items-center gap-3">
-            <div className="p-2 rounded-xl bg-gradient-to-tr from-indigo-600 to-purple-600 text-white shadow-lg shadow-indigo-500/30">
+            <div className="p-2 rounded-xl bg-gradient-to-tr from-blue-600 to-blue-700 text-slate-900 shadow-lg shadow-blue-500/30">
               <Sparkles className="w-5 h-5" />
             </div>
-            <span className="font-bold text-lg text-slate-100 bg-gradient-to-r from-white via-indigo-200 to-indigo-400 bg-clip-text text-transparent">
+            <span className="font-bold text-lg bg-gradient-to-r from-blue-700 via-blue-600 to-blue-500 bg-clip-text text-transparent">
               Study AI
             </span>
           </div>
           <button
             onClick={onClose}
-            className="md:hidden text-slate-400 hover:text-white p-1 rounded-lg"
+            className="md:hidden text-slate-500 hover:text-slate-900 p-1 rounded-lg"
           >
             <X className="w-5 h-5" />
           </button>
@@ -59,8 +59,8 @@ export const Sidebar = ({ isOpen, onClose }) => {
                 className={({ isActive }) =>
                   `flex items-center gap-3.5 px-4 py-3 rounded-xl font-medium text-sm transition-all duration-200 ${
                     isActive
-                      ? 'bg-indigo-600/20 text-indigo-400 border border-indigo-500/30 shadow-md shadow-indigo-500/10 font-semibold'
-                      : 'text-slate-400 hover:text-slate-200 hover:bg-slate-800/60'
+                      ? 'bg-blue-50 text-blue-700 border border-blue-200 shadow-sm font-semibold'
+                      : 'text-slate-500 hover:text-slate-700 hover:bg-slate-50'
                   }`
                 }
               >
@@ -72,10 +72,10 @@ export const Sidebar = ({ isOpen, onClose }) => {
         </nav>
 
         {/* Sidebar Footer */}
-        <div className="p-4 border-t border-slate-800 bg-slate-950/40">
-          <div className="p-3 rounded-xl bg-gradient-to-br from-indigo-950/50 to-purple-950/30 border border-indigo-800/30">
-            <p className="text-xs font-semibold text-indigo-300">Gemini Flash AI</p>
-            <p className="text-[11px] text-slate-400 mt-0.5">Active Study Assistant</p>
+        <div className="p-4 border-t border-slate-200 bg-slate-50">
+          <div className="p-3 rounded-xl bg-gradient-to-br from-blue-50 to-indigo-50 border border-blue-100">
+            <p className="text-xs font-semibold text-blue-700">Gemini Flash AI</p>
+            <p className="text-[11px] text-slate-500 mt-0.5">Active Study Assistant</p>
           </div>
         </div>
       </aside>

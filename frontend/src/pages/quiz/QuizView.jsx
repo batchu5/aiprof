@@ -91,8 +91,8 @@ const ScoreRing = ({ score = 0, size = 140, strokeWidth = 10 }) => {
         />
       </svg>
       <div className="absolute flex flex-col items-center">
-        <span className="text-3xl font-extrabold text-white">{Math.round(score)}%</span>
-        <span className="text-xs font-medium text-slate-400">Score</span>
+        <span className="text-3xl font-extrabold text-slate-900">{Math.round(score)}%</span>
+        <span className="text-xs font-medium text-slate-500">Score</span>
       </div>
     </div>
   );
@@ -311,7 +311,7 @@ export const QuizView = () => {
         {quizState === 'question' && (
           <button
             onClick={handleResetQuiz}
-            className="text-xs text-slate-400 hover:text-slate-200 transition-colors flex items-center gap-1.5"
+            className="text-xs text-slate-500 hover:text-slate-700 transition-colors flex items-center gap-1.5"
           >
             <RefreshCw className="w-3.5 h-3.5" /> Exit Quiz
           </button>
@@ -330,7 +330,7 @@ export const QuizView = () => {
       {quizState === 'start' && (
         <div className="space-y-8 animate-fade-in">
           {/* Header Card */}
-          <div className="relative overflow-hidden rounded-2xl bg-gradient-to-br from-indigo-900/60 via-slate-900 to-purple-950/40 p-8 border border-indigo-500/20 backdrop-blur-md shadow-2xl">
+          <div className="relative overflow-hidden rounded-2xl bg-gradient-to-br from-indigo-900/60 via-slate-900 to-purple-950/40 p-8 border border-blue-500/20 backdrop-blur-md shadow-2xl">
             <div className="absolute top-0 right-0 p-8 opacity-10 pointer-events-none">
               <Brain className="w-48 h-48 text-indigo-400" />
             </div>
@@ -338,10 +338,10 @@ export const QuizView = () => {
               <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-cyan-500/10 text-cyan-400 border border-cyan-500/20 text-xs font-semibold uppercase tracking-wider mb-4">
                 <Sparkles className="w-3.5 h-3.5" /> Adaptive AI Engine
               </div>
-              <h1 className="text-3xl sm:text-4xl font-extrabold text-slate-100 tracking-tight flex items-center gap-3">
+              <h1 className="text-3xl sm:text-4xl font-extrabold text-slate-900 tracking-tight flex items-center gap-3">
                 Test Your Knowledge <span className="text-3xl">🧠</span>
               </h1>
-              <p className="text-slate-300 mt-3 text-base leading-relaxed">
+              <p className="text-slate-600 mt-3 text-base leading-relaxed">
                 Generates personalized questions tailored to your target concepts, dynamically adjusting difficulty based on your real-time mastery.
               </p>
             </div>
@@ -355,10 +355,10 @@ export const QuizView = () => {
                   {/* Number of Questions Slider */}
                   <div className="space-y-2">
                     <div className="flex justify-between items-center text-sm">
-                      <label className="font-semibold text-slate-200 flex items-center gap-2">
+                      <label className="font-semibold text-slate-700 flex items-center gap-2">
                         <Layers className="w-4 h-4 text-indigo-400" /> Number of Questions:
                       </label>
-                      <span className="px-3 py-1 bg-indigo-500/20 border border-indigo-500/30 text-indigo-300 font-bold rounded-lg text-sm">
+                      <span className="px-3 py-1 bg-blue-500/20 border border-blue-500/30 text-indigo-300 font-bold rounded-lg text-sm">
                         {numQuestions} Questions
                       </span>
                     </div>
@@ -368,7 +368,7 @@ export const QuizView = () => {
                       max="10"
                       value={numQuestions}
                       onChange={(e) => setNumQuestions(parseInt(e.target.value))}
-                      className="w-full h-2 bg-slate-800 rounded-lg appearance-none cursor-pointer accent-indigo-500"
+                      className="w-full h-2 bg-white rounded-lg appearance-none cursor-pointer accent-blue-500"
                     />
                     <div className="flex justify-between text-xs text-slate-500 px-1">
                       <span>3 (Quick)</span>
@@ -379,45 +379,45 @@ export const QuizView = () => {
 
                   {/* Question Types Checkboxes */}
                   <div className="space-y-3">
-                    <label className="font-semibold text-slate-200 text-sm flex items-center gap-2">
+                    <label className="font-semibold text-slate-700 text-sm flex items-center gap-2">
                       <CheckSquare className="w-4 h-4 text-cyan-400" /> Question Formats:
                     </label>
                     <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
                       <label
                         className={`p-4 rounded-xl border cursor-pointer transition-all flex items-center gap-3 ${
                           includeMCQ
-                            ? 'border-indigo-500 bg-indigo-950/30 text-slate-100'
-                            : 'border-slate-800 bg-slate-900/40 text-slate-400 hover:border-slate-700'
+                            ? 'border-blue-500 bg-indigo-950/30 text-slate-900'
+                            : 'border-slate-200 bg-white/40 text-slate-500 hover:border-slate-200'
                         }`}
                       >
                         <input
                           type="checkbox"
                           checked={includeMCQ}
                           onChange={(e) => setIncludeMCQ(e.target.checked)}
-                          className="w-4 h-4 rounded text-indigo-600 accent-indigo-500 focus:ring-0"
+                          className="w-4 h-4 rounded text-blue-600 accent-blue-500 focus:ring-0"
                         />
                         <div>
                           <p className="font-medium text-sm">Multiple Choice (MCQ)</p>
-                          <p className="text-xs text-slate-400">4 options, single answer</p>
+                          <p className="text-xs text-slate-500">4 options, single answer</p>
                         </div>
                       </label>
 
                       <label
                         className={`p-4 rounded-xl border cursor-pointer transition-all flex items-center gap-3 ${
                           includeOpenEnded
-                            ? 'border-indigo-500 bg-indigo-950/30 text-slate-100'
-                            : 'border-slate-800 bg-slate-900/40 text-slate-400 hover:border-slate-700'
+                            ? 'border-blue-500 bg-indigo-950/30 text-slate-900'
+                            : 'border-slate-200 bg-white/40 text-slate-500 hover:border-slate-200'
                         }`}
                       >
                         <input
                           type="checkbox"
                           checked={includeOpenEnded}
                           onChange={(e) => setIncludeOpenEnded(e.target.checked)}
-                          className="w-4 h-4 rounded text-indigo-600 accent-indigo-500 focus:ring-0"
+                          className="w-4 h-4 rounded text-blue-600 accent-blue-500 focus:ring-0"
                         />
                         <div>
                           <p className="font-medium text-sm">Open-Ended</p>
-                          <p className="text-xs text-slate-400">Deep AI feedback & rubric scoring</p>
+                          <p className="text-xs text-slate-500">Deep AI feedback & rubric scoring</p>
                         </div>
                       </label>
                     </div>
@@ -428,7 +428,7 @@ export const QuizView = () => {
                     <button
                       onClick={handleStartQuiz}
                       disabled={loading}
-                      className="w-full py-4 px-6 rounded-xl font-bold text-white bg-gradient-to-r from-indigo-600 via-purple-600 to-cyan-500 hover:from-indigo-500 hover:to-cyan-400 transition-all transform active:scale-[0.99] shadow-lg shadow-indigo-500/20 flex items-center justify-center gap-3 text-base disabled:opacity-50"
+                      className="w-full py-4 px-6 rounded-xl font-bold text-slate-900 bg-gradient-to-r from-blue-600 via-blue-700 to-cyan-500 hover:from-blue-500 hover:to-cyan-400 transition-all transform active:scale-[0.99] shadow-lg shadow-blue-500/20 flex items-center justify-center gap-3 text-base disabled:opacity-50"
                     >
                       {loading ? (
                         <>
@@ -461,11 +461,11 @@ export const QuizView = () => {
                       return (
                         <div
                           key={q.id}
-                          className="p-3 rounded-xl border border-slate-800 bg-slate-900/50 flex items-center justify-between"
+                          className="p-3 rounded-xl border border-slate-200 bg-white/50 flex items-center justify-between"
                         >
                           <div>
-                            <p className="text-xs font-semibold text-slate-200">{q.title || `Quiz #${q.id.slice(0, 6)}`}</p>
-                            <p className="text-[11px] text-slate-400 mt-0.5">{dateStr} • {q.total_questions || 5} questions</p>
+                            <p className="text-xs font-semibold text-slate-700">{q.title || `Quiz #${q.id.slice(0, 6)}`}</p>
+                            <p className="text-[11px] text-slate-500 mt-0.5">{dateStr} • {q.total_questions || 5} questions</p>
                           </div>
                           <span
                             className={`text-xs font-bold px-2.5 py-1 rounded-full border ${
@@ -493,38 +493,38 @@ export const QuizView = () => {
       {quizState === 'question' && currentQuestion && (
         <div className="space-y-6 animate-fade-in">
           {/* Progress Header */}
-          <div className="bg-slate-900/80 border border-slate-800 rounded-2xl p-4 backdrop-blur-md space-y-2">
-            <div className="flex items-center justify-between text-xs font-semibold text-slate-400">
-              <span className="flex items-center gap-1.5 text-slate-200">
+          <div className="bg-white/80 border border-slate-200 rounded-2xl p-4 backdrop-blur-md space-y-2">
+            <div className="flex items-center justify-between text-xs font-semibold text-slate-500">
+              <span className="flex items-center gap-1.5 text-slate-700">
                 <Target className="w-4 h-4 text-cyan-400" /> Question {questionIndex} of {totalQuestions}
               </span>
               <span>{Math.round((questionIndex / totalQuestions) * 100)}% Completed</span>
             </div>
-            <div className="w-full h-2 bg-slate-800 rounded-full overflow-hidden">
+            <div className="w-full h-2 bg-white rounded-full overflow-hidden">
               <div
-                className="h-full bg-gradient-to-r from-indigo-500 via-purple-500 to-cyan-400 transition-all duration-500 ease-out rounded-full"
+                className="h-full bg-gradient-to-r from-blue-500 via-blue-600 to-cyan-400 transition-all duration-500 ease-out rounded-full"
                 style={{ width: `${(questionIndex / totalQuestions) * 100}%` }}
               />
             </div>
           </div>
 
           {/* Main Question Card */}
-          <div className="rounded-2xl border border-slate-800 bg-slate-900/70 p-6 sm:p-8 backdrop-blur-md shadow-xl space-y-6">
+          <div className="rounded-2xl border border-slate-200 bg-white/70 p-6 sm:p-8 backdrop-blur-md shadow-xl space-y-6">
             {/* Badges */}
-            <div className="flex flex-wrap items-center justify-between gap-3 border-b border-slate-800/80 pb-4">
+            <div className="flex flex-wrap items-center justify-between gap-3 border-b border-slate-200/80 pb-4">
               <div className="flex items-center gap-2">
                 {renderDifficultyBadge(currentQuestion.difficulty)}
-                <span className="text-xs font-semibold px-3 py-1 rounded-full border bg-purple-500/10 text-purple-300 border-purple-500/30">
+                <span className="text-xs font-semibold px-3 py-1 rounded-full border bg-blue-600/10 text-purple-300 border-blue-600/30">
                   Concept: {currentQuestion.concept_name || 'General Domain'}
                 </span>
               </div>
-              <span className="text-xs text-slate-400 font-medium uppercase tracking-wider">
+              <span className="text-xs text-slate-500 font-medium uppercase tracking-wider">
                 {currentQuestion.question_type === 'mcq' ? 'Multiple Choice' : 'Open-Ended Written'}
               </span>
             </div>
 
             {/* Question Text */}
-            <h2 className="text-xl sm:text-2xl font-bold text-slate-100 leading-snug">
+            <h2 className="text-xl sm:text-2xl font-bold text-slate-900 leading-snug">
               {currentQuestion.question_text}
             </h2>
 
@@ -536,7 +536,7 @@ export const QuizView = () => {
                   const isSubmitted = submitResult !== null;
                   const isCorrectOpt = submitResult && submitResult.correct_answer === opt.label;
 
-                  let optClass = 'border-slate-800 bg-slate-900/60 text-slate-200 hover:border-slate-700 hover:bg-slate-800/50';
+                  let optClass = 'border-slate-200 bg-white/60 text-slate-700 hover:border-slate-200 hover:bg-white';
 
                   if (isSubmitted) {
                     if (isCorrectOpt) {
@@ -544,10 +544,10 @@ export const QuizView = () => {
                     } else if (isSelected && !isCorrectOpt) {
                       optClass = 'border-rose-500/80 bg-rose-500/15 text-rose-200 font-semibold';
                     } else {
-                      optClass = 'border-slate-800/50 bg-slate-950/40 text-slate-500 opacity-60';
+                      optClass = 'border-slate-200/50 bg-slate-50/40 text-slate-500 opacity-60';
                     }
                   } else if (isSelected) {
-                    optClass = 'border-indigo-500 bg-indigo-600/20 text-indigo-200 font-semibold ring-1 ring-indigo-500/50';
+                    optClass = 'border-blue-500 bg-blue-600/20 text-indigo-200 font-semibold ring-1 ring-blue-500/50';
                   }
 
                   return (
@@ -560,8 +560,8 @@ export const QuizView = () => {
                       <div className="flex items-center gap-3.5">
                         <span className={`w-8 h-8 rounded-lg flex items-center justify-center text-xs font-bold shrink-0 border ${
                           isSelected || (isSubmitted && isCorrectOpt)
-                            ? 'bg-indigo-500/20 border-indigo-400 text-indigo-300'
-                            : 'bg-slate-800 border-slate-700 text-slate-400'
+                            ? 'bg-blue-500/20 border-indigo-400 text-indigo-300'
+                            : 'bg-white border-slate-200 text-slate-500'
                         }`}>
                           {opt.label}
                         </span>
@@ -585,7 +585,7 @@ export const QuizView = () => {
                   value={openEndedText}
                   onChange={(e) => setOpenEndedText(e.target.value)}
                   placeholder="Write your explanation in detail..."
-                  className="w-full p-4 rounded-xl bg-slate-950/80 border border-slate-800 text-slate-100 placeholder-slate-500 text-sm focus:outline-none focus:border-indigo-500 focus:ring-1 focus:ring-indigo-500 transition-all resize-y disabled:opacity-75"
+                  className="w-full p-4 rounded-xl bg-slate-50/80 border border-slate-200 text-slate-900 placeholder-slate-500 text-sm focus:outline-none focus:border-blue-500 focus:ring-1 focus:ring-blue-500 transition-all resize-y disabled:opacity-75"
                 />
                 <div className="flex justify-between items-center text-xs text-slate-500 px-1">
                   <span>Be clear & comprehensive. AI evaluates core concepts.</span>
@@ -596,9 +596,9 @@ export const QuizView = () => {
 
             {/* SUBMITTED FEEDBACK CARD */}
             {submitResult && (
-              <div className="mt-6 p-6 rounded-xl bg-slate-950/90 border border-slate-800 space-y-4 animate-fade-in">
+              <div className="mt-6 p-6 rounded-xl bg-slate-50/90 border border-slate-200 space-y-4 animate-fade-in">
                 {/* Result Header */}
-                <div className="flex items-center justify-between border-b border-slate-800 pb-3">
+                <div className="flex items-center justify-between border-b border-slate-200 pb-3">
                   <div className="flex items-center gap-2.5">
                     {submitResult.is_correct ? (
                       <span className="p-1.5 bg-emerald-500/10 rounded-lg text-emerald-400">
@@ -610,10 +610,10 @@ export const QuizView = () => {
                       </span>
                     )}
                     <div>
-                      <h4 className="font-bold text-slate-100 text-sm">
+                      <h4 className="font-bold text-slate-900 text-sm">
                         {submitResult.is_correct ? 'Great Job! Correct Answer' : 'Needs Review'}
                       </h4>
-                      <p className="text-xs text-slate-400">
+                      <p className="text-xs text-slate-500">
                         {currentQuestion.question_type === 'mcq'
                           ? `Correct Option: ${submitResult.correct_answer}`
                           : `Evaluation Score: ${submitResult.score}%`}
@@ -622,9 +622,9 @@ export const QuizView = () => {
                   </div>
 
                   {submitResult.mastery_update && (
-                    <div className="flex items-center gap-1.5 text-xs font-semibold px-3 py-1 rounded-full bg-slate-900 border border-slate-800">
-                      <span className="text-slate-400">{submitResult.mastery_update.concept}:</span>
-                      <span className="text-slate-300">{submitResult.mastery_update.old}%</span>
+                    <div className="flex items-center gap-1.5 text-xs font-semibold px-3 py-1 rounded-full bg-white border border-slate-200">
+                      <span className="text-slate-500">{submitResult.mastery_update.concept}:</span>
+                      <span className="text-slate-600">{submitResult.mastery_update.old}%</span>
                       <span className="text-slate-500">→</span>
                       <span className={submitResult.mastery_update.change >= 0 ? 'text-emerald-400 font-bold' : 'text-rose-400 font-bold'}>
                         {submitResult.mastery_update.new}%
@@ -639,7 +639,7 @@ export const QuizView = () => {
                 </div>
 
                 {/* Explanation / Feedback body */}
-                <div className="text-sm text-slate-300 space-y-3">
+                <div className="text-sm text-slate-600 space-y-3">
                   <p className="leading-relaxed">{submitResult.feedback}</p>
 
                   {/* Open-Ended Detailed Sections */}
@@ -650,7 +650,7 @@ export const QuizView = () => {
                           <p className="font-bold text-emerald-400 flex items-center gap-1.5 mb-1">
                             <CheckCircle2 className="w-3.5 h-3.5" /> What You Got Right
                           </p>
-                          <ul className="list-disc list-inside text-slate-300 space-y-0.5">
+                          <ul className="list-disc list-inside text-slate-600 space-y-0.5">
                             {submitResult.concepts_demonstrated.map((c, i) => (
                               <li key={i}>{c}</li>
                             ))}
@@ -663,7 +663,7 @@ export const QuizView = () => {
                           <p className="font-bold text-amber-400 flex items-center gap-1.5 mb-1">
                             <AlertCircle className="w-3.5 h-3.5" /> What Was Missing
                           </p>
-                          <ul className="list-disc list-inside text-slate-300 space-y-0.5">
+                          <ul className="list-disc list-inside text-slate-600 space-y-0.5">
                             {submitResult.concepts_missing.map((c, i) => (
                               <li key={i}>{c}</li>
                             ))}
@@ -684,7 +684,7 @@ export const QuizView = () => {
             )}
 
             {/* ACTION BUTTONS */}
-            <div className="flex justify-end pt-4 border-t border-slate-800/80">
+            <div className="flex justify-end pt-4 border-t border-slate-200/80">
               {!submitResult ? (
                 <Button
                   variant="primary"
@@ -694,7 +694,7 @@ export const QuizView = () => {
                     (currentQuestion.question_type === 'open_ended' && !openEndedText.trim())
                   }
                   onClick={handleSubmitAnswer}
-                  className="px-8 py-3 bg-indigo-600 hover:bg-indigo-500 text-white font-bold rounded-xl"
+                  className="px-8 py-3 bg-blue-600 hover:bg-blue-500 text-slate-900 font-bold rounded-xl"
                 >
                   {evaluating ? (
                     <>
@@ -709,7 +709,7 @@ export const QuizView = () => {
                   variant="primary"
                   disabled={loading}
                   onClick={handleNextQuestion}
-                  className="px-8 py-3 bg-gradient-to-r from-indigo-500 to-cyan-500 hover:from-indigo-400 hover:to-cyan-400 text-white font-bold rounded-xl flex items-center gap-2 shadow-lg shadow-indigo-500/20"
+                  className="px-8 py-3 bg-gradient-to-r from-blue-500 to-cyan-500 hover:from-indigo-400 hover:to-cyan-400 text-slate-900 font-bold rounded-xl flex items-center gap-2 shadow-lg shadow-blue-500/20"
                 >
                   {loading ? (
                     <Loader2 className="w-4 h-4 animate-spin" />
@@ -733,32 +733,32 @@ export const QuizView = () => {
       {quizState === 'complete' && (
         <div className="space-y-8 animate-fade-in max-w-3xl mx-auto">
           {/* Header Card */}
-          <div className="rounded-2xl border border-slate-800 bg-slate-900/80 p-8 backdrop-blur-md text-center space-y-6 shadow-2xl">
+          <div className="rounded-2xl border border-slate-200 bg-white/80 p-8 backdrop-blur-md text-center space-y-6 shadow-2xl">
             <div className="inline-flex items-center justify-center w-16 h-16 rounded-full bg-amber-500/10 border border-amber-500/30 text-amber-400 text-2xl mx-auto">
               🎉
             </div>
 
             <div>
-              <h1 className="text-3xl sm:text-4xl font-extrabold text-slate-100">
+              <h1 className="text-3xl sm:text-4xl font-extrabold text-slate-900">
                 Quiz Complete!
               </h1>
-              <p className="text-slate-400 text-sm mt-2">
+              <p className="text-slate-500 text-sm mt-2">
                 Great job completing your adaptive assessment session. Here is your performance overview:
               </p>
             </div>
 
             {/* Ring & Stats */}
-            <div className="flex flex-col sm:flex-row items-center justify-center gap-8 py-4 border-y border-slate-800">
+            <div className="flex flex-col sm:flex-row items-center justify-center gap-8 py-4 border-y border-slate-200">
               <ScoreRing score={quizSummary?.score || 0} size={150} strokeWidth={12} />
 
               <div className="grid grid-cols-2 gap-4 text-left">
-                <div className="p-4 rounded-xl bg-slate-950/60 border border-slate-800">
-                  <p className="text-xs text-slate-400">Total Questions</p>
-                  <p className="text-2xl font-bold text-slate-100 mt-1">{quizSummary?.total_questions || totalQuestions}</p>
+                <div className="p-4 rounded-xl bg-slate-50/60 border border-slate-200">
+                  <p className="text-xs text-slate-500">Total Questions</p>
+                  <p className="text-2xl font-bold text-slate-900 mt-1">{quizSummary?.total_questions || totalQuestions}</p>
                 </div>
 
-                <div className="p-4 rounded-xl bg-slate-950/60 border border-slate-800">
-                  <p className="text-xs text-slate-400">Correct Answers</p>
+                <div className="p-4 rounded-xl bg-slate-50/60 border border-slate-200">
+                  <p className="text-xs text-slate-500">Correct Answers</p>
                   <p className="text-2xl font-bold text-emerald-400 mt-1">{quizSummary?.correct_answers || 0}</p>
                 </div>
               </div>
@@ -767,13 +767,13 @@ export const QuizView = () => {
             {/* Concept Mastery Changes */}
             {quizSummary?.mastery_changes?.length > 0 && (
               <div className="space-y-3 text-left">
-                <h3 className="font-bold text-slate-200 text-sm flex items-center gap-2">
+                <h3 className="font-bold text-slate-700 text-sm flex items-center gap-2">
                   <TrendingUp className="w-4 h-4 text-indigo-400" /> Concept Mastery Updates
                 </h3>
                 <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
                   {quizSummary.mastery_changes.map((item, idx) => {
                     let trendIcon = <Minus className="w-4 h-4 text-slate-500" />;
-                    let trendClass = 'text-slate-400 border-slate-800 bg-slate-950/40';
+                    let trendClass = 'text-slate-500 border-slate-200 bg-slate-50/40';
 
                     if (item.trend === 'improving') {
                       trendIcon = <TrendingUp className="w-4 h-4 text-emerald-400" />;
@@ -799,11 +799,11 @@ export const QuizView = () => {
 
             {/* AI Summary Card */}
             {quizSummary?.summary && (
-              <div className="p-5 rounded-xl bg-slate-950/80 border border-slate-800 text-left space-y-2">
+              <div className="p-5 rounded-xl bg-slate-50/80 border border-slate-200 text-left space-y-2">
                 <p className="text-xs font-bold text-indigo-400 uppercase tracking-wider flex items-center gap-1.5">
                   <Sparkles className="w-4 h-4" /> AI Performance Summary
                 </p>
-                <p className="text-sm text-slate-300 leading-relaxed">{quizSummary.summary}</p>
+                <p className="text-sm text-slate-600 leading-relaxed">{quizSummary.summary}</p>
               </div>
             )}
 
@@ -813,7 +813,7 @@ export const QuizView = () => {
                 <p className="text-xs font-bold text-cyan-400 uppercase tracking-wider flex items-center gap-1.5">
                   <Lightbulb className="w-4 h-4" /> Recommended Next Steps
                 </p>
-                <p className="text-sm text-slate-200 leading-relaxed">{quizSummary.recommendation}</p>
+                <p className="text-sm text-slate-700 leading-relaxed">{quizSummary.recommendation}</p>
               </div>
             )}
 
@@ -822,14 +822,14 @@ export const QuizView = () => {
               <Button
                 variant="primary"
                 onClick={handleResetQuiz}
-                className="w-full sm:w-auto px-6 py-3 bg-indigo-600 hover:bg-indigo-500 text-white font-bold rounded-xl flex items-center justify-center gap-2"
+                className="w-full sm:w-auto px-6 py-3 bg-blue-600 hover:bg-blue-500 text-slate-900 font-bold rounded-xl flex items-center justify-center gap-2"
               >
                 <RefreshCw className="w-4 h-4" /> Take Another Quiz
               </Button>
 
               <Link
                 to={`/projects/${projectId}`}
-                className="w-full sm:w-auto px-6 py-3 rounded-xl border border-slate-700 bg-slate-800 hover:bg-slate-700 text-slate-200 font-bold transition-all text-center"
+                className="w-full sm:w-auto px-6 py-3 rounded-xl border border-slate-200 bg-white hover:bg-slate-100 text-slate-700 font-bold transition-all text-center"
               >
                 Back to Project Dashboard
               </Link>

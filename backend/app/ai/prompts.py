@@ -173,15 +173,52 @@ Focus on:
 - Varied activity (don't just suggest quizzes)
 Only return the JSON array."""
 
-    @classmethod
-    def format_prompt(cls, template: str, **kwargs) -> str:
-        """Safely formats prompt templates with dynamic keyword arguments."""
+    @staticmethod
+    def sanitize_user_input(text: str) -> str:
+        """
+        Basic sanitization to mitigate prompt injection in user-provided text.
+        Strips patterns that attempt to override system instructions.
+        """
+        if not isinstance(text, str):
+            return str(text)
+
+        import re
+        # Remove attempts to inject system/assistant role overrides
+        injection_patterns = [
+            r'(?i)\b(system|assistant)\s*:\s*',     # "system:" or "assistant:" role faking
+            r'(?i)ignore\s+(all\s+)?(previous|above|prior)\s+(instructions?|rules?|prompts?)',
+            r'(?i)you\s+are\s+now\s+',               # "you are now DAN" style
+            r'(?i)pretend\s+(you\s+are|to\s+be)\s+',  # role override attempts
+            r'(?i)disregard\s+(all\s+)?(instructions?|rules?)',
+        ]
+        sanitized = text
+        for pattern in injection_patterns:
+            sanitized = re.sub(pattern, '[filtered] ', sanitized)
+
+        # Remove excessive special characters that could be used as delimiters
+        sanitized = re.sub(r'[{}<>]{3,}', '', sanitized)
+        # Remove null bytes and control characters (except newlines/tabs)
+        sanitized = re.sub(r'[\x00-\x08\x0b\x0c\x0e-\x1f]', '', sanitized)
+
+        return sanitized.strip()
+
+    @staticmethod
+    def format_prompt(template: str, **kwargs) -> str:
+        """Format a prompt template with provided variables. User-provided values are sanitized."""
+        # Sanitize user-provided values to prevent prompt injection
+        sanitized_kwargs = {}
+        for k, v in kwargs.items():
+            if isinstance(v, str):
+                sanitized_kwargs[k] = PromptManager.sanitize_user_input(v)
+            else:
+                sanitized_kwargs[k] = v
+
         try:
-            return template.format(**kwargs)
+            return template.format(**sanitized_kwargs)
         except KeyError as e:
             # Fallback formatting if missing placeholder
             result = template
-            for k, v in kwargs.items():
+            for k, v in sanitized_kwargs.items():
                 result = result.replace(f"{{{k}}}", str(v))
             return result
 
